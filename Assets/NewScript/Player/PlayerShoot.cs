@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem; // NEW
+using UnityEngine.InputSystem;
 
 public class PlayerShoot : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Stats stats;
+    [SerializeField] private CharacterStats characterData;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private TileGrid tileGrid;
@@ -81,8 +81,8 @@ public class PlayerShoot : MonoBehaviour
     private void TryShoot()
     {
         if (isSkillAnimating) return;
-        if (stats == null) return;
-        if (Time.time - lastShootTime < stats.ShootCooldown) return;
+        if (characterData == null) return;
+        if (Time.time - lastShootTime < characterData.shootCooldown) return;
 
         ShootBulletFromCurrentTile();
         lastShootTime = Time.time;
@@ -112,7 +112,7 @@ public class PlayerShoot : MonoBehaviour
             Vector2Int face = Vector2Int.right;
             Vector2 dir = new Vector2(face.x, face.y);
 
-            bullet.Initialize(dir, stats.BulletSpeed, stats.BulletDamage, tileGrid, spawnGridPos);
+            bullet.Initialize(dir, characterData.bulletSpeed, characterData.bulletDamage, tileGrid, spawnGridPos);
             AudioManager.Instance?.PlayBasicShootSFX();
         }
     }

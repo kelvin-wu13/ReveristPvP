@@ -20,19 +20,19 @@ MonoBehaviour:
   bulletSpeed: 10
   shootCooldown: 0.5
   skill1:
-    displayName: Skill
-    prefab: {fileID: 0}
+    displayName: Enhanced Bullet
+    prefab: {fileID: 7857377519010454379, guid: 65375e5fff78f2a41b9c30bfa03903c6, type: 3}
     manaCost: 1
-    useCrosshairTarget: 1
+    useCrosshairTarget: 0
   skill2:
-    displayName: Skill
+    displayName: Dash Melee
     prefab: {fileID: 0}
-    manaCost: 1
+    manaCost: 2
     useCrosshairTarget: 1
   skill3:
-    displayName: Skill
+    displayName: Tile Breaker
     prefab: {fileID: 0}
-    manaCost: 1
+    manaCost: 3
     useCrosshairTarget: 1
   passivePrefab: {fileID: 0}
   ultimatePrefab: {fileID: 0}

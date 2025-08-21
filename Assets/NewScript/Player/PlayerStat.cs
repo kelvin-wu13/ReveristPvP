@@ -8,7 +8,7 @@ public class PlayerStats : MonoBehaviour
     public static bool IsPlayerDead = false;
 
     [Header("Stats Configuration")]
-    [SerializeField] private Stats stats;
+    [SerializeField] private CharacterStats characterData;
 
     [Header("Mana Regeneration")]
     [SerializeField] private float manaRegenRatePerSecond = 2f;
@@ -40,13 +40,13 @@ public class PlayerStats : MonoBehaviour
         get => currentHealth;
         private set => currentHealth = value;
     }
-    public int MaxHealth => stats ? stats.MaxHealth : 0;
+    public int MaxHealth => characterData ? characterData.maxHealth : 0;
     public float CurrentMana
     {
         get => currentMana;
         private set => currentMana = value;
     }
-    public int MaxMana => stats ? stats.MaxMana : 0;
+    public int MaxMana => characterData ? characterData.maxMana : 0;
     public bool IsDead => isDead;
 
     private void Start()
@@ -57,14 +57,14 @@ public class PlayerStats : MonoBehaviour
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
 
-        if (stats == null)
+        if (characterData != null)
         {
-            Debug.LogError("Stats scriptable object not assigned to PlayerStats!");
-            return;
+            currentHealth = characterData.maxHealth;
+            currentMana = characterData.maxMana;
         }
 
-        if (currentHealth <= 0 || currentHealth > stats.MaxHealth ||
-            currentMana < 0 || currentMana > stats.MaxMana)
+        if (currentHealth <= 0 || currentHealth > characterData.maxHealth ||
+            currentMana < 0 || currentMana > characterData.maxMana)
         {
             ResetToMaxStats();
         }
@@ -72,10 +72,10 @@ public class PlayerStats : MonoBehaviour
 
     public void ResetToMaxStats()
     {
-        if (stats == null) return;
+        if (characterData == null) return;
 
-        currentHealth = stats.MaxHealth;
-        currentMana = stats.MaxMana;
+        currentHealth = characterData.maxHealth;
+        currentMana = characterData.maxMana;
         isDead = false;
 
         PlayerShoot shootComponent = GetComponent<PlayerShoot>();
@@ -116,13 +116,12 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
-        if (stats == null || isDead) return;
+        if (characterData == null || isDead) return;
 
-        if (currentMana < stats.MaxMana)
+        if (currentMana < characterData.maxMana)
         {
-            // Regenerate mana smoothly each frame instead of in chunks
             currentMana += manaRegenRatePerSecond * Time.deltaTime;
-            currentMana = Mathf.Min(currentMana, stats.MaxMana); // Ensure it doesn't go over max
+            currentMana = Mathf.Min(currentMana, characterData.maxMana);
         }
     }
 
@@ -146,7 +145,7 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (stats == null || isDead) return;
+        if (characterData == null || isDead) return;
 
         currentHealth = Mathf.Max(0, currentHealth - damage);
         StartCoroutine(FlashColor());
@@ -245,7 +244,7 @@ public class PlayerStats : MonoBehaviour
 
     public bool TryUseMana(float amount)
     {
-        if (stats == null || isDead) return false;
+        if (characterData == null || isDead) return false;
 
         if (currentMana >= amount)
         {
@@ -258,20 +257,20 @@ public class PlayerStats : MonoBehaviour
 
     public void RestoreMana(float amount)
     {
-        if (stats == null || isDead) return;
+        if (characterData == null || isDead) return;
 
-        currentMana = Mathf.Min(stats.MaxMana, currentMana + amount);
+        currentMana = Mathf.Min(characterData.maxMana, currentMana + amount);
     }
 
     public float GetHealthPercentage()
     {
-        if (stats == null) return 0f;
-        return (float)currentHealth / stats.MaxHealth;
+        if (characterData == null) return 0f;
+        return (float)currentHealth / characterData.maxHealth;
     }
 
     public float GetManaPercentage()
     {
-        if (stats == null) return 0f;
-        return currentMana / stats.MaxMana;
+        if (characterData == null) return 0f;
+        return currentMana / characterData.maxMana;
     }
 }

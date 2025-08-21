@@ -4460,7 +4460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd1a92b384b4be45911e7742a9c206a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: 352217b1aa8a9be409913895a5844b87, type: 2}
+  characterData: {fileID: 0}
   bulletPrefab: {fileID: 2133345011772533360, guid: 59f47dda7f3d49f4296d35b0ff332bf1, type: 3}
   bulletSpawnPoint: {fileID: 1532281402}
   tileGrid: {fileID: 334597318}
@@ -4504,15 +4504,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558e5619568e2a44c892fa49ca7496dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterStats: {fileID: 0}
-  playerStats: {fileID: 0}
+  characterStats: {fileID: 11400000, guid: 8d7a932f78e3aad47971e0cbc6a78ad0, type: 2}
+  playerStats: {fileID: 1573556192}
   crosshair: {fileID: 1557569857}
-  castOrigin: {fileID: 0}
-  skillSouth: {fileID: 0}
-  skillWest: {fileID: 0}
-  skillEast: {fileID: 0}
-  ultimate: {fileID: 0}
-  passive: {fileID: 0}
+  castOrigin: {fileID: 1532281402}
+  skill1: {fileID: -636761466100324029, guid: f83ddcf915a2228479f716cf1e725df3, type: 3}
+  skill2: {fileID: -7053835448240285598, guid: f83ddcf915a2228479f716cf1e725df3, type: 3}
+  skill3: {fileID: -7474286626349754242, guid: f83ddcf915a2228479f716cf1e725df3, type: 3}
+  ultimate: {fileID: 971600350002694971, guid: f83ddcf915a2228479f716cf1e725df3, type: 3}
+  autoSpawnPassive: 1
 --- !u!95 &1573556188
 Animator:
   serializedVersion: 7
@@ -4611,7 +4611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f65f6e206c11235449f48f51bef90a8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: 352217b1aa8a9be409913895a5844b87, type: 2}
+  characterData: {fileID: 11400000, guid: 8d7a932f78e3aad47971e0cbc6a78ad0, type: 2}
   manaRegenRatePerSecond: 2
   playerAnimator: {fileID: 1573556188}
   deathAnimationTrigger: Death

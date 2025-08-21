@@ -25,12 +25,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool smoothDirectionTransition = true;
     [SerializeField] private float directionSmoothTime = 0.1f;
 
-    // NEW — Input System
     [Header("Input System")]
     [SerializeField] private InputActionReference moveAction;   // Vector2
     [SerializeField] private float analogThreshold = 0.5f;
     [SerializeField] private float initialRepeatDelay = 0.25f;
     [SerializeField] private float repeatRate = 0.12f;
+
+    [SerializeField] private float externalSpeedMultiplier = 1f;
 
     private Vector2 currentAnimDirection = Vector2.zero;
     private Vector2 targetAnimDirection = Vector2.down;
@@ -75,19 +76,21 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!canMove) return;
 
-        HandleControllerMove();      // NEW
-        UpdateAnimationDirection();  // keep anim smooth
+        HandleControllerMove();
+        UpdateAnimationDirection();
         UpdateAnimationParameters(isMoving);
+    }
+    public void SetExternalSpeedMultiplier(float mult)
+    {
+        externalSpeedMultiplier = Mathf.Max(0.25f, mult);
     }
 
     private void HandleControllerMove()
     {
         if (moveAction == null) return;
 
-        // Baca vector dari Input System (stick / dpad / keyboard)
         Vector2 raw = moveAction.action.ReadValue<Vector2>();
 
-        // Pilih axis dominan (supaya gerak grid tetap 4-arah)
         Vector2Int dir = Vector2Int.zero;
         if (Mathf.Abs(raw.x) > Mathf.Abs(raw.y))
         {
@@ -98,16 +101,14 @@ public class PlayerMovement : MonoBehaviour
             if (Mathf.Abs(raw.y) >= analogThreshold) dir = new Vector2Int(0, (int)Mathf.Sign(raw.y));
         }
 
-        // Set facing untuk animasi walau tidak bergerak
         if (dir != Vector2Int.zero)
         {
             lastDirection = dir;
             targetAnimDirection = new Vector2(dir.x, dir.y);
         }
 
-        if (isMoving) return; // tunggu lerp selesai
+        if (isMoving) return;
 
-        // Discrete move dengan auto-repeat (hold)
         if (dir == Vector2Int.zero)
         {
             heldDir = Vector2Int.zero;
@@ -118,12 +119,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 heldDir = dir;
                 TryMoveOnce(heldDir);
-                nextRepeatTime = Time.time + initialRepeatDelay;
+                nextRepeatTime = Time.time + (initialRepeatDelay / externalSpeedMultiplier);
             }
             else if (Time.time >= nextRepeatTime)
             {
                 TryMoveOnce(heldDir);
-                nextRepeatTime = Time.time + repeatRate;
+                nextRepeatTime = Time.time + (repeatRate / externalSpeedMultiplier);
             }
         }
     }
@@ -164,11 +165,13 @@ public class PlayerMovement : MonoBehaviour
         Vector3 startPos = transform.position;
         Vector3 endPos = GetAdjustedWorldPosition(targetGridPosition);
 
-        float elapsedTime = 0;
-        while (elapsedTime < moveDuration)
+        float elapsedTime = 0f;
+        float duration = moveDuration / externalSpeedMultiplier;
+
+        while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            float percent = elapsedTime / moveDuration;
+            float percent = elapsedTime / duration;
             transform.position = Vector3.Lerp(startPos, endPos, percent);
             yield return null;
         }
@@ -177,8 +180,6 @@ public class PlayerMovement : MonoBehaviour
         currentGridPosition = targetGridPosition;
         isMoving = false;
         animator.SetBool(isMovingParam, false);
-
-        // berhenti mengirim arah setelah sampai (biar idle)
         targetAnimDirection = Vector2.zero;
     }
 

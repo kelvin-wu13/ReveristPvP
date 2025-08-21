@@ -13,11 +13,14 @@ public class SkillCast : MonoBehaviour
     [SerializeField] private Transform castOrigin;
 
     [Header("Input System (Gameplay Map)")]
-    [SerializeField] private InputActionReference skillSouth;
-    [SerializeField] private InputActionReference skillWest;
-    [SerializeField] private InputActionReference skillEast;
+    [SerializeField] private InputActionReference skill1;
+    [SerializeField] private InputActionReference skill2;
+    [SerializeField] private InputActionReference skill3;
     [SerializeField] private InputActionReference ultimate;
-    [SerializeField] private InputActionReference passive;
+
+    [Header("Passive")]
+    [SerializeField] private bool autoSpawnPassive = true;
+    private GameObject spawnedPassive;
 
     private void Awake()
     {
@@ -28,38 +31,40 @@ public class SkillCast : MonoBehaviour
 
     private void OnEnable()
     {
-        skillSouth?.action.Enable();
-        skillWest?.action.Enable();
-        skillEast?.action.Enable();
+        skill1?.action.Enable();
+        skill2?.action.Enable();
+        skill3?.action.Enable();
         ultimate?.action.Enable();
-        passive?.action.Enable();
 
-        if (skillSouth != null) skillSouth.action.performed += OnSouth;
-        if (skillWest != null) skillWest.action.performed += OnWest;
-        if (skillEast != null) skillEast.action.performed += OnEast;
+        if (skill1 != null) skill1.action.performed += OnSouth;
+        if (skill2 != null) skill2.action.performed += OnWest;
+        if (skill3 != null) skill3.action.performed += OnEast;
         if (ultimate != null) ultimate.action.performed += OnUltimate;
-        if (passive != null) passive.action.performed += OnPassive;
+
+        TrySpawnPassiveOnce();
     }
 
     private void OnDisable()
     {
-        if (skillSouth != null) skillSouth.action.performed -= OnSouth;
-        if (skillWest != null) skillWest.action.performed -= OnWest;
-        if (skillEast != null) skillEast.action.performed -= OnEast;
+        if (skill1 != null) skill1.action.performed -= OnSouth;
+        if (skill2 != null) skill2.action.performed -= OnWest;
+        if (skill3 != null) skill3.action.performed -= OnEast;
         if (ultimate != null) ultimate.action.performed -= OnUltimate;
-        if (passive != null) passive.action.performed -= OnPassive;
+    }
+
+    private void TrySpawnPassiveOnce()
+    {
+        if (!autoSpawnPassive) return;
+        if (spawnedPassive != null) return;
+        if (characterStats == null || characterStats.passivePrefab == null) return;
+
+        spawnedPassive = Instantiate(characterStats.passivePrefab, castOrigin.position, Quaternion.identity, transform);
     }
 
     private void OnSouth(InputAction.CallbackContext _) => TryCast(characterStats?.skill1?.prefab, characterStats?.skill1.manaCost, characterStats?.skill1.useCrosshairTarget == true);
     private void OnWest(InputAction.CallbackContext _) => TryCast(characterStats?.skill2?.prefab, characterStats?.skill2.manaCost, characterStats?.skill2.useCrosshairTarget == true);
     private void OnEast(InputAction.CallbackContext _) => TryCast(characterStats?.skill3?.prefab, characterStats?.skill3.manaCost, characterStats?.skill3.useCrosshairTarget == true);
     private void OnUltimate(InputAction.CallbackContext _) => TryCast(characterStats?.ultimatePrefab, characterStats?.ultimateManaCost, characterStats?.ultimateUsesCrosshairTarget == true);
-
-    private void OnPassive(InputAction.CallbackContext _)
-    {
-        if (characterStats?.passivePrefab == null) return;
-        Instantiate(characterStats.passivePrefab, castOrigin.position, Quaternion.identity);
-    }
 
     private void TryCast(GameObject prefab, float? manaCost, bool useCrosshair)
     {
@@ -81,7 +86,6 @@ public class SkillCast : MonoBehaviour
             maybeSkill.Initialize(gridPos, default, owner);
         }
 
-        var shoot = GetComponent<PlayerShoot>();
-        shoot?.TriggerSkillAnimation(0.25f);
+        GetComponent<PlayerShoot>()?.TriggerSkillAnimation(0.25f);
     }
 }
