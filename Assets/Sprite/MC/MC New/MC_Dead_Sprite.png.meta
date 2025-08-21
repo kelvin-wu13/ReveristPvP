@@ -1,0 +1,486 @@
+fileFormatVersion: 2
+guid: 47dbe1bd518354c43891b4f384f49fc7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1999474910990648626
+    second: MC_Dead_Sprite_0
+  - first:
+      213: -6830040462750314508
+    second: MC_Dead_Sprite_1
+  - first:
+      213: 4326180858765385903
+    second: MC_Dead_Sprite_2
+  - first:
+      213: 976512719056855843
+    second: MC_Dead_Sprite_3
+  - first:
+      213: 9017739265043390747
+    second: MC_Dead_Sprite_4
+  - first:
+      213: 5123603325788336375
+    second: MC_Dead_Sprite_5
+  - first:
+      213: 7426984658856507036
+    second: MC_Dead_Sprite_6
+  - first:
+      213: -3506079413754793363
+    second: MC_Dead_Sprite_7
+  - first:
+      213: -9137282634183694211
+    second: MC_Dead_Sprite_8
+  - first:
+      213: 6913259262839382381
+    second: MC_Dead_Sprite_9
+  - first:
+      213: -4999833795248029472
+    second: MC_Dead_Sprite_10
+  - first:
+      213: -1819525138236864525
+    second: MC_Dead_Sprite_11
+  - first:
+      213: -1116173331670447926
+    second: MC_Dead_Sprite_12
+  - first:
+      213: 7523153914975993448
+    second: MC_Dead_Sprite_13
+  - first:
+      213: 6598213713348811504
+    second: MC_Dead_Sprite_14
+  - first:
+      213: 7708298804386665755
+    second: MC_Dead_Sprite_15
+  - first:
+      213: 1619693751186970377
+    second: MC_Dead_Sprite_16
+  - first:
+      213: 7557244313628293736
+    second: MC_Dead_Sprite_17
+  - first:
+      213: -5144403469517946034
+    second: MC_Dead_Sprite_18
+  - first:
+      213: -5791107174550611513
+    second: MC_Dead_Sprite_19
+  - first:
+      213: 5492702381735066544
+    second: MC_Dead_Sprite_20
+  - first:
+      213: 3492917787361907623
+    second: MC_Dead_Sprite_21
+  - first:
+      213: 2185184644165055554
+    second: MC_Dead_Sprite_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 250
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MC_Dead_Sprite_0
+      rect:
+        serializedVersion: 2
+        x: 1138
+        y: 0
+        width: 1143
+        height: 1132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46881ba5a41bf98489e84f392dbfcc7a
+      internalID: -1576773356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MC_Dead_Sprite_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1143
+        height: 1132
+      alignment: 9
+      pivot: {x: 0.45079327, y: 0.5248424}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f898e774aeb378469f7e18425accadb
+      internalID: 283352095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MC_Dead_Sprite_3
+      rect:
+        serializedVersion: 2
+        x: 2475
+        y: 0
+        width: 1143
+        height: 1132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3627b72d896395945a7f5c32c2c3ce3e
+      internalID: 1581687826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MC_Dead_Sprite_4
+      rect:
+        serializedVersion: 2
+        x: 3934
+        y: 0
+        width: 1143
+        height: 1132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a0764aff63ddd041a90c0123b3b172c
+      internalID: -952003034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MC_Dead_Sprite_5
+      rect:
+        serializedVersion: 2
+        x: 5289
+        y: 0
+        width: 1143
+        height: 1132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 283f512b492e73e439b8d76bc8a69081
+      internalID: -118315027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MC_Dead_Sprite_6
+      rect:
+        serializedVersion: 2
+        x: 6621
+        y: 0
+        width: 1143
+        height: 1132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffa4eb753997ec74299c21429190f495
+      internalID: 1753168979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MC_Dead_Sprite_7
+      rect:
+        serializedVersion: 2
+        x: 7858
+        y: 0
+        width: 1143
+        height: 1132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 578347fb31790b14eb8c588dcf5a12be
+      internalID: 765211528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MC_Dead_Sprite_8
+      rect:
+        serializedVersion: 2
+        x: 9184
+        y: 0
+        width: 1143
+        height: 1132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5419df170b96b9448ba85c18f7e0e708
+      internalID: -1567363842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MC_Dead_Sprite_9
+      rect:
+        serializedVersion: 2
+        x: 10510
+        y: 0
+        width: 1143
+        height: 1132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aad681d97b961cf4dab7d33592aa0422
+      internalID: 530229541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MC_Dead_Sprite_10
+      rect:
+        serializedVersion: 2
+        x: 11780
+        y: 0
+        width: 1143
+        height: 1132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a99bef0d7b104544933740de019b43e
+      internalID: 1412997788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MC_Dead_Sprite_11
+      rect:
+        serializedVersion: 2
+        x: 13073
+        y: 0
+        width: 1143
+        height: 1132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cae145ae84fa6414d89485c6b942a554
+      internalID: 1252153806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MC_Dead_Sprite_12
+      rect:
+        serializedVersion: 2
+        x: 14422
+        y: 0
+        width: 1143
+        height: 1132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 178fd38ed3d80e640a9cbe642fa2ed41
+      internalID: -1207521838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MC_Dead_Sprite_13
+      rect:
+        serializedVersion: 2
+        x: 15697
+        y: 0
+        width: 1143
+        height: 1132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9923c182f2b9d04e8d05f7fc6568b8f
+      internalID: 1020825825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: f4b3d4c5b9141f54daafb143a5a917dd
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      MC_Dead_Sprite_0: -1576773356
+      MC_Dead_Sprite_1: 283352095
+      MC_Dead_Sprite_10: 1412997788
+      MC_Dead_Sprite_11: 1252153806
+      MC_Dead_Sprite_12: -1207521838
+      MC_Dead_Sprite_13: 1020825825
+      MC_Dead_Sprite_2: -369154638
+      MC_Dead_Sprite_3: 1581687826
+      MC_Dead_Sprite_4: -952003034
+      MC_Dead_Sprite_5: -118315027
+      MC_Dead_Sprite_6: 1753168979
+      MC_Dead_Sprite_7: 765211528
+      MC_Dead_Sprite_8: -1567363842
+      MC_Dead_Sprite_9: 530229541
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

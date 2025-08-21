@@ -1,0 +1,433 @@
+fileFormatVersion: 2
+guid: 46aaac7cda3cf294db28d494aa7d5512
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4821499735090501366
+    second: Frame 1_0
+  - first:
+      213: -1383950643518726761
+    second: Frame 1_1
+  - first:
+      213: 4696473544856852454
+    second: Frame 1_2
+  - first:
+      213: -4276760799471239746
+    second: Frame 1_3
+  - first:
+      213: -9129298366171301755
+    second: Frame 1_4
+  - first:
+      213: 2438304765155957255
+    second: Frame 1_5
+  - first:
+      213: 4300373915785677230
+    second: Frame 1_6
+  - first:
+      213: -5524220698068471103
+    second: Frame 1_7
+  - first:
+      213: 3682141101456939418
+    second: Frame 1_8
+  - first:
+      213: 5646787417014327041
+    second: Frame 1_9
+  - first:
+      213: -6807385740489845034
+    second: Frame 1_10
+  - first:
+      213: 2263169527399905920
+    second: Frame 1_11
+  - first:
+      213: 1368309134689209550
+    second: Frame 1_12
+  - first:
+      213: 6308970139485853162
+    second: Frame 1_13
+  - first:
+      213: 4758489687954965065
+    second: Frame 1_14
+  - first:
+      213: -5526522850908996534
+    second: Frame 1_15
+  - first:
+      213: -4542113720123748556
+    second: Frame 1_16
+  - first:
+      213: 3492036831264722971
+    second: Frame 1_17
+  - first:
+      213: -6457489364856029745
+    second: Frame 1_18
+  - first:
+      213: -7505101788637365304
+    second: Frame 1_19
+  - first:
+      213: -8096975855349341494
+    second: Frame 1_20
+  - first:
+      213: 3608034109025196602
+    second: Frame 1_21
+  - first:
+      213: 6803224951391607321
+    second: Frame 1_22
+  - first:
+      213: -1557388933942119565
+    second: Frame 1_23
+  - first:
+      213: 5271541730086887764
+    second: Frame 1_24
+  - first:
+      213: 3731275954110277638
+    second: Frame 1_25
+  - first:
+      213: -7164955116649732874
+    second: Frame 1_26
+  - first:
+      213: -1418100109603113259
+    second: Frame 1_27
+  - first:
+      213: -3610855344735022079
+    second: Frame 1_28
+  - first:
+      213: -3862410449498699782
+    second: Frame 1_29
+  - first:
+      213: 6388024577347003402
+    second: Frame 1_30
+  - first:
+      213: 3878270138045455165
+    second: Frame 1_31
+  - first:
+      213: 7147795503159864318
+    second: Frame 1_32
+  - first:
+      213: -1048431505207105952
+    second: Frame 1_33
+  - first:
+      213: -7054079481950234505
+    second: Frame 1_34
+  - first:
+      213: 2216678296840252676
+    second: Frame 1_35
+  - first:
+      213: -1882996739684115259
+    second: Frame 1_36
+  - first:
+      213: 7960965417031953366
+    second: Frame 1_37
+  - first:
+      213: 588632809895689719
+    second: Frame 1_38
+  - first:
+      213: 6441668024998481563
+    second: Frame 1_39
+  - first:
+      213: 1488645674654682799
+    second: Frame 1_40
+  - first:
+      213: 3682689349710186459
+    second: Frame 1_41
+  - first:
+      213: 5760962527075104192
+    second: Frame 1_42
+  - first:
+      213: 3037723244160430508
+    second: Frame 1_43
+  - first:
+      213: 9156138256663683282
+    second: Frame 1_44
+  - first:
+      213: 6426187673146948803
+    second: Frame 1_45
+  - first:
+      213: -3886854266191925734
+    second: Frame 1_46
+  - first:
+      213: 5591663924161185597
+    second: Frame 1_47
+  - first:
+      213: 134868865883044279
+    second: Frame 1_48
+  - first:
+      213: 2879132265940211666
+    second: Frame 1_49
+  - first:
+      213: 6960087586026298710
+    second: Frame 1_50
+  - first:
+      213: -3853666618446934041
+    second: Frame 1_51
+  - first:
+      213: -5245218627503228398
+    second: Frame 1_52
+  - first:
+      213: -6177044842981528172
+    second: Frame 1_53
+  - first:
+      213: 8109405081896817433
+    second: Frame 1_54
+  - first:
+      213: 1614487000162817342
+    second: Frame 1_55
+  - first:
+      213: 4177334341117905003
+    second: Frame 1_56
+  - first:
+      213: 3682432301014354576
+    second: Frame 1_57
+  - first:
+      213: 3710198919267733915
+    second: Frame 1_58
+  - first:
+      213: 6071113888041618717
+    second: Frame 1_59
+  - first:
+      213: 8630313149302957917
+    second: Frame 1_60
+  - first:
+      213: 5919273106298362687
+    second: Frame 1_61
+  - first:
+      213: 5398907385955641176
+    second: Frame 1_62
+  - first:
+      213: 307560074701654307
+    second: Frame 1_63
+  - first:
+      213: -3190801364359662591
+    second: Frame 1_64
+  - first:
+      213: -8272683324523581756
+    second: Frame 1_65
+  - first:
+      213: 8316692352811291463
+    second: Frame 1_66
+  - first:
+      213: -3385350128401782012
+    second: Frame 1_67
+  - first:
+      213: -3586288097265531867
+    second: Frame 1_68
+  - first:
+      213: 5611881217118143898
+    second: Frame 1_69
+  - first:
+      213: 9028231147310869839
+    second: Frame 1_70
+  - first:
+      213: -399971479025278483
+    second: Frame 1_71
+  - first:
+      213: -7701618280887000538
+    second: Frame 1_72
+  - first:
+      213: 1794537412484434258
+    second: Frame 1_73
+  - first:
+      213: -5107954047774303939
+    second: Frame 1_74
+  - first:
+      213: 886157015453318251
+    second: Frame 1_75
+  - first:
+      213: 8527307401348423256
+    second: Frame 1_76
+  - first:
+      213: 4778434008501204499
+    second: Frame 1_77
+  - first:
+      213: 6857694225095495791
+    second: Frame 1_78
+  - first:
+      213: -3492269872085561057
+    second: Frame 1_79
+  - first:
+      213: -1926177477701322866
+    second: Frame 1_80
+  - first:
+      213: 853494898044707723
+    second: Frame 1_81
+  - first:
+      213: -6446889069160399530
+    second: Frame 1_82
+  - first:
+      213: -4560845271114374371
+    second: Frame 1_83
+  - first:
+      213: 2233722387246089555
+    second: Frame 1_84
+  - first:
+      213: -5688486666447043519
+    second: Frame 1_85
+  - first:
+      213: 3155575309958091523
+    second: Frame 1_86
+  - first:
+      213: 55801949942125600
+    second: Frame 1_87
+  - first:
+      213: 2349459074522637971
+    second: Frame 1_88
+  - first:
+      213: 8324346767120885460
+    second: Frame 1_89
+  - first:
+      213: -2243879969998135364
+    second: Frame 1_90
+  - first:
+      213: 7788130593303494128
+    second: Frame 1_91
+  - first:
+      213: -3233210750097979893
+    second: Frame 1_92
+  - first:
+      213: 9219248299224651067
+    second: Frame 1_93
+  - first:
+      213: -6997067700794570939
+    second: Frame 1_94
+  - first:
+      213: -7850351227340391518
+    second: Frame 1_95
+  - first:
+      213: 2325517706526829428
+    second: Frame 1_96
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 296
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Frame 1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1168
+        height: 1132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f33ccf265f519a245804a855b3773764
+      internalID: 522437940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 556029adf7cdfd547b4c0691aa429e43
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":1168.0,"y":1132.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Frame 1_0: 522437940
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

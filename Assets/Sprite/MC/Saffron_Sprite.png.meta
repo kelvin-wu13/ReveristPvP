@@ -1,0 +1,819 @@
+fileFormatVersion: 2
+guid: d1ce3c96ad638044da7107ccee2db114
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8516717769709242484
+    second: Saffron_Sprite_0
+  - first:
+      213: -6256053255688372999
+    second: Saffron_Sprite_1
+  - first:
+      213: 885580847377309638
+    second: Saffron_Sprite_2
+  - first:
+      213: 3132649343988327197
+    second: Saffron_Sprite_3
+  - first:
+      213: -159354644754831878
+    second: Saffron_Sprite_4
+  - first:
+      213: -6420179087795478444
+    second: Saffron_Sprite_5
+  - first:
+      213: 8590928135231099165
+    second: Saffron_Sprite_6
+  - first:
+      213: -2977783234394393130
+    second: Saffron_Sprite_7
+  - first:
+      213: 2328888962595160317
+    second: Saffron_Sprite_8
+  - first:
+      213: 6352806554499445113
+    second: Saffron_Sprite_9
+  - first:
+      213: -2110118594160115383
+    second: Saffron_Sprite_10
+  - first:
+      213: -3591477946461585415
+    second: Saffron_Sprite_11
+  - first:
+      213: 5457105413728234247
+    second: Saffron_Sprite_12
+  - first:
+      213: 1034620175513806740
+    second: Saffron_Sprite_13
+  - first:
+      213: -6563617527492261986
+    second: Saffron_Sprite_14
+  - first:
+      213: -451076301356268615
+    second: Saffron_Sprite_15
+  - first:
+      213: 5040352315948059571
+    second: Saffron_Sprite_16
+  - first:
+      213: 5101143989339680743
+    second: Saffron_Sprite_17
+  - first:
+      213: 4203015902995718436
+    second: Saffron_Sprite_18
+  - first:
+      213: 6682759036113403941
+    second: Saffron_Sprite_19
+  - first:
+      213: 6618141795135893713
+    second: Saffron_Sprite_20
+  - first:
+      213: -1234786489525725891
+    second: Saffron_Sprite_21
+  - first:
+      213: 1670728268478310981
+    second: Saffron_Sprite_22
+  - first:
+      213: 4607236061358139391
+    second: Saffron_Sprite_23
+  - first:
+      213: 8518837257125902199
+    second: Saffron_Sprite_24
+  - first:
+      213: -8146787634304503292
+    second: Saffron_Sprite_25
+  - first:
+      213: 6057595194200309239
+    second: Saffron_Sprite_26
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Saffron_Sprite_0
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 6059
+        width: 392
+        height: 692
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 478c6c320b5713670800000000000000
+      internalID: 8516717769709242484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_1
+      rect:
+        serializedVersion: 2
+        x: 1694
+        y: 6059
+        width: 377
+        height: 692
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fcb4ceb5b80e29a0800000000000000
+      internalID: -6256053255688372999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_2
+      rect:
+        serializedVersion: 2
+        x: 3164
+        y: 6059
+        width: 542
+        height: 632
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cf50d3b6173a4c00800000000000000
+      internalID: 885580847377309638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_3
+      rect:
+        serializedVersion: 2
+        x: 4604
+        y: 6059
+        width: 512
+        height: 662
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d13e84a1bf7697b20800000000000000
+      internalID: 3132649343988327197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_4
+      rect:
+        serializedVersion: 2
+        x: 6044
+        y: 6059
+        width: 512
+        height: 677
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af5641e7bcbd9cdf0800000000000000
+      internalID: -159354644754831878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_5
+      rect:
+        serializedVersion: 2
+        x: 7484
+        y: 6059
+        width: 512
+        height: 677
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4502f8d9221f6e6a0800000000000000
+      internalID: -6420179087795478444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_6
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 4619
+        width: 497
+        height: 677
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d11db5f4f9b193770800000000000000
+      internalID: 8590928135231099165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_7
+      rect:
+        serializedVersion: 2
+        x: 1739
+        y: 4619
+        width: 497
+        height: 677
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d5fecfdce9cca6d0800000000000000
+      internalID: -2977783234394393130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_8
+      rect:
+        serializedVersion: 2
+        x: 3179
+        y: 4619
+        width: 467
+        height: 692
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df000d82c20e15020800000000000000
+      internalID: 2328888962595160317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_9
+      rect:
+        serializedVersion: 2
+        x: 4604
+        y: 4619
+        width: 512
+        height: 602
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97176b717e3b92850800000000000000
+      internalID: 6352806554499445113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_10
+      rect:
+        serializedVersion: 2
+        x: 6044
+        y: 4619
+        width: 377
+        height: 857
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 941c329815a57b2e0800000000000000
+      internalID: -2110118594160115383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_11
+      rect:
+        serializedVersion: 2
+        x: 7469
+        y: 4619
+        width: 392
+        height: 797
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fff18e06d1882ec0800000000000000
+      internalID: -3591477946461585415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_12
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 3179
+        width: 407
+        height: 782
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70be127f5788bbb40800000000000000
+      internalID: 5457105413728234247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_13
+      rect:
+        serializedVersion: 2
+        x: 1679
+        y: 3179
+        width: 422
+        height: 782
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 497e3f66195bb5e00800000000000000
+      internalID: 1034620175513806740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_14
+      rect:
+        serializedVersion: 2
+        x: 3104
+        y: 3179
+        width: 437
+        height: 767
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e97cb4062a859e4a0800000000000000
+      internalID: -6563617527492261986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_15
+      rect:
+        serializedVersion: 2
+        x: 4559
+        y: 3179
+        width: 422
+        height: 767
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b3001b6e747db9f0800000000000000
+      internalID: -451076301356268615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_16
+      rect:
+        serializedVersion: 2
+        x: 6029
+        y: 3179
+        width: 392
+        height: 707
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bbc6e6f9bde2f540800000000000000
+      internalID: 5040352315948059571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_17
+      rect:
+        serializedVersion: 2
+        x: 7469
+        y: 3179
+        width: 422
+        height: 692
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7efe5b86e67eac640800000000000000
+      internalID: 5101143989339680743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_18
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 1739
+        width: 392
+        height: 692
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 421a06bf1bc145a30800000000000000
+      internalID: 4203015902995718436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_19
+      rect:
+        serializedVersion: 2
+        x: 2054
+        y: 1739
+        width: 617
+        height: 707
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5204213cfededbc50800000000000000
+      internalID: 6682759036113403941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_20
+      rect:
+        serializedVersion: 2
+        x: 3494
+        y: 1739
+        width: 572
+        height: 707
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d0bd34f5ec58db50800000000000000
+      internalID: 6618141795135893713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_21
+      rect:
+        serializedVersion: 2
+        x: 4919
+        y: 1739
+        width: 557
+        height: 707
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d351e5eda382ddee0800000000000000
+      internalID: -1234786489525725891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_22
+      rect:
+        serializedVersion: 2
+        x: 6344
+        y: 1739
+        width: 572
+        height: 707
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54a6ade128e9f2710800000000000000
+      internalID: 1670728268478310981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_23
+      rect:
+        serializedVersion: 2
+        x: 7769
+        y: 1739
+        width: 572
+        height: 707
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff72f91a9c030ff30800000000000000
+      internalID: 4607236061358139391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_24
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 299
+        width: 572
+        height: 707
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7773a52c95df83670800000000000000
+      internalID: 8518837257125902199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_25
+      rect:
+        serializedVersion: 2
+        x: 2054
+        y: 299
+        width: 482
+        height: 707
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4023cb46fcbc0fe80800000000000000
+      internalID: -8146787634304503292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saffron_Sprite_26
+      rect:
+        serializedVersion: 2
+        x: 3179
+        y: 299
+        width: 362
+        height: 692
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fd3c6f0cb6e01450800000000000000
+      internalID: 6057595194200309239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Saffron_Sprite_0: 8516717769709242484
+      Saffron_Sprite_1: -6256053255688372999
+      Saffron_Sprite_10: -2110118594160115383
+      Saffron_Sprite_11: -3591477946461585415
+      Saffron_Sprite_12: 5457105413728234247
+      Saffron_Sprite_13: 1034620175513806740
+      Saffron_Sprite_14: -6563617527492261986
+      Saffron_Sprite_15: -451076301356268615
+      Saffron_Sprite_16: 5040352315948059571
+      Saffron_Sprite_17: 5101143989339680743
+      Saffron_Sprite_18: 4203015902995718436
+      Saffron_Sprite_19: 6682759036113403941
+      Saffron_Sprite_2: 885580847377309638
+      Saffron_Sprite_20: 6618141795135893713
+      Saffron_Sprite_21: -1234786489525725891
+      Saffron_Sprite_22: 1670728268478310981
+      Saffron_Sprite_23: 4607236061358139391
+      Saffron_Sprite_24: 8518837257125902199
+      Saffron_Sprite_25: -8146787634304503292
+      Saffron_Sprite_26: 6057595194200309239
+      Saffron_Sprite_3: 3132649343988327197
+      Saffron_Sprite_4: -159354644754831878
+      Saffron_Sprite_5: -6420179087795478444
+      Saffron_Sprite_6: 8590928135231099165
+      Saffron_Sprite_7: -2977783234394393130
+      Saffron_Sprite_8: 2328888962595160317
+      Saffron_Sprite_9: 6352806554499445113
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
