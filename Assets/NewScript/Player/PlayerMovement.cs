@@ -4,11 +4,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public void SetTileGrid(TileGrid tg) { tileGrid = tg; }
+
     [Header("Timing")]
     [SerializeField] private float moveDuration = 0.2f;
 
     [Header("Grid")]
     [SerializeField] private TileGrid tileGrid;
+    [SerializeField] private TileGrid.Side side = TileGrid.Side.Left;
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
@@ -26,12 +29,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float directionSmoothTime = 0.1f;
 
     [Header("Input System")]
-    [SerializeField] private InputActionReference moveAction;   // Vector2
     [SerializeField] private float analogThreshold = 0.5f;
     [SerializeField] private float initialRepeatDelay = 0.25f;
     [SerializeField] private float repeatRate = 0.12f;
 
     [SerializeField] private float externalSpeedMultiplier = 1f;
+
+    private PlayerInput playerInput;
+    private InputAction move;
 
     private Vector2 currentAnimDirection = Vector2.zero;
     private Vector2 targetAnimDirection = Vector2.down;
@@ -43,7 +48,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector2Int currentGridPosition = new Vector2Int(0, 0);
     private Vector2Int lastDirection = Vector2Int.down;
 
-    // repeat state
     private Vector2Int heldDir = Vector2Int.zero;
     private float nextRepeatTime = 0f;
 
@@ -52,15 +56,22 @@ public class PlayerMovement : MonoBehaviour
     public Vector2Int GetFacingDirection() => lastDirection;
     public bool IsMoving() => isMoving;
 
-    private void OnEnable()
+    private void Awake()
     {
-        moveAction?.action.Enable();
-    }
+        playerInput = GetComponent<PlayerInput>();
+        if (playerInput != null)
+        {
+            move = playerInput.actions["Move"];
+        }
 
-    private void OnDisable()
-    {
-        moveAction?.action.Disable();
+        if (tileGrid == null)
+            tileGrid = FindObjectOfType<TileGrid>();
+
+        if (animator == null)
+            animator = GetComponent<Animator>();
     }
+    private void OnEnable() { move?.Enable(); }
+    private void OnDisable() { move?.Disable(); }
 
     private void Start()
     {
@@ -87,9 +98,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleControllerMove()
     {
-        if (moveAction == null) return;
+        if (move == null) return;
 
-        Vector2 raw = moveAction.action.ReadValue<Vector2>();
+        Vector2 raw = move.ReadValue<Vector2>();
 
         Vector2Int dir = Vector2Int.zero;
         if (Mathf.Abs(raw.x) > Mathf.Abs(raw.y))
@@ -146,15 +157,15 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanMove(Vector2Int direction)
     {
-        Vector2Int targetGridPosition = currentGridPosition + direction;
-        return tileGrid.IsValidPlayerPosition(targetGridPosition);
+        Vector2Int target = currentGridPosition + direction;
+        return tileGrid.IsValidPositionForSide(target, side);
     }
 
     private void TryMove(Vector2Int direction)
     {
+        if (!CanMove(direction)) return;
         Vector2Int targetGridPosition = currentGridPosition + direction;
-        if (tileGrid.IsValidPlayerPosition(targetGridPosition))
-            StartCoroutine(Move(targetGridPosition));
+        StartCoroutine(Move(targetGridPosition));
     }
 
     private IEnumerator Move(Vector2Int targetGridPosition)
@@ -216,7 +227,7 @@ public class PlayerMovement : MonoBehaviour
         targetAnimDirection = new Vector2(direction.x, direction.y);
     }
 
-    private Vector3 GetAdjustedWorldPosition(Vector2Int gridPosition)
+    public Vector3 GetAdjustedWorldPosition(Vector2Int gridPosition)
     {
         Vector3 basePos = tileGrid.GetCenteredWorldPosition(gridPosition);
 
@@ -224,6 +235,11 @@ public class PlayerMovement : MonoBehaviour
         float dynamicXOffset = positionOffset.x - (gridPosition.y * xOffsetFalloffPerRow);
 
         return basePos + new Vector3(dynamicXOffset, dynamicYOffset, 0f);
+    }
+    public void TeleportTo(Vector2Int gridPos)
+    {
+        currentGridPosition = gridPos;
+        transform.position = GetAdjustedWorldPosition(gridPos);
     }
 
     public void SetCanMove(bool state) { canMove = state; }

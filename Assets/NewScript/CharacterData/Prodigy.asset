@@ -18,7 +18,7 @@ MonoBehaviour:
   manaRegenRate: 1
   bulletDamage: 10
   bulletSpeed: 10
-  shootCooldown: 0.5
+  shootCooldown: 0
   skill1:
     displayName: Enhanced Bullet
     prefab: {fileID: 7857377519010454379, guid: 65375e5fff78f2a41b9c30bfa03903c6, type: 3}
@@ -26,12 +26,12 @@ MonoBehaviour:
     useCrosshairTarget: 0
   skill2:
     displayName: Dash Melee
-    prefab: {fileID: 0}
+    prefab: {fileID: 6941465084218670886, guid: 12c1fc04740146a498097f8d7455815e, type: 3}
     manaCost: 2
-    useCrosshairTarget: 1
+    useCrosshairTarget: 0
   skill3:
     displayName: Tile Breaker
-    prefab: {fileID: 0}
+    prefab: {fileID: 186632132335026699, guid: d8fc575de34caa44a962c43647a7210e, type: 3}
     manaCost: 3
     useCrosshairTarget: 1
   passivePrefab: {fileID: 0}

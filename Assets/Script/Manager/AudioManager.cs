@@ -44,14 +44,13 @@ public class AudioManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // this prevents duplicates
+            Destroy(gameObject);
             return;
         }
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Setup audio sources
         bgmSource = gameObject.AddComponent<AudioSource>();
         bgmSource.loop = loopBGM;
         bgmSource.playOnAwake = false;
@@ -63,12 +62,10 @@ public class AudioManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    // Enemy Audio
     public void PlayEnemySpawnSFX() => PlaySFX(enemySpawnSFX);
     public void PlayEnemyShootSFX() => PlaySFX(enemyShootSFX);
     public void PlayEnemyDeathSFX() => PlaySFX(enemyDeathSFX);
 
-    // Skill Audio
     public void PlayIonBoltSFX() => PlaySFX(IonBoltSFX);
     public void PlayPlasmaSurgeSFX() => PlaySFX(PlasmaSurgeSFX);
     public void PlayPulseFallSFX() => PlaySFX(PulseFallSFX);

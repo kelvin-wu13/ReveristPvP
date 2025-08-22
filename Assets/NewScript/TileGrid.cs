@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum TileType
 {
-    Player,
-    Enemy,
+    Player1,
+    Player2,
     Empty,
-    PlayerCracked,
-    PlayerBroken,
-    EnemyCracked,
-    EnemyBroken,
+    Player1Cracked,
+    Player1Broken,
+    Player2Cracked,
+    Player2Broken,
     Cracked,
     Broken
 }
@@ -18,17 +19,28 @@ public enum TileType
 [System.Serializable]
 public class TileSet
 {
-    public Sprite playerTileSprite;
-    public Sprite enemyTileSprite;
+    [FormerlySerializedAs("playerTileSprite")]
+    public Sprite player1TileSprite;
+    [FormerlySerializedAs("enemyTileSprite")]
+    public Sprite player2TileSprite;
+    [FormerlySerializedAs("emptyTileSprite")]
     public Sprite emptyTileSprite;
-    public Sprite playerCrackedTileSprite;
-    public Sprite playerBrokenTileSprite;
-    public Sprite enemyCrackedTileSprite;
-    public Sprite enemyBrokenTileSprite;
+
+    [FormerlySerializedAs("playerCrackedTileSprite")]
+    public Sprite player1CrackedTileSprite;
+    [FormerlySerializedAs("playerBrokenTileSprite")]
+    public Sprite player1BrokenTileSprite;
+
+    [FormerlySerializedAs("enemyCrackedTileSprite")]
+    public Sprite player2CrackedTileSprite;
+    [FormerlySerializedAs("enemyBrokenTileSprite")]
+    public Sprite player2BrokenTileSprite;
 }
 
 public class TileGrid : MonoBehaviour
 {
+    public enum Side { Left, Right }
+
     [Header("Grid Setting")]
     [SerializeField] private float gridXRotation = 120f;
     [SerializeField] private float gridYRotation = 15f;
@@ -52,27 +64,20 @@ public class TileGrid : MonoBehaviour
     [SerializeField] private int tileRenderingLayer = 0;
 
     [SerializeField] private Vector2 gridOffset = Vector2.zero;
+
     public TileType[,] grid;
     private GameObject[,] tileObjects;
     private TileType[,] originalTileTypes;
 
-    // Dictionary to store objects currently in each grid position
     private Dictionary<Vector2Int, List<GameObject>> objectsInTiles = new Dictionary<Vector2Int, List<GameObject>>();
-
     private Dictionary<Vector2Int, bool> tileOccupationStatus = new Dictionary<Vector2Int, bool>();
 
     public void SetTileOccupied(Vector2Int pos, bool occupied)
     {
-        if (IsValidGridPosition(pos))
-            tileOccupationStatus[pos] = occupied;
+        if (IsValidGridPosition(pos)) tileOccupationStatus[pos] = occupied;
     }
+    public bool IsTileOccupied(Vector2Int pos) => tileOccupationStatus.ContainsKey(pos) && tileOccupationStatus[pos];
 
-    public bool IsTileOccupied(Vector2Int pos)
-    {
-        return tileOccupationStatus.ContainsKey(pos) && tileOccupationStatus[pos];
-    }
-
-    // Calculated total tile size including spacing
     private float totalTileWidth => tileWidth + horizontalSpacing;
     private float totalTileHeight => tileHeight + verticalSpacing;
 
@@ -88,26 +93,16 @@ public class TileGrid : MonoBehaviour
         objectsInTiles.Clear();
         tileOccupationStatus.Clear();
         for (int x = 0; x < gridWidth; x++)
-        {
             for (int y = 0; y < gridHeight; y++)
             {
-                Vector2Int pos = new Vector2Int(x, y);
+                var pos = new Vector2Int(x, y);
                 objectsInTiles[pos] = new List<GameObject>();
                 tileOccupationStatus[pos] = false;
             }
-        }
     }
 
-    // Add these public getter methods for tile size
-    public float GetTileWidth()
-    {
-        return tileWidth;
-    }
-
-    public float GetTileHeight()
-    {
-        return tileHeight;
-    }
+    public float GetTileWidth() => tileWidth;
+    public float GetTileHeight() => tileHeight;
 
     public Vector3 GetCenteredWorldPosition(Vector2Int gridPosition, float fixedZ = -1f)
     {
@@ -117,52 +112,36 @@ public class TileGrid : MonoBehaviour
 
     private void OnValidate()
     {
-        // Ensure grid dimensions are always positive
         gridWidth = Mathf.Max(1, gridWidth);
         gridHeight = Mathf.Max(1, gridHeight);
-
-        // Ensure tile dimensions are always positive
         tileWidth = Mathf.Max(0.1f, tileWidth);
         tileHeight = Mathf.Max(0.1f, tileHeight);
-
-        // Spacing can be zero but not negative
         horizontalSpacing = Mathf.Max(0f, horizontalSpacing);
         verticalSpacing = Mathf.Max(0f, verticalSpacing);
 
-        //Apply rotation change
         if (Application.isPlaying)
-        {
             transform.rotation = Quaternion.Euler(gridXRotation, gridYRotation, gridZRotation);
-        }
 
-        // If the grid is already initialized in play mode, update it
         if (Application.isPlaying && grid != null)
-        {
             UpdateGridLayout();
-        }
     }
 
     private void UpdateGridLayout()
     {
-        // Store the current grid state
-        TileType[,] oldGrid = grid;
-        GameObject[,] oldTileObjects = tileObjects;
-        TileType[,] oldOriginalTypes = originalTileTypes;
+        var oldGrid = grid;
+        var oldTileObjects = tileObjects;
+        var oldOriginalTypes = originalTileTypes;
 
         int oldWidth = oldGrid.GetLength(0);
         int oldHeight = oldGrid.GetLength(1);
 
-        // Initialize with new dimensions
         grid = new TileType[gridWidth, gridHeight];
         tileObjects = new GameObject[gridWidth, gridHeight];
         originalTileTypes = new TileType[gridWidth, gridHeight];
 
-        // Update the objectsInTiles dictionary for the new dimensions
         InitializeObjectsInTilesDict();
 
-        // Copy over the old data where possible
         for (int x = 0; x < gridWidth; x++)
-        {
             for (int y = 0; y < gridHeight; y++)
             {
                 if (x < oldWidth && y < oldHeight)
@@ -172,127 +151,81 @@ public class TileGrid : MonoBehaviour
 
                     if (oldTileObjects[x, y] != null)
                     {
-                        // Update position and scale of existing tiles
                         tileObjects[x, y] = oldTileObjects[x, y];
                         UpdateTileTransform(new Vector2Int(x, y));
                     }
                     else
                     {
-                        // Create tile if it doesn't exist
                         CreateTile(new Vector2Int(x, y));
                     }
                 }
                 else
                 {
-                    // Create new tiles for expanded grid
                     CreateTile(new Vector2Int(x, y));
                 }
             }
-        }
 
-        // Clean up any tiles that are now out of bounds
         for (int x = 0; x < oldWidth; x++)
-        {
             for (int y = 0; y < oldHeight; y++)
             {
                 if (x >= gridWidth || y >= gridHeight)
-                {
-                    if (oldTileObjects[x, y] != null)
-                    {
-                        Destroy(oldTileObjects[x, y]);
-                    }
-                }
+                    if (oldTileObjects[x, y] != null) Destroy(oldTileObjects[x, y]);
             }
-        }
     }
 
     private void InitializeGrid()
     {
-        // Initialize the grid
         grid = new TileType[gridWidth, gridHeight];
         tileObjects = new GameObject[gridWidth, gridHeight];
         originalTileTypes = new TileType[gridWidth, gridHeight];
 
-        // Create the grid
         CreateGrid();
-
-        // Setup initial player and enemy positions
         SetupInitialPositions();
     }
 
     private void CreateGrid()
     {
-        //Apply Rotation
         transform.rotation = Quaternion.Euler(gridXRotation, gridYRotation, gridZRotation);
         for (int x = 0; x < gridWidth; x++)
-        {
             for (int y = 0; y < gridHeight; y++)
-            {
                 CreateTile(new Vector2Int(x, y));
-            }
-        }
     }
 
     public Vector3 GetWorldPositionWith3DEffect(Vector2Int gridPosition)
     {
-        // Base position
         float x = gridPosition.x * totalTileWidth + gridOffset.x;
         float y = gridPosition.y * totalTileHeight + gridOffset.y;
 
-        // Add 3D perspective effect
-        float depthFactor = (float)gridPosition.y / gridHeight; // 0 to 1
-        float perspectiveOffset = depthFactor * 0.5f; // Adjust this value
-
-        // Scale tiles based on depth (further tiles smaller)
+        float depthFactor = (float)gridPosition.y / gridHeight;
+        float perspectiveOffset = depthFactor * 0.5f;
         float scaleReduction = 1f - (depthFactor * 0.2f);
-
         return new Vector3(x, y + perspectiveOffset, -depthFactor);
     }
 
     public Vector3 GetWorldPositionWithSimpleArena(Vector2Int gridPosition)
     {
-        // Standard grid positioning (keep this structured)
         float x = gridPosition.x * totalTileWidth + gridOffset.x;
         float y = gridPosition.y * totalTileHeight + gridOffset.y;
-
-        // Add VERY subtle depth effect only
-        // Back rows (higher Y) pushed slightly back
         float depth = -gridPosition.y * 0.2f;
-
-        // Optional: Very subtle Y offset for back rows (makes them appear slightly higher)
-        // float heightOffset = gridPosition.y * 0.05f;
-
         return new Vector3(x, y, depth);
     }
 
     private void CreateTile(Vector2Int position)
     {
-        // Use simple positioning that maintains grid structure
         Vector3 worldPosition = GetWorldPositionWithSimpleArena(position);
         GameObject tile = Instantiate(tilePrefab, worldPosition, Quaternion.identity, transform);
         tile.name = $"Tile_{position.x}_{position.y}";
 
-        // Keep uniform scaling - don't vary tile sizes
         tile.transform.localScale = new Vector3(tileWidth, tileHeight, 1f);
 
-        // NO rotation - keep tiles aligned
-        // tile.transform.rotation = Quaternion.identity; (default)
+        var sr = tile.GetComponent<SpriteRenderer>();
+        if (sr == null) sr = tile.AddComponent<SpriteRenderer>();
+        sr.sortingOrder = tileRenderingLayer;
+        sr.color = Color.white;
 
-        // Set up sprite renderer
-        SpriteRenderer spriteRenderer = tile.GetComponent<SpriteRenderer>();
-        if (spriteRenderer == null)
-        {
-            spriteRenderer = tile.AddComponent<SpriteRenderer>();
-        }
-        spriteRenderer.sortingOrder = tileRenderingLayer;
-
-        // Uniform color - no lighting variations
-        spriteRenderer.color = Color.white;
-
-        // Initialize tile type
         grid[position.x, position.y] = TileType.Empty;
         originalTileTypes[position.x, position.y] = TileType.Empty;
-        spriteRenderer.sprite = tileSet.emptyTileSprite;
+        sr.sprite = tileSet.emptyTileSprite;
 
         tileObjects[position.x, position.y] = tile;
     }
@@ -300,304 +233,235 @@ public class TileGrid : MonoBehaviour
     private void UpdateTileTransform(Vector2Int position)
     {
         GameObject tile = tileObjects[position.x, position.y];
-        if (tile != null)
+        if (tile == null) return;
+
+        tile.transform.position = GetWorldPositionWithSimpleArena(position);
+        tile.transform.localScale = new Vector3(tileWidth, tileHeight, 1f);
+        tile.transform.rotation = Quaternion.identity;
+
+        var sr = tile.GetComponent<SpriteRenderer>();
+        if (sr != null)
         {
-            // Update position with simple arena effect
-            tile.transform.position = GetWorldPositionWithSimpleArena(position);
-
-            // Keep uniform scale
-            tile.transform.localScale = new Vector3(tileWidth, tileHeight, 1f);
-
-            // No rotation
-            tile.transform.rotation = Quaternion.identity;
-
-            // Update sorting order
-            SpriteRenderer spriteRenderer = tile.GetComponent<SpriteRenderer>();
-            if (spriteRenderer != null)
-            {
-                spriteRenderer.sortingOrder = tileRenderingLayer;
-                spriteRenderer.color = Color.white;
-            }
+            sr.sortingOrder = tileRenderingLayer;
+            sr.color = Color.white;
         }
     }
 
     public void SetupInitialPositions()
     {
-        // Set left half for player (first half of columns)
         for (int x = 0; x < gridWidth / 2; x++)
-        {
             for (int y = 0; y < gridHeight; y++)
-            {
-                SetTileType(new Vector2Int(x, y), TileType.Player);
-            }
-        }
+                SetTileType(new Vector2Int(x, y), TileType.Player1);
 
-        // Set right half for enemy (second half of columns)
         for (int x = gridWidth / 2; x < gridWidth; x++)
-        {
             for (int y = 0; y < gridHeight; y++)
-            {
-                SetTileType(new Vector2Int(x, y), TileType.Enemy);
-            }
-        }
+                SetTileType(new Vector2Int(x, y), TileType.Player2);
     }
 
     public void SetTileType(Vector2Int gridPosition, TileType type)
     {
-        if (IsValidGridPosition(gridPosition))
+        if (!IsValidGridPosition(gridPosition)) return;
+
+        grid[gridPosition.x, gridPosition.y] = type;
+
+        var sr = tileObjects[gridPosition.x, gridPosition.y].GetComponent<SpriteRenderer>();
+        switch (type)
         {
-            grid[gridPosition.x, gridPosition.y] = type;
+            case TileType.Player1:
+                sr.sprite = tileSet.player1TileSprite;
+                originalTileTypes[gridPosition.x, gridPosition.y] = TileType.Player1;
+                break;
+            case TileType.Player2:
+                sr.sprite = tileSet.player2TileSprite;
+                originalTileTypes[gridPosition.x, gridPosition.y] = TileType.Player2;
+                break;
+            case TileType.Empty:
+                sr.sprite = tileSet.emptyTileSprite;
+                originalTileTypes[gridPosition.x, gridPosition.y] = TileType.Empty;
+                break;
 
-            SpriteRenderer spriteRenderer = tileObjects[gridPosition.x, gridPosition.y].GetComponent<SpriteRenderer>();
+            case TileType.Player1Cracked: sr.sprite = tileSet.player1CrackedTileSprite; break;
+            case TileType.Player1Broken: sr.sprite = tileSet.player1BrokenTileSprite; break;
+            case TileType.Player2Cracked: sr.sprite = tileSet.player2CrackedTileSprite; break;
+            case TileType.Player2Broken: sr.sprite = tileSet.player2BrokenTileSprite; break;
 
-            switch (type)
-            {
-                case TileType.Player:
-                    spriteRenderer.sprite = tileSet.playerTileSprite;
-                    // Update originalTileType only for base types (not damage states)
-                    originalTileTypes[gridPosition.x, gridPosition.y] = TileType.Player;
-                    break;
-                case TileType.Enemy:
-                    spriteRenderer.sprite = tileSet.enemyTileSprite;
-                    // Update originalTileType only for base types (not damage states)
-                    originalTileTypes[gridPosition.x, gridPosition.y] = TileType.Enemy;
-                    break;
-                case TileType.Empty:
-                    spriteRenderer.sprite = tileSet.emptyTileSprite;
-                    // Update originalTileType only for base types (not damage states)
-                    originalTileTypes[gridPosition.x, gridPosition.y] = TileType.Empty;
-                    break;
-                case TileType.PlayerCracked:
-                    spriteRenderer.sprite = tileSet.playerCrackedTileSprite;
-                    // Don't update originalTileType for damage states
-                    break;
-                case TileType.PlayerBroken:
-                    spriteRenderer.sprite = tileSet.playerBrokenTileSprite;
-                    // Don't update originalTileType for damage states
-                    break;
-                case TileType.EnemyCracked:
-                    spriteRenderer.sprite = tileSet.enemyCrackedTileSprite;
-                    // Don't update originalTileType for damage states
-                    break;
-                case TileType.EnemyBroken:
-                    spriteRenderer.sprite = tileSet.enemyBrokenTileSprite;
-                    // Don't update originalTileType for damage states
-                    break;
-            }
+            case TileType.Cracked:
+            case TileType.Broken:
+                break;
         }
     }
 
-    public bool IsValidGridPosition(Vector2Int gridPosition)
+    public bool IsValidGridPosition(Vector2Int p)
     {
-        return gridPosition.x >= 0 && gridPosition.x < gridWidth &&
-               gridPosition.y >= 0 && gridPosition.y < gridHeight;
+        return p.x >= 0 && p.x < gridWidth && p.y >= 0 && p.y < gridHeight;
     }
 
-    public bool IsValidPlayerPosition(Vector2Int gridPosition)
+    public bool IsValidPlayerPosition(Vector2Int p)
     {
-        // Check if position is valid and not an enemy tile or any broken tile
-        return IsValidGridPosition(gridPosition) &&
-               grid[gridPosition.x, gridPosition.y] != TileType.Enemy &&
-               grid[gridPosition.x, gridPosition.y] != TileType.EnemyCracked &&
-               grid[gridPosition.x, gridPosition.y] != TileType.EnemyBroken &&
-               grid[gridPosition.x, gridPosition.y] != TileType.Broken &&
-               grid[gridPosition.x, gridPosition.y] != TileType.PlayerBroken;
+        return IsValidGridPosition(p) &&
+               grid[p.x, p.y] != TileType.Player2 &&
+               grid[p.x, p.y] != TileType.Player2Cracked &&
+               grid[p.x, p.y] != TileType.Player2Broken &&
+               grid[p.x, p.y] != TileType.Broken &&
+               grid[p.x, p.y] != TileType.Player1Broken;
     }
 
-    public void CrackTile(Vector2Int gridPosition)
+    public bool IsValidPositionForSide(Vector2Int pos, Side side)
     {
-        if (IsValidGridPosition(gridPosition) &&
-            grid[gridPosition.x, gridPosition.y] != TileType.Broken &&
-            grid[gridPosition.x, gridPosition.y] != TileType.PlayerBroken &&
-            grid[gridPosition.x, gridPosition.y] != TileType.EnemyBroken)
+        if (!IsValidGridPosition(pos)) return false;
+
+        if (grid[pos.x, pos.y] == TileType.Broken ||
+            grid[pos.x, pos.y] == TileType.Player1Broken ||
+            grid[pos.x, pos.y] == TileType.Player2Broken)
+            return false;
+
+        if (side == Side.Left)
         {
-            // Determine the appropriate cracked tile type based on the original tile
-            TileType crackedType;
-            switch (originalTileTypes[gridPosition.x, gridPosition.y])
-            {
-                case TileType.Player:
-                    crackedType = TileType.PlayerCracked;
-                    break;
-                case TileType.Enemy:
-                    crackedType = TileType.EnemyCracked;
-                    break;
-                default:
-                    crackedType = TileType.Cracked;
-                    break;
-            }
-
-            grid[gridPosition.x, gridPosition.y] = crackedType;
-
-            // Update tile sprite to appropriate cracked type
-            SpriteRenderer spriteRenderer = tileObjects[gridPosition.x, gridPosition.y].GetComponent<SpriteRenderer>();
-            switch (crackedType)
-            {
-                case TileType.PlayerCracked:
-                    spriteRenderer.sprite = tileSet.playerCrackedTileSprite;
-                    break;
-                case TileType.EnemyCracked:
-                    spriteRenderer.sprite = tileSet.enemyCrackedTileSprite;
-                    break;
-            }
-
-            // Optional: Add some visual effect to indicate the crack
-            StartCoroutine(TileCrackEffect(gridPosition));
-
-            // Start timer to auto-repair the cracked tile
-            StartCoroutine(AutoRepairCrackedTile(gridPosition, crackedTileDuration));
+            return grid[pos.x, pos.y] != TileType.Player2 &&
+                   grid[pos.x, pos.y] != TileType.Player2Cracked &&
+                   grid[pos.x, pos.y] != TileType.Player2Broken;
+        }
+        else
+        {
+            return grid[pos.x, pos.y] != TileType.Player1 &&
+                   grid[pos.x, pos.y] != TileType.Player1Cracked &&
+                   grid[pos.x, pos.y] != TileType.Player1Broken;
         }
     }
 
-    public void BreakTile(Vector2Int gridPosition)
+    public void CrackTile(Vector2Int p)
     {
-        if (IsValidGridPosition(gridPosition))
+        if (!IsValidGridPosition(p)) return;
+        if (grid[p.x, p.y] == TileType.Broken ||
+            grid[p.x, p.y] == TileType.Player1Broken ||
+            grid[p.x, p.y] == TileType.Player2Broken) return;
+
+        TileType crackedType;
+        switch (originalTileTypes[p.x, p.y])
         {
-            // Determine the appropriate broken tile type based on the original tile
-            TileType brokenType;
-            switch (originalTileTypes[gridPosition.x, gridPosition.y])
-            {
-                case TileType.Player:
-                    brokenType = TileType.PlayerBroken;
-                    break;
-                case TileType.Enemy:
-                    brokenType = TileType.EnemyBroken;
-                    break;
-                default:
-                    brokenType = TileType.Broken;
-                    break;
-            }
-
-            grid[gridPosition.x, gridPosition.y] = brokenType;
-
-            // Update tile sprite to appropriate broken type
-            SpriteRenderer spriteRenderer = tileObjects[gridPosition.x, gridPosition.y].GetComponent<SpriteRenderer>();
-            switch (brokenType)
-            {
-                case TileType.PlayerBroken:
-                    spriteRenderer.sprite = tileSet.playerBrokenTileSprite;
-                    break;
-                case TileType.EnemyBroken:
-                    spriteRenderer.sprite = tileSet.enemyBrokenTileSprite;
-                    break;
-            }
-
-            // Optional: Add some visual effect to indicate the breaking
-            StartCoroutine(TileBreakEffect(gridPosition));
-
-            // Start timer to auto-repair the broken tile
-            StartCoroutine(AutoRepairBrokenTile(gridPosition, brokenTileDuration));
+            case TileType.Player1: crackedType = TileType.Player1Cracked; break;
+            case TileType.Player2: crackedType = TileType.Player2Cracked; break;
+            default: crackedType = TileType.Cracked; break;
         }
+
+        grid[p.x, p.y] = crackedType;
+
+        var sr = tileObjects[p.x, p.y].GetComponent<SpriteRenderer>();
+        switch (crackedType)
+        {
+            case TileType.Player1Cracked: sr.sprite = tileSet.player1CrackedTileSprite; break;
+            case TileType.Player2Cracked: sr.sprite = tileSet.player2CrackedTileSprite; break;
+        }
+
+        StartCoroutine(TileCrackEffect(p));
+        StartCoroutine(AutoRepairCrackedTile(p, crackedTileDuration));
     }
 
-    private IEnumerator TileCrackEffect(Vector2Int gridPosition)
+    public void BreakTile(Vector2Int p)
     {
-        // Get the tile game object
-        GameObject tile = tileObjects[gridPosition.x, gridPosition.y];
+        if (!IsValidGridPosition(p)) return;
+
+        TileType brokenType;
+        switch (originalTileTypes[p.x, p.y])
+        {
+            case TileType.Player1: brokenType = TileType.Player1Broken; break;
+            case TileType.Player2: brokenType = TileType.Player2Broken; break;
+            default: brokenType = TileType.Broken; break;
+        }
+
+        grid[p.x, p.y] = brokenType;
+
+        var sr = tileObjects[p.x, p.y].GetComponent<SpriteRenderer>();
+        switch (brokenType)
+        {
+            case TileType.Player1Broken: sr.sprite = tileSet.player1BrokenTileSprite; break;
+            case TileType.Player2Broken: sr.sprite = tileSet.player2BrokenTileSprite; break;
+        }
+
+        StartCoroutine(TileBreakEffect(p));
+        StartCoroutine(AutoRepairBrokenTile(p, brokenTileDuration));
+    }
+
+    private IEnumerator TileCrackEffect(Vector2Int p)
+    {
+        var tile = tileObjects[p.x, p.y];
         if (tile == null) yield break;
 
-        // Flash the tile
-        SpriteRenderer renderer = tile.GetComponent<SpriteRenderer>();
-        Color originalColor = renderer.color;
+        var renderer = tile.GetComponent<SpriteRenderer>();
+        var originalColor = renderer.color;
 
-        // Quick flash effect
         renderer.color = Color.white;
         yield return new WaitForSeconds(0.1f);
         renderer.color = originalColor;
 
-        // Optional: Add a slight shake effect
-        Vector3 originalPosition = tile.transform.position;
-
+        var originalPos = tile.transform.position;
         for (int i = 0; i < 3; i++)
         {
-            // Small random movement
-            tile.transform.position = originalPosition + new Vector3(
+            tile.transform.position = originalPos + new Vector3(
                 Random.Range(-0.05f, 0.05f),
-                Random.Range(-0.05f, 0.05f),
-                0
-            );
+                Random.Range(-0.05f, 0.05f), 0);
             yield return new WaitForSeconds(0.05f);
         }
-
-        // Return to original position
-        tile.transform.position = originalPosition;
+        tile.transform.position = originalPos;
     }
 
-    private IEnumerator TileBreakEffect(Vector2Int gridPosition)
+    private IEnumerator TileBreakEffect(Vector2Int p)
     {
-        // Get the tile game object
-        GameObject tile = tileObjects[gridPosition.x, gridPosition.y];
+        var tile = tileObjects[p.x, p.y];
         if (tile == null) yield break;
 
-        // Flash the tile
-        SpriteRenderer renderer = tile.GetComponent<SpriteRenderer>();
-        Color originalColor = renderer.color;
+        var renderer = tile.GetComponent<SpriteRenderer>();
+        var originalColor = renderer.color;
 
-        // Quick flash effect
         renderer.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         renderer.color = originalColor;
 
-        // More dramatic shake effect
-        Vector3 originalPosition = tile.transform.position;
-
+        var originalPos = tile.transform.position;
         for (int i = 0; i < 5; i++)
         {
-            // Larger random movement
-            tile.transform.position = originalPosition + new Vector3(
+            tile.transform.position = originalPos + new Vector3(
                 Random.Range(-0.1f, 0.1f),
-                Random.Range(-0.1f, 0.1f),
-                0
-            );
+                Random.Range(-0.1f, 0.1f), 0);
             yield return new WaitForSeconds(0.05f);
         }
-
-        // Return to original position
-        tile.transform.position = originalPosition;
+        tile.transform.position = originalPos;
     }
 
-    // Auto-repair methods for timed duration
-    private IEnumerator AutoRepairCrackedTile(Vector2Int gridPosition, float duration)
+    private IEnumerator AutoRepairCrackedTile(Vector2Int p, float duration)
     {
         yield return new WaitForSeconds(duration);
 
-        // Only repair if the tile is still cracked (any cracked type)
-        if (IsValidGridPosition(gridPosition) &&
-            (grid[gridPosition.x, gridPosition.y] == TileType.Cracked ||
-             grid[gridPosition.x, gridPosition.y] == TileType.PlayerCracked ||
-             grid[gridPosition.x, gridPosition.y] == TileType.EnemyCracked))
+        if (IsValidGridPosition(p) &&
+            (grid[p.x, p.y] == TileType.Cracked ||
+             grid[p.x, p.y] == TileType.Player1Cracked ||
+             grid[p.x, p.y] == TileType.Player2Cracked))
         {
-            // Reset to the original tile type
-            TileType originalType = originalTileTypes[gridPosition.x, gridPosition.y];
-            SetTileType(gridPosition, originalType);
+            var originalType = originalTileTypes[p.x, p.y];
+            SetTileType(p, originalType);
         }
     }
 
-    private IEnumerator AutoRepairBrokenTile(Vector2Int gridPosition, float duration)
+    private IEnumerator AutoRepairBrokenTile(Vector2Int p, float duration)
     {
         yield return new WaitForSeconds(duration);
 
-        // Only repair if the tile is still broken (any broken type)
-        if (IsValidGridPosition(gridPosition) &&
-            (grid[gridPosition.x, gridPosition.y] == TileType.Broken ||
-             grid[gridPosition.x, gridPosition.y] == TileType.PlayerBroken ||
-             grid[gridPosition.x, gridPosition.y] == TileType.EnemyBroken))
+        if (IsValidGridPosition(p) &&
+            (grid[p.x, p.y] == TileType.Broken ||
+             grid[p.x, p.y] == TileType.Player1Broken ||
+             grid[p.x, p.y] == TileType.Player2Broken))
         {
-            // Reset to the original tile type
-            TileType originalType = originalTileTypes[gridPosition.x, gridPosition.y];
-            SetTileType(gridPosition, originalType);
+            var originalType = originalTileTypes[p.x, p.y];
+            SetTileType(p, originalType);
         }
     }
 
-    public Vector3 GetWorldPosition(Vector2Int gridPosition)
-    {
-        return GetWorldPositionWithSimpleArena(gridPosition);
-    }
+    public Vector3 GetWorldPosition(Vector2Int p) => GetWorldPositionWithSimpleArena(p);
 
     public Vector2Int GetGridPosition(Vector3 worldPosition)
     {
-        // Calculate approximate visual Y correction using vertical spacing (0.28f from inspector)
         float estimatedGridY = (worldPosition.y - gridOffset.y) / totalTileHeight;
-        float visualYOffset = -estimatedGridY * 0.28f; // Visual depth correction
+        float visualYOffset = -estimatedGridY * 0.28f;
         float correctedY = worldPosition.y - visualYOffset;
 
         float adjustedX = (worldPosition.x - gridOffset.x - (tileWidth * 0.5f)) / totalTileWidth;
