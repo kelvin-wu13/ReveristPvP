@@ -41,6 +41,8 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
     private int dirX = 1;
     private Transform spawnPoint;
 
+    private List<PlayerMovement> opponents = new List<PlayerMovement>();
+
     public void SetOwner(GameObject ownerGO)
     {
         owner = ownerGO;
@@ -54,6 +56,10 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
         spawnPoint = (ownerShoot != null && ownerShoot.GetBulletSpawnPoint() != null)
             ? ownerShoot.GetBulletSpawnPoint()
             : owner.transform;
+
+        opponents.Clear();
+        foreach (var pm in Object.FindObjectsOfType<PlayerMovement>())
+            if (pm != null && pm.gameObject != owner) opponents.Add(pm);
     }
 
     public void SetDirection(Vector2 dir)
@@ -107,9 +113,9 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
         activeProjectile.transform.position = new Vector3(p.x, p.y, p.z - 0.2f);
 
         isFired = true;
-
-
         AudioManager.Instance?.PlayIonBoltSFX();
+
+        CheckHitOnCurrentTile();
     }
 
     private void Update()
@@ -131,6 +137,31 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
         else
         {
             CheckOutOfBounds();
+        }
+    }
+    private void CheckHitOnCurrentTile()
+    {
+        if (grid == null || opponents == null || opponents.Count == 0) return;
+
+        for (int i = opponents.Count - 1; i >= 0; i--)
+        {
+            var pm = opponents[i];
+            if (pm == null) { opponents.RemoveAt(i); continue; }
+
+            Vector2Int oppGrid = pm.GetCurrentGridPosition();
+            if (oppGrid == currentGridPos)
+            {
+                var stats = pm.GetComponent<PlayerStats>();
+                if (stats != null)
+                {
+                    stats.TakeDamage(damage, owner);
+                }
+                if (activeProjectile != null) Object.Destroy(activeProjectile);
+                activeProjectile = null;
+                isFired = false;
+                destroyScheduled = false;
+                return;
+            }
         }
     }
 

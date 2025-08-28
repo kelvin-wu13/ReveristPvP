@@ -17,7 +17,7 @@ MonoBehaviour:
   maxMana: 5
   manaRegenRate: 1
   bulletDamage: 10
-  bulletSpeed: 10
+  bulletSpeed: 25
   shootCooldown: 0
   skill1:
     displayName: Enhanced Bullet
@@ -34,7 +34,7 @@ MonoBehaviour:
     prefab: {fileID: 186632132335026699, guid: d8fc575de34caa44a962c43647a7210e, type: 3}
     manaCost: 3
     useCrosshairTarget: 1
-  passivePrefab: {fileID: 0}
+  passivePrefab: {fileID: 7511018731004013465, guid: 396826cd5b6ee7748927dc53c441b0e4, type: 3}
   ultimatePrefab: {fileID: 0}
   ultimateManaCost: 3
   ultimateUsesCrosshairTarget: 1

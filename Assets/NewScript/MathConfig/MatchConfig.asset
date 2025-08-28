@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d00dd3360094ca4fbde3bd59743dc83, type: 3}
+  m_Name: MatchConfig
+  m_EditorClassIdentifier: 
+  p1DeviceIds: 1a00000001000000
+  p2DeviceIds: 19000000
+  p1Prefab: {fileID: 1525473997883753001, guid: b860f9ee77d0ae1428ec42c1b951ad8b, type: 3}
+  p2Prefab: {fileID: 1525473997883753001, guid: afbcb25ee8a13fb4382c8316a34638b7, type: 3}
+  battleSceneName: PvP

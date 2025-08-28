@@ -11,7 +11,7 @@ public class PlayerCrosshair : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
 
     [Header("Settings")]
-    [SerializeField] private int distanceFromPlayer = 4;
+    [SerializeField] private int distanceFromPlayer = 3;
 
     private Vector2Int playerFacingDirection = Vector2Int.right;
     private Vector2Int playerGridPosition;
@@ -61,7 +61,7 @@ public class PlayerCrosshair : MonoBehaviour
             return;
         }
 
-        playerGridPosition = playerMovement.GetCurrentGridPosition(); // <-- FIXED
+        playerGridPosition = playerMovement.GetCurrentGridPosition();
 
         targetGridPosition = playerGridPosition + (playerFacingDirection * (distanceFromPlayer + 1));
 

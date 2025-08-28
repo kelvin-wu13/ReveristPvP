@@ -13,9 +13,11 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private bool shootRight = true;
 
+    [SerializeField] private float extraHoldDelay = 0.0f;
+    [SerializeField] private float overrideInterval = 0.0f;
+
     private readonly int isShootingParam = Animator.StringToHash("IsShooting");
     private readonly int comboIndexParam = Animator.StringToHash("ComboIndex");
-    [SerializeField] private float WaitTime = 1f;
 
     private PlayerInput playerInput;
     private InputAction fire;
@@ -31,17 +33,6 @@ public class PlayerShoot : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         fire = playerInput != null ? playerInput.actions.FindAction("Fire", false) : null;
-
-        Debug.Log($"[Shoot] {name} P{playerInput?.playerIndex + 1} fireFound={(fire != null)} scheme={playerInput?.currentControlScheme}");
-        if (fire != null)
-        {
-            Debug.Log($"[Shoot] actionMap={fire.actionMap?.name} enabled={fire.enabled}");
-            for (int i = 0; i < fire.bindings.Count; i++)
-            {
-                var b = fire.bindings[i];
-                Debug.Log($"[Shoot] binding[{i}] path={b.path} groups={b.groups}");
-            }
-        }
 
         if (bulletSpawnPoint == null)
         {
@@ -59,20 +50,16 @@ public class PlayerShoot : MonoBehaviour
 
     private void Update()
     {
-        if (isSkillAnimating && Time.time > skillAnimationEndTime) isSkillAnimating = false;
+        if (isSkillAnimating && Time.time > skillAnimationEndTime)
+            isSkillAnimating = false;
 
-        if (fire != null)
-        {
-            float val = fire.ReadValue<float>();     // trigger = 0..1
-            if (val > 0.01f) Debug.Log($"[Shoot] P{playerInput.playerIndex + 1} value={val} scheme={playerInput.currentControlScheme}");
-        }
-        bool tapped = fire != null && fire.WasPressedThisFrame();
-        if (tapped) Debug.Log($"[Shoot] TAPPED by P{playerInput.playerIndex + 1}");
+        bool holding = fire != null && fire.IsPressed();
+        if (holding) TryShoot();
 
-        if (tapped) TryShoot();
+        animator.SetBool(isShootingParam, holding || isSkillAnimating);
+        if (comboTracker != null)
+            animator.SetInteger(comboIndexParam, comboTracker.GetCurrentComboIndex());
 
-        animator.SetBool(isShootingParam, tapped || isSkillAnimating);
-        if (comboTracker != null) animator.SetInteger(comboIndexParam, comboTracker.GetCurrentComboIndex());
         Time_elapsed += Time.deltaTime;
     }
 
@@ -89,7 +76,11 @@ public class PlayerShoot : MonoBehaviour
     {
         if (isSkillAnimating) return;
         if (characterData == null) return;
-        if (Time.time - lastShootTime < characterData.shootCooldown) return;
+
+        float interval = characterData.shootCooldown + extraHoldDelay;
+        if (overrideInterval > 0f) interval = overrideInterval;
+
+        if (Time.time - lastShootTime < interval) return;
 
         ShootBulletFromCurrentTile();
         lastShootTime = Time.time;
@@ -120,5 +111,4 @@ public class PlayerShoot : MonoBehaviour
 
     public void SetShootRight(bool right) { shootRight = right; }
     public bool IsShootingRight() => shootRight;
-
 }

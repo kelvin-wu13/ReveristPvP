@@ -31,18 +31,18 @@ public class SkillCast : MonoBehaviour
     [SerializeField] private string skill3Trigger = "Skill3";
     [SerializeField] private string ultimateTrigger = "Ultimate";
 
-    // refs lokal (per pemain)
     private PlayerInput pi;
     private Animator anim;
     private PlayerMovement movement;
     private PlayerShoot shooter;
     private PlayerStats stats;
+    private UltimateCharge ult;
 
-    // actions
     private InputAction aSkill1, aSkill2, aSkill3, aUltimate;
 
     private void Awake()
     {
+        ult = GetComponent<UltimateCharge>();
         pi = GetComponent<PlayerInput>();
         anim = GetComponent<Animator>();
         movement = GetComponent<PlayerMovement>();
@@ -80,29 +80,28 @@ public class SkillCast : MonoBehaviour
     {
         if (aSkill1 != null && aSkill1.WasPressedThisFrame())
         {
-            Debug.Log($"[Skill] P{pi.playerIndex + 1} Skill1");
+            Debug.Log("Skill1 Casted");
             CastSkillSlot(characterData?.skill1, skill1Trigger, skill1Lock);
         }
 
         if (aSkill2 != null && aSkill2.WasPressedThisFrame())
         {
-            Debug.Log($"[Skill] P{pi.playerIndex + 1} Skill2");
+            Debug.Log("Skill2 Casted");
             CastSkillSlot(characterData?.skill2, skill2Trigger, skill2Lock);
         }
 
         if (aSkill3 != null && aSkill3.WasPressedThisFrame())
         {
-            Debug.Log($"[Skill] P{pi.playerIndex + 1} Skill3");
+            Debug.Log("Skill3 Casted");
             CastSkillSlot(characterData?.skill3, skill3Trigger, skill3Lock);
         }
 
         if (aUltimate != null && aUltimate.WasPressedThisFrame())
         {
-            Debug.Log($"[Skill] P{pi.playerIndex + 1} Ultimate");
+            Debug.Log("Ultimate Casted");
             CastUltimate();
         }
     }
-
 
     private void CastSkillSlot(SkillSlot slot, string trigger, float lockSeconds)
     {
@@ -116,7 +115,6 @@ public class SkillCast : MonoBehaviour
 
         if (stats != null && cost > 0f && !stats.TryUseMana(cost))
         {
-            Debug.LogWarning("[SkillCast] Mana tidak cukup");
             return;
         }
 
@@ -151,9 +149,17 @@ public class SkillCast : MonoBehaviour
 
     }
 
-
     private void CastUltimate()
     {
+        if (ult != null && !ult.IsReady)
+        {
+            Debug.Log("Ultimate is not ready");
+            return;
+        }
+
+        if (ult != null && !ult.TryConsumeForUltimate())
+            return;
+
         if (characterData == null || characterData.ultimatePrefab == null) return;
 
         float cost = Mathf.Max(0f, characterData.ultimateManaCost);
@@ -161,11 +167,11 @@ public class SkillCast : MonoBehaviour
 
         PlayCast(ultimateTrigger, ultimateLock);
 
-        var go = Instantiate(characterData.ultimatePrefab, skillSpawnPoint.position, skillSpawnPoint.rotation); // :contentReference[oaicite:3]{index=3}
+        var go = Instantiate(characterData.ultimatePrefab, skillSpawnPoint.position, skillSpawnPoint.rotation);
         foreach (var r in go.GetComponentsInChildren<MonoBehaviour>(true))
         {
             if (r is ISkillOwnerReceiver o) o.SetOwner(gameObject);
-            if (characterData.ultimateUsesCrosshairTarget && crosshair != null && r is ISkillTargetReceiver t) // :contentReference[oaicite:4]{index=4}
+            if (characterData.ultimateUsesCrosshairTarget && crosshair != null && r is ISkillTargetReceiver t)
                 t.SetTarget(crosshair.position);
         }
     }

@@ -8,8 +8,8 @@ public class CharacterConfirmHandler : MonoBehaviour
     [System.Serializable]
     public class CharacterEntry
     {
-        public GameObject iconButton;       // Character icon button in grid
-        public Button confirmButton;        // Confirm button in panel
+        public GameObject iconButton;
+        public Button confirmButton;
     }
 
     public List<CharacterEntry> characterEntries;

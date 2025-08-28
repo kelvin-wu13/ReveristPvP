@@ -17,13 +17,11 @@ public class PassiveController : MonoBehaviour
 
     private void Equip()
     {
-        // hapus pasif lama
         if (instance != null) { iPassive?.OnUnequip(); Destroy(instance); instance = null; iPassive = null; }
 
         if (characterStats == null || characterStats.passivePrefab == null) return;
 
         instance = Instantiate(characterStats.passivePrefab, transform);
-        // beritahu owner kalau prefab punya komponen ini
         var ownerRef = instance.GetComponent<OwnerRef>() ?? instance.AddComponent<OwnerRef>();
         ownerRef.owner = gameObject;
 

@@ -1087,7 +1087,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 346169987}
   m_HandleRect: {fileID: 0}
@@ -1351,7 +1351,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -1810,7 +1810,7 @@ GameObject:
   m_Component:
   - component: {fileID: 584365378}
   - component: {fileID: 584365377}
-  - component: {fileID: 584365376}
+  - component: {fileID: 584365379}
   m_Layer: 0
   m_Name: LocalPvP
   m_TagString: Untagged
@@ -1818,21 +1818,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &584365376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 584365375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e678c4b89f240e458ec0c28e00196ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  p1StartGrid: {x: -1, y: -1}
-  p2StartGrid: {x: -1, y: -1}
-  neverAutoSwitchSchemes: 1
 --- !u!114 &584365377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1867,7 +1852,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 9018347379013088980, guid: 088f8316949fe004d94c3dbd60339094, type: 3}
+  m_PlayerPrefab: {fileID: 1525473997883753001, guid: afbcb25ee8a13fb4382c8316a34638b7, type: 3}
   m_SplitScreen: 0
   m_MaintainAspectRatioInSplitScreen: 0
   m_FixedNumberOfSplitScreens: -1
@@ -1892,6 +1877,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &584365379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584365375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 521513d69d03eae41a3a1658d8d6a25a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  schemeP1: Player1
+  schemeP2: Player2
+  grid: {fileID: 334597318}
+  cfg: {fileID: 11400000, guid: f66ceb936b24e6741acc23f2e6f2b177, type: 2}
+  p1Start: {x: 1, y: 1}
+  p2Start: {x: 4, y: 1}
+  p1Anchor: {fileID: 0}
+  p2Anchor: {fileID: 0}
 --- !u!1 &708637726
 GameObject:
   m_ObjectHideFlags: 0
@@ -2706,7 +2711,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1242344877}
   m_HandleRect: {fileID: 0}
@@ -2754,37 +2759,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.78300095, y: -1.609}
   m_SizeDelta: {x: 7.758, y: 36.477}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1043448076
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1043448077}
-  m_Layer: 0
-  m_Name: InputSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1043448077
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1043448076}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1096479282
 GameObject:
   m_ObjectHideFlags: 0
@@ -13605,5 +13579,4 @@ SceneRoots:
   - {fileID: 368758682}
   - {fileID: 567551553}
   - {fileID: 4614732028567079101}
-  - {fileID: 1043448077}
   - {fileID: 584365378}

@@ -1,263 +1,107 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-//using UnityEngine.EventSystems;
-//using UnityEngine.UIElements;
-//using static UnityEngine.Rendering.DebugUI;
-//using Button = UnityEngine.UI.Button;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class GridMenuNavigator : MonoBehaviour
-//{
-//    public Button[] buttons;
-//    public int columns = 4;
-//    private int currentIndex = 0;
-
-//    void Start()
-//    {
-//        SelectButton(currentIndex);
-//    }
-
-//    void Update()
-//    {
-//        if (Input.GetKeyDown(KeyCode.RightArrow))
-//        {
-//            Move(1);
-//        }
-//        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-//        {
-//            Move(-1);
-//        }
-//        else if (Input.GetKeyDown(KeyCode.UpArrow))
-//        {
-//            Move(-columns);
-//        }
-//        else if (Input.GetKeyDown(KeyCode.DownArrow))
-//        {
-//            Move(columns);
-//        }
-//    }
-
-//    void Move(int offset)
-//    {
-//        int newIndex = (currentIndex + offset + buttons.Length) % buttons.Length;
-//        currentIndex = newIndex;
-//        SelectButton(currentIndex);
-//    }
-
-//    void SelectButton(int index)
-//    {
-//        if (buttons[index] != null)
-//        {
-//            buttons[index].Select();
-//        }
-//    }
-//}
-
-
-
-//{
-//    public Button[] buttons;         // Fill in order: A B C D E F G X (X is optional dummy)
-//    public int columns = 4;          // How many buttons per row
-
-//    private int currentIndex = -1;
-
-//    void Update()
-//    {
-//        if (Input.GetKeyDown(KeyCode.UpArrow))
-//        {
-//            Move(-columns);
-//        }
-//        else if (Input.GetKeyDown(KeyCode.DownArrow))
-//        {
-//            Move(columns);
-//        }
-//        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-//        {
-//            Move(-1);
-//        }
-//        else if (Input.GetKeyDown(KeyCode.RightArrow))
-//        {
-//            Move(1);
-//        }
-//    }
-
-//    void Move(int offset)
-//    {
-//        if (buttons.Length == 0) return;
-
-//        // If nothing selected yet, start at 0
-//        if (currentIndex == -1 || EventSystem.current.currentSelectedGameObject == null)
-//        {
-//            currentIndex = 0;
-//            buttons[currentIndex].Select();
-//            return;
-//        }
-
-//        int newIndex = currentIndex;
-
-//        for (int i = 0; i < buttons.Length; i++) // safety loop
-//        {
-//            newIndex = (newIndex + offset + buttons.Length) % buttons.Length;
-//            if (buttons[newIndex] != null && buttons[newIndex].interactable)
-//            {
-//                currentIndex = newIndex;
-//                buttons[currentIndex].Select();
-//                return;
-//            }
-//        }
-//    }
-//}
-
-
-
-//{
-//    public Button[] buttons;
-//    public int columns = 4;
-
-//    private int currentIndex = 0;
-
-//    void Start()
-//    {
-//        if (buttons.Length > 0 && buttons[0] != null)
-//        {
-//            buttons[0].Select();
-//        }
-//    }
-
-//    void Update()
-//    {
-//        if (Input.GetKeyDown(KeyCode.RightArrow)) Navigate(1, 0);
-//        if (Input.GetKeyDown(KeyCode.LeftArrow)) Navigate(-1, 0);
-//        if (Input.GetKeyDown(KeyCode.UpArrow)) Navigate(0, -1);
-//        if (Input.GetKeyDown(KeyCode.DownArrow)) Navigate(0, 1);
-//    }
-
-//    void Navigate(int dirX, int dirY)
-//    {
-//        int total = buttons.Length;
-//        int rows = Mathf.CeilToInt(total / (float)columns);
-
-//        int currentRow = currentIndex / columns;
-//        int currentCol = currentIndex % columns;
-
-//        int targetRow = Mathf.Clamp(currentRow + dirY, 0, rows - 1);
-//        int targetCol = Mathf.Clamp(currentCol + dirX, 0, columns - 1);
-
-//        int newIndex = targetRow * columns + targetCol;
-
-//        // Make sure it's a valid button
-//        if (newIndex < total && buttons[newIndex] != null)
-//        {
-//            buttons[newIndex].Select();
-//            currentIndex = newIndex;
-//        }
-//    }
-//}
-
-
-
-//{
-//    public Button[] buttons;
-
-//    private int currentIndex = 0;
-
-//    void Start()
-//    {
-//        if (buttons.Length > 0 && buttons[0] != null)
-//        {
-//            buttons[0].Select();
-//        }
-//    }
-
-//    void Update()
-//    {
-//        if (Input.GetKeyDown(KeyCode.RightArrow)) MoveRight();
-//        if (Input.GetKeyDown(KeyCode.LeftArrow)) MoveLeft();
-//        if (Input.GetKeyDown(KeyCode.UpArrow)) MoveUp();
-//        if (Input.GetKeyDown(KeyCode.DownArrow)) MoveDown();
-//    }
-
-//    void MoveRight()
-//    {
-//        int newIndex = currentIndex;
-
-//        // Custom cases
-//        if (currentIndex == 3) newIndex = 0;         // D ? A
-//        else if (currentIndex == 6) newIndex = 3;    // G ? D
-//        else newIndex = currentIndex + 1;
-
-//        TryMoveTo(newIndex);
-//    }
-
-//    void MoveLeft()
-//    {
-//        int newIndex = currentIndex;
-
-//        // Custom cases
-//        if (currentIndex == 0) newIndex = 3;         // A ? D
-//        else if (currentIndex == 4) newIndex = 6;    // E ? G
-//        else newIndex = currentIndex - 1;
-
-//        TryMoveTo(newIndex);
-//    }
-
-//    void MoveDown()
-//    {
-//        int newIndex = currentIndex;
-
-//        // Custom case
-//        if (currentIndex == 3) newIndex = 6;         // D ? G
-//        else newIndex = currentIndex + 4;
-
-//        TryMoveTo(newIndex);
-//    }
-
-//    void MoveUp()
-//    {
-//        int newIndex = currentIndex - 4;
-//        TryMoveTo(newIndex);
-//    }
-
-//    void TryMoveTo(int newIndex)
-//    {
-//        if (newIndex >= 0 && newIndex < buttons.Length && buttons[newIndex] != null)
-//        {
-//            buttons[newIndex].Select();
-//            currentIndex = newIndex;
-//        }
-//    }
-//}
-
-
-
 {
+    [Header("Buttons (urut kiri→kanan, atas→bawah)")]
     public Button[] buttons;
+    [Min(1)] public int columns = 4;
+
+    [Header("Repeat")]
+    public float initialDelay = 0.30f;
+    public float repeatRate = 0.10f;
+    [Range(0.1f, 0.9f)] public float stickDeadzone = 0.5f;
+
+    [Header("Input System (opsional)")]
+    public PlayerInput playerInput;                 // kalau kosong akan TryGetComponent
+    public InputActionReference navigateActionRef;  // Vector2 (mis. "UI/Navigate")
+    public InputActionReference submitActionRef;    // Button  (mis. "UI/Submit")
+
+    private InputAction _navigate;
+    private InputAction _submit;
+
     private int currentIndex = 0;
-
-    public float initialDelay = 0.3f;
-    public float repeatRate = 0.1f;
-
     private float nextMoveTime = 0f;
     private Vector2 heldInput = Vector2.zero;
     private bool hasMoved = false;
 
-    void Start()
+    private void Awake()
     {
-        if (buttons.Length > 0 && buttons[0] != null)
+        if (!playerInput) TryGetComponent(out playerInput);
+
+        if (navigateActionRef && navigateActionRef.action != null)
+            _navigate = navigateActionRef.action;
+        else if (playerInput && playerInput.actions)
+            _navigate = playerInput.actions.FindAction("UI/Navigate", false)
+                     ?? playerInput.actions.FindAction("Navigate", false)
+                     ?? playerInput.actions.FindAction("Move", false);
+
+        if (submitActionRef && submitActionRef.action != null)
+            _submit = submitActionRef.action;
+        else if (playerInput && playerInput.actions)
+            _submit = playerInput.actions.FindAction("UI/Submit", false)
+                    ?? playerInput.actions.FindAction("Submit", false);
+    }
+
+    private void OnEnable()
+    {
+        _navigate?.Enable();
+        _submit?.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _navigate?.Disable();
+        _submit?.Disable();
+    }
+
+    private void Start()
+    {
+        if (buttons != null && buttons.Length > 0 && buttons[0] != null)
         {
+            currentIndex = 0;
             buttons[0].Select();
         }
     }
 
-    void Update()
+    private void Update()
     {
+        // 1) Baca input arah (Vector2) dari Input System
+        Vector2 raw = Vector2.zero;
+
+        if (_navigate != null)
+        {
+            raw = _navigate.ReadValue<Vector2>();
+        }
+        else
+        {
+            // Fallback langsung dari device (tanpa PlayerInput)
+            if (Keyboard.current != null)
+            {
+                if (Keyboard.current.rightArrowKey.isPressed) raw.x = 1;
+                else if (Keyboard.current.leftArrowKey.isPressed) raw.x = -1;
+                if (Keyboard.current.downArrowKey.isPressed) raw.y = 1;
+                else if (Keyboard.current.upArrowKey.isPressed) raw.y = -1;
+            }
+            if (Gamepad.current != null)
+            {
+                // pakai input terbesar antara Dpad & stick kiri
+                Vector2 d = Gamepad.current.dpad.ReadValue();
+                Vector2 s = Gamepad.current.leftStick.ReadValue();
+                raw = (d.sqrMagnitude > s.sqrMagnitude) ? d : s;
+            }
+        }
+
+        // 2) Diskretkan (deadzone + prioritas axis dominan)
         Vector2 input = Vector2.zero;
+        if (Mathf.Abs(raw.x) > Mathf.Abs(raw.y))
+            input.x = Mathf.Abs(raw.x) > stickDeadzone ? Mathf.Sign(raw.x) : 0f;
+        else
+            input.y = Mathf.Abs(raw.y) > stickDeadzone ? Mathf.Sign(raw.y) : 0f;
 
-        if (Input.GetKey(KeyCode.RightArrow)) input.x = 1;
-        else if (Input.GetKey(KeyCode.LeftArrow)) input.x = -1;
-
-        if (Input.GetKey(KeyCode.DownArrow)) input.y = 1;
-        else if (Input.GetKey(KeyCode.UpArrow)) input.y = -1;
-
+        // 3) Repeat logic (initial delay → repeat)
         if (input != Vector2.zero)
         {
             if (!hasMoved || input != heldInput)
@@ -278,90 +122,109 @@ public class GridMenuNavigator : MonoBehaviour
             hasMoved = false;
             heldInput = Vector2.zero;
         }
+
+        // 4) Submit (Enter / A / South button)
+        if (_submit != null)
+        {
+            if (_submit.WasPerformedThisFrame())
+                ClickCurrent();
+        }
+        else
+        {
+            if (Keyboard.current != null && Keyboard.current.enterKey.wasPressedThisFrame)
+                ClickCurrent();
+            else if (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)
+                ClickCurrent();
+        }
     }
 
-    void ProcessInput(Vector2 input)
+    private void ProcessInput(Vector2 input)
     {
         if (input.x != 0) MoveHorizontal((int)input.x);
         else if (input.y != 0) MoveVertical((int)input.y);
     }
 
-    void MoveHorizontal(int direction)
+    private void MoveHorizontal(int dir)
     {
-        int newIndex = currentIndex + direction;
+        int rows = Mathf.CeilToInt(buttons.Length / (float)columns);
+        int curRow = currentIndex / columns;
+        int curCol = currentIndex % columns;
 
-        if (currentIndex <= 3) // top row
-        {
-            if (newIndex > 3) newIndex = 0;
-            if (newIndex < 0) newIndex = 3;
-        }
-        else // bottom row (4�6)
-        {
-            if (newIndex > 6) newIndex = 4;
-            if (newIndex < 4) newIndex = 6;
-        }
+        int targetCol = curCol + dir;
+        // wrap di baris yang sama
+        if (targetCol >= columns) targetCol = 0;
+        if (targetCol < 0) targetCol = columns - 1;
 
+        int newIndex = curRow * columns + targetCol;
+        // pastikan index valid (ada tombolnya)
+        newIndex = ClampToExisting(newIndex, curRow);
         TryMoveTo(newIndex);
     }
 
-    void MoveVertical(int direction)
+    private void MoveVertical(int dir)
     {
-        int newIndex = currentIndex;
+        int rows = Mathf.CeilToInt(buttons.Length / (float)columns);
+        int curRow = currentIndex / columns;
+        int curCol = currentIndex % columns;
 
-        if (direction == 1) // down
-        {
-            if (currentIndex >= 0 && currentIndex <= 3) // top row
-            {
-                switch (currentIndex)
-                {
-                    case 0: newIndex = 4; break;
-                    case 1: newIndex = 5; break;
-                    case 2: newIndex = 6; break;
-                    case 3: newIndex = 6; break;
-                }
-            }
-            else // wrap to top
-            {
-                switch (currentIndex)
-                {
-                    case 4: newIndex = 0; break;
-                    case 5: newIndex = 1; break;
-                    case 6: newIndex = 2; break;
-                }
-            }
-        }
-        else if (direction == -1) // up
-        {
-            if (currentIndex >= 4 && currentIndex <= 6) // bottom row
-            {
-                switch (currentIndex)
-                {
-                    case 4: newIndex = 0; break;
-                    case 5: newIndex = 1; break;
-                    case 6: newIndex = 2; break;
-                }
-            }
-            else // wrap to bottom
-            {
-                switch (currentIndex)
-                {
-                    case 0: newIndex = 4; break;
-                    case 1: newIndex = 5; break;
-                    case 2: newIndex = 6; break;
-                    case 3: newIndex = 6; break;
-                }
-            }
-        }
+        int targetRow = curRow + dir; // down = +1, up = -1
+        if (targetRow >= rows) targetRow = 0;           // wrap
+        if (targetRow < 0) targetRow = rows - 1;
 
+        int newIndex = targetRow * columns + curCol;
+        newIndex = ClampToExisting(newIndex, targetRow);
         TryMoveTo(newIndex);
     }
 
-    void TryMoveTo(int newIndex)
+    private int ClampToExisting(int index, int row)
+    {
+        int start = row * columns;
+        int end = Mathf.Min(start + columns - 1, buttons.Length - 1);
+        return Mathf.Clamp(index, start, end);
+    }
+
+    private void TryMoveTo(int newIndex)
     {
         if (newIndex >= 0 && newIndex < buttons.Length && buttons[newIndex] != null)
         {
-            buttons[newIndex].Select();
             currentIndex = newIndex;
+            buttons[newIndex].Select();
         }
     }
+
+    private void ClickCurrent()
+    {
+        if (currentIndex >= 0 && currentIndex < buttons.Length && buttons[currentIndex] != null)
+        {
+            var btn = buttons[currentIndex];
+            btn.onClick?.Invoke();
+            ExecuteEvents.Execute(btn.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
+        }
+    }
+    public void RebindTo(PlayerInput pi)
+    {
+        _navigate?.Disable();
+        _submit?.Disable();
+
+        playerInput = pi;
+
+        if (playerInput && playerInput.actions)
+        {
+            _navigate = playerInput.actions.FindAction("UI/Navigate", false)
+                       ?? playerInput.actions.FindAction("Navigate", false)
+                       ?? playerInput.actions.FindAction("Move", false);
+
+            _submit = playerInput.actions.FindAction("UI/Submit", false)
+                       ?? playerInput.actions.FindAction("Submit", false);
+        }
+        else
+        {
+            _navigate = navigateActionRef ? navigateActionRef.action : null;
+            _submit = submitActionRef ? submitActionRef.action : null;
+        }
+
+        _navigate?.Enable();
+        _submit?.Enable();
+    }
+
 }

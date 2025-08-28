@@ -25,6 +25,7 @@ public class PlayerStats : MonoBehaviour
     [Header("Current Values")]
     [SerializeField] private int currentHealth;
     [SerializeField] private float currentMana;
+    private UltimateCharge ultimate;
 
     [Header("Visual")]
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -51,6 +52,9 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
+        if (ultimate == null)
+            ultimate = GetComponent<UltimateCharge>();
+
         if (playerAnimator == null)
             playerAnimator = GetComponent<Animator>();
 
@@ -143,17 +147,24 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject attacker)
     {
         if (characterData == null || isDead) return;
 
         currentHealth = Mathf.Max(0, currentHealth - damage);
         StartCoroutine(FlashColor());
+        
+        if (ultimate == null) ultimate = GetComponent<UltimateCharge>();
+        ultimate?.AddDamageTaken(damage);
+
+        if (attacker != null)
+        {
+            var atkMeter = attacker.GetComponent<UltimateCharge>();
+            atkMeter?.AddDamageDealt(damage);
+        }
 
         if (currentHealth <= 0)
-        {
             Die();
-        }
     }
 
     private IEnumerator FlashColor()
