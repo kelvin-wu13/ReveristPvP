@@ -6,7 +6,7 @@ public class UltimateCharge : MonoBehaviour
     [Range(0, 100f)][SerializeField] private float meter = 0f;
 
     public const float GainPerHpDealt = 0.3f;
-    public const float GainPerHpTaken = 0.3f;
+    public const float GainPerHpTaken = 0.7f;
 
     public float Value => meter;
     public bool IsReady => meter >= 100f;

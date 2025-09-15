@@ -104,7 +104,7 @@ public class PlayerShoot : MonoBehaviour
         {
             Vector2Int face = shootRight ? Vector2Int.right : Vector2Int.left;
             Vector2 dir = new Vector2(face.x, face.y);
-            bullet.Initialize(dir, characterData.bulletSpeed, characterData.bulletDamage, tileGrid, spawnGridPos);
+            bullet.Initialize(dir, characterData.bulletSpeed, characterData.bulletDamage,tileGrid, spawnGridPos, this.gameObject);
             AudioManager.Instance?.PlayBasicShootSFX();
         }
     }

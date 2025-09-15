@@ -53,6 +53,10 @@ public class TileGrid : MonoBehaviour
     [SerializeField] private float tileHeight = 1f;
     [SerializeField] private float horizontalSpacing = 0.1f;
     [SerializeField] private float verticalSpacing = 0.1f;
+    private float HalfCols => (gridWidth - 1) * 0.5f;
+    private float HalfRows => (gridHeight - 1) * 0.5f;
+
+
 
     [Header("Tile Effect Durations")]
     [SerializeField] private float crackedTileDuration = 1.5f;
@@ -186,29 +190,46 @@ public class TileGrid : MonoBehaviour
     private void CreateGrid()
     {
         transform.rotation = Quaternion.Euler(gridXRotation, gridYRotation, gridZRotation);
-        for (int x = 0; x < gridWidth; x++)
-            for (int y = 0; y < gridHeight; y++)
-                CreateTile(new Vector2Int(x, y));
+
+        foreach (var pos in EnumerateFromCenter())
+            CreateTile(pos);
     }
 
-    public Vector3 GetWorldPositionWith3DEffect(Vector2Int gridPosition)
-    {
-        float x = gridPosition.x * totalTileWidth + gridOffset.x;
-        float y = gridPosition.y * totalTileHeight + gridOffset.y;
 
-        float depthFactor = (float)gridPosition.y / gridHeight;
-        float perspectiveOffset = depthFactor * 0.5f;
-        float scaleReduction = 1f - (depthFactor * 0.2f);
-        return new Vector3(x, y + perspectiveOffset, -depthFactor);
+    IEnumerable<Vector2Int> EnumerateFromCenter()
+    {
+        float cx = (gridWidth - 1) * 0.5f;
+        float cy = (gridHeight - 1) * 0.5f;
+
+        var list = new List<Vector2Int>(gridWidth * gridHeight);
+        for (int x = 0; x < gridWidth; x++)
+            for (int y = 0; y < gridHeight; y++)
+                list.Add(new Vector2Int(x, y));
+
+        list.Sort((a, b) => {
+            float ra = Mathf.Max(Mathf.Abs(a.x - cx), Mathf.Abs(a.y - cy));
+            float rb = Mathf.Max(Mathf.Abs(b.x - cx), Mathf.Abs(b.y - cy));
+            int c = ra.CompareTo(rb);
+            if (c != 0) return c;
+
+            float aa = Mathf.Atan2(a.y - cy, a.x - cx);
+            float ab = Mathf.Atan2(b.y - cy, b.x - cx);
+            return aa.CompareTo(ab);
+        });
+
+        return list;
     }
 
     public Vector3 GetWorldPositionWithSimpleArena(Vector2Int gridPosition)
     {
-        float x = gridPosition.x * totalTileWidth + gridOffset.x;
-        float y = gridPosition.y * totalTileHeight + gridOffset.y;
-        float depth = -gridPosition.y * 0.2f;
+        float x = (gridPosition.x - HalfCols) * totalTileWidth + gridOffset.x;
+        float y = (gridPosition.y - HalfRows) * totalTileHeight + gridOffset.y;
+
+        float depth = -(gridPosition.y) * 0.2f;
+
         return new Vector3(x, y, depth);
     }
+
 
     private void CreateTile(Vector2Int position)
     {
@@ -294,16 +315,6 @@ public class TileGrid : MonoBehaviour
     public bool IsValidGridPosition(Vector2Int p)
     {
         return p.x >= 0 && p.x < gridWidth && p.y >= 0 && p.y < gridHeight;
-    }
-
-    public bool IsValidPlayerPosition(Vector2Int p)
-    {
-        return IsValidGridPosition(p) &&
-               grid[p.x, p.y] != TileType.Player2 &&
-               grid[p.x, p.y] != TileType.Player2Cracked &&
-               grid[p.x, p.y] != TileType.Player2Broken &&
-               grid[p.x, p.y] != TileType.Broken &&
-               grid[p.x, p.y] != TileType.Player1Broken;
     }
 
     public bool IsValidPositionForSide(Vector2Int pos, Side side)
@@ -464,8 +475,8 @@ public class TileGrid : MonoBehaviour
         float visualYOffset = -estimatedGridY * 0.28f;
         float correctedY = worldPosition.y - visualYOffset;
 
-        float adjustedX = (worldPosition.x - gridOffset.x - (tileWidth * 0.5f)) / totalTileWidth;
-        float adjustedY = (correctedY - gridOffset.y - (tileHeight * 0.5f)) / totalTileHeight;
+        float adjustedX = (worldPosition.x - gridOffset.x) / totalTileWidth + HalfCols;
+        float adjustedY = (correctedY - gridOffset.y) / totalTileHeight + HalfRows;
 
         int x = Mathf.RoundToInt(adjustedX);
         int y = Mathf.RoundToInt(adjustedY);
@@ -475,4 +486,5 @@ public class TileGrid : MonoBehaviour
 
         return new Vector2Int(x, y);
     }
+
 }

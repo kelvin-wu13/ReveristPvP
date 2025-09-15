@@ -3,13 +3,13 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class QuickSyncPassive : MonoBehaviour, IPassiveAbility, IOnHitReceiver
 {
-    [Header("Quick Sync (fixed boost, non-stacking)")]
-    [SerializeField] private float boostMultiplier = 1.25f; // 1.25 = +25% movespeed
-    [SerializeField] private float duration = 1.0f;         // detik
+    [Header("Quick Sync")]
+    [SerializeField] private float boostMultiplier = 1.25f;
+    [SerializeField] private float duration = 1.0f;
 
     private PlayerMovement move;
     private GameObject owner;
-    private float activeUntil = 0f;      // waktu berakhir boost
+    private float activeUntil = 0f;
     private bool boostApplied = false;
 
     public void OnEquip(GameObject o)
@@ -17,6 +17,7 @@ public class QuickSyncPassive : MonoBehaviour, IPassiveAbility, IOnHitReceiver
         owner = o;
         move = o.GetComponent<PlayerMovement>();
         enabled = true;
+        Debug.Log($"[QuickSyncPassive] Equipped to {owner?.name}");
     }
 
     public void OnUnequip()
@@ -27,19 +28,16 @@ public class QuickSyncPassive : MonoBehaviour, IPassiveAbility, IOnHitReceiver
 
     private void Update()
     {
-        // aktif bila masih dalam durasi
         bool shouldBeActive = Time.time < activeUntil;
 
         if (shouldBeActive && !boostApplied) ActivateBoost();
         else if (!shouldBeActive && boostApplied) DeactivateBoost();
     }
 
-    // dipanggil oleh bullet/skill owner melalui HitForwarderOnTrigger
     public void OnHitLanded(GameObject target, bool fromSkill)
     {
-        // reset timer ke kini + duration (tidak stacking)
         activeUntil = Time.time + duration;
-        // kalau lagi tidak aktif, terapkan segera
+        Debug.Log($"[QuickSyncPassive] Hit landed on {target.name}, perpanjang boost hingga {activeUntil:F2}");
         if (!boostApplied) ActivateBoost();
     }
 
@@ -49,6 +47,7 @@ public class QuickSyncPassive : MonoBehaviour, IPassiveAbility, IOnHitReceiver
         {
             move.SetExternalSpeedMultiplier(boostMultiplier);
             boostApplied = true;
+            Debug.Log("Passive boost on");
         }
     }
 
@@ -58,6 +57,7 @@ public class QuickSyncPassive : MonoBehaviour, IPassiveAbility, IOnHitReceiver
         {
             move.SetExternalSpeedMultiplier(1f);
             boostApplied = false;
+            Debug.Log($"[QuickSyncPassive] BOOST OFF, speed kembali normal (Owner={owner?.name})");
         }
     }
 }

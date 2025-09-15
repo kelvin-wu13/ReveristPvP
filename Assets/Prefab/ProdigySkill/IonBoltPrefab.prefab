@@ -46,14 +46,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifetime: 2
   skillEffect: {fileID: 0}
-  projectileSpeed: 35
-  explosionTileRadius: 1
-  damage: 20
-  explosionDamage: 15
   projectilePrefab: {fileID: 1204518691854023705, guid: 586d9b43f800f92439286b6b1f21c523, type: 3}
+  projectileSpeed: 35
+  speedMultiplier: 1
+  damage: 20
   explosionEffectPrefab: {fileID: 3831150701529647939, guid: 1043fd10685dac147a6633d3b7d81893, type: 3}
   explosionEffectDuration: 1
-  manaCost: 1.5
+  manaCost: 1
   cooldownDuration: 2
-  speedMultiplier: 1
   skillAnimationDuration: 0.2
+  outOfBoundsDestroyDelay: 1.5

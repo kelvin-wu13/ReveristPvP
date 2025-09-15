@@ -403,8 +403,8 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: d158d79a-100b-4b02-b8f8-b79b352c7f10
     m_ActionName: 'UI/Click[/Mouse/press,/Touchscreen/press]'
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_NeverAutoSwitchControlSchemes: 1
+  m_DefaultControlScheme: Player2
   m_DefaultActionMap: Move
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

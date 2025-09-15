@@ -1,6 +1,5 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using SkillSystem;
 
 public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
@@ -14,7 +13,6 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
     [SerializeField] private int damage = 20;
     [SerializeField] private GameObject explosionEffectPrefab;
     [SerializeField] private float explosionEffectDuration = 1f;
-    [SerializeField] private int explosionTileRadius = 1;
 
     [Header("Costs & CD")]
     [SerializeField] public float manaCost = 1.5f;
@@ -25,8 +23,6 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
 
     [SerializeField] private float outOfBoundsDestroyDelay = 1.5f;
 
-    private bool destroyScheduled = false;
-    private Coroutine destroyRoutine;
     private GameObject owner;
     private PlayerMovement ownerMove;
     private PlayerShoot ownerShoot;
@@ -37,12 +33,19 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
     private GameObject activeProjectile;
     private bool isFired;
     private bool onCooldown;
-    private Vector2Int currentGridPos;
+
+    // arah horizontal (+1 kanan / -1 kiri)
     private int dirX = 1;
+
+    // tracking posisi grid & sisi pemilik (Left/Right)
+    private Vector2Int currentGridPos;
+    private TileGrid.Side ownerSide;
+
     private Transform spawnPoint;
+    private bool destroyScheduled = false;
+    private Coroutine destroyRoutine;
 
-    private List<PlayerMovement> opponents = new List<PlayerMovement>();
-
+    // ===== API dari SkillCast =====
     public void SetOwner(GameObject ownerGO)
     {
         owner = ownerGO;
@@ -51,20 +54,15 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
         ownerStats = owner ? owner.GetComponent<PlayerStats>() : null;
         ownerAnim = owner ? owner.GetComponent<Animator>() : null;
 
-        if (grid == null) grid = FindObjectOfType<TileGrid>();
-
+        if (grid == null) grid = Object.FindObjectOfType<TileGrid>();
         spawnPoint = (ownerShoot != null && ownerShoot.GetBulletSpawnPoint() != null)
             ? ownerShoot.GetBulletSpawnPoint()
             : owner.transform;
-
-        opponents.Clear();
-        foreach (var pm in Object.FindObjectsOfType<PlayerMovement>())
-            if (pm != null && pm.gameObject != owner) opponents.Add(pm);
     }
 
     public void SetDirection(Vector2 dir)
     {
-        dirX = dir.x >= 0 ? 1 : -1;
+        dirX = (dir.x >= 0f) ? 1 : -1;
     }
 
     public override void ExecuteSkillEffect(Vector2Int targetPosition, Transform casterTransform)
@@ -75,12 +73,12 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
         if (!ownerStats.TryUseMana(Mathf.CeilToInt(manaCost))) return;
 
         if (ownerShoot != null) ownerShoot.TriggerSkillAnimation(skillAnimationDuration);
-
         StartCoroutine(FireFlow());
     }
 
     private IEnumerator FireFlow()
     {
+        // beri sedikit delay supaya anim/pos tersinkron
         yield return new WaitForSeconds(0.1f);
 
         FireProjectile();
@@ -96,26 +94,30 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
 
     private void FireProjectile()
     {
-        if (grid == null) grid = FindObjectOfType<TileGrid>();
-        if (ownerMove != null) currentGridPos = ownerMove.GetCurrentGridPosition();
-        else if (grid != null) currentGridPos = grid.GetGridPosition(owner.transform.position);
+        if (grid == null) grid = Object.FindObjectOfType<TileGrid>();
+
+        currentGridPos = (ownerMove != null)
+            ? ownerMove.GetCurrentGridPosition()
+            : grid.GetGridPosition(owner.transform.position);
+
+        int mid = grid.gridWidth / 2;
+        ownerSide = (currentGridPos.x < mid) ? TileGrid.Side.Left : TileGrid.Side.Right;
 
         Vector3 spawnPos = (spawnPoint != null) ? spawnPoint.position : owner.transform.position;
-
-        activeProjectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+        activeProjectile = Object.Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
 
         var psr = activeProjectile.GetComponent<ParticleSystemRenderer>();
         if (psr != null) psr.sortingOrder = 100;
         var sr = activeProjectile.GetComponentInChildren<SpriteRenderer>();
         if (sr != null) sr.sortingOrder = 100;
+        activeProjectile.transform.position += new Vector3(0, 0, -0.2f);
 
-        var p = activeProjectile.transform.position;
-        activeProjectile.transform.position = new Vector3(p.x, p.y, p.z - 0.2f);
+        float angle = Mathf.Atan2(0f, dirX) * Mathf.Rad2Deg;
+        activeProjectile.transform.rotation = Quaternion.Euler(0, 0, angle);
 
         isFired = true;
-        AudioManager.Instance?.PlayIonBoltSFX();
 
-        CheckHitOnCurrentTile();
+        TryHitOpponentOnThisTile(currentGridPos);
     }
 
     private void Update()
@@ -131,6 +133,9 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
             if (gridPosNow.x != currentGridPos.x)
             {
                 currentGridPos.x = gridPosNow.x;
+
+                TryHitOpponentOnThisTile(currentGridPos);
+
                 CheckOutOfBounds();
             }
         }
@@ -139,29 +144,55 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
             CheckOutOfBounds();
         }
     }
-    private void CheckHitOnCurrentTile()
+
+    private void TryHitOpponentOnThisTile(Vector2Int gridPos)
     {
-        if (grid == null || opponents == null || opponents.Count == 0) return;
+        if (grid == null || !grid.IsValidGridPosition(gridPos)) return;
 
-        for (int i = opponents.Count - 1; i >= 0; i--)
+        var players = Object.FindObjectsOfType<PlayerMovement>();
+        if (players == null || players.Length == 0) return;
+
+        PlayerMovement opponent = null;
+        for (int i = 0; i < players.Length; i++)
         {
-            var pm = opponents[i];
-            if (pm == null) { opponents.RemoveAt(i); continue; }
-
-            Vector2Int oppGrid = pm.GetCurrentGridPosition();
-            if (oppGrid == currentGridPos)
+            var p = players[i];
+            if (p == null || p.gameObject == owner) continue;
+            if (p.GetCurrentGridPosition() == gridPos)
             {
-                var stats = pm.GetComponent<PlayerStats>();
-                if (stats != null)
-                {
-                    stats.TakeDamage(damage, owner);
-                }
-                if (activeProjectile != null) Object.Destroy(activeProjectile);
-                activeProjectile = null;
-                isFired = false;
-                destroyScheduled = false;
-                return;
+                opponent = p;
+                break;
             }
+        }
+
+        if (opponent == null) return;
+
+        var stat = opponent.GetComponent<PlayerStats>();
+        var oppPos = opponent.GetCurrentGridPosition();
+
+        int finalDamage = GridDamageCalculator.Calculate(new GridDamageCalculator.Ctx
+        {
+            grid = grid,
+            attackerSide = ownerSide,
+            attackerPos = currentGridPos,
+            defenderPos = oppPos,
+            baseDamage = damage
+        });
+
+        Debug.Log($"[IonBolt] HIT {opponent.name} @ {oppPos} for {finalDamage} (base {damage})");
+
+        if (stat != null) stat.TakeDamage(finalDamage, owner);
+        HitEvents.NotifyOwnerHit(owner, opponent.gameObject, true, "IonBolt");
+
+        SpawnHitEffect(activeProjectile.transform.position);
+        DestroyProjectileImmediate();
+    }
+
+    private void SpawnHitEffect(Vector3 pos)
+    {
+        if (explosionEffectPrefab != null)
+        {
+            var fx = Object.Instantiate(explosionEffectPrefab, pos, Quaternion.identity);
+            Object.Destroy(fx, explosionEffectDuration);
         }
     }
 
@@ -182,11 +213,18 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
     private IEnumerator DestroyProjectileAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+        DestroyProjectileImmediate();
+    }
+
+    private void DestroyProjectileImmediate()
+    {
+        if (destroyRoutine != null) StopCoroutine(destroyRoutine);
+        destroyScheduled = false;
+        isFired = false;
 
         if (activeProjectile != null)
-            Destroy(activeProjectile);
+            Object.Destroy(activeProjectile);
 
         activeProjectile = null;
-        isFired = false;
     }
 }

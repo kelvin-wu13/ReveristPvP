@@ -123,7 +123,15 @@ public class SkillCast : MonoBehaviour
         var go = Instantiate(slot.prefab, skillSpawnPoint.position, skillSpawnPoint.rotation);
         Debug.Log($"[SkillCast] Spawned {go.name} @ {skillSpawnPoint.position}");
 
-        var dir = (shooter != null && shooter.IsShootingRight()) ? Vector2.right : Vector2.left;
+        Vector2 dir = Vector2.right;
+        var grid = FindObjectOfType<TileGrid>();
+        if (movement != null && grid != null)
+        {
+            Vector2Int gp = movement.GetCurrentGridPosition();
+            int mid = Mathf.Max(1, grid.gridWidth / 2);
+            dir = (gp.x < mid) ? Vector2.right : Vector2.left;
+        }
+
         foreach (var r in go.GetComponentsInChildren<MonoBehaviour>(true))
         {
             if (r is ISkillOwnerReceiver o) o.SetOwner(gameObject);
@@ -173,6 +181,18 @@ public class SkillCast : MonoBehaviour
             if (r is ISkillOwnerReceiver o) o.SetOwner(gameObject);
             if (characterData.ultimateUsesCrosshairTarget && crosshair != null && r is ISkillTargetReceiver t)
                 t.SetTarget(crosshair.position);
+        }
+        var skill = go.GetComponent<SkillSystem.Skill>();
+        if (skill != null)
+        {
+            var grid = FindObjectOfType<TileGrid>();
+            var targetGrid = (grid != null) ? grid.GetGridPosition(transform.position) : Vector2Int.zero;
+            skill.ExecuteSkillEffect(targetGrid, transform);
+            Debug.Log("[SkillCast] ExecuteSkillEffect() called (Ultimate)");
+        }
+        else
+        {
+            Debug.LogWarning("[SkillCast] Ultimate prefab tidak punya komponen Skill.");
         }
     }
 

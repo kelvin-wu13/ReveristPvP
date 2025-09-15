@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Prodigy
   maxHealth: 200
-  maxMana: 5
+  maxMana: 100
   manaRegenRate: 1
   bulletDamage: 10
   bulletSpeed: 25
@@ -26,7 +26,7 @@ MonoBehaviour:
     useCrosshairTarget: 0
   skill2:
     displayName: Dash Melee
-    prefab: {fileID: 6941465084218670886, guid: 12c1fc04740146a498097f8d7455815e, type: 3}
+    prefab: {fileID: 7790877365476529809, guid: 050ba40bd18a00c4f86936122d7a418f, type: 3}
     manaCost: 2
     useCrosshairTarget: 0
   skill3:
@@ -35,6 +35,6 @@ MonoBehaviour:
     manaCost: 3
     useCrosshairTarget: 1
   passivePrefab: {fileID: 7511018731004013465, guid: 396826cd5b6ee7748927dc53c441b0e4, type: 3}
-  ultimatePrefab: {fileID: 0}
+  ultimatePrefab: {fileID: 6824801811714815329, guid: 237227687c076bd45845df5e9729e322, type: 3}
   ultimateManaCost: 3
   ultimateUsesCrosshairTarget: 1
