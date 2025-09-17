@@ -75,6 +75,7 @@ public class TileGrid : MonoBehaviour
 
     private Dictionary<Vector2Int, List<GameObject>> objectsInTiles = new Dictionary<Vector2Int, List<GameObject>>();
     private Dictionary<Vector2Int, bool> tileOccupationStatus = new Dictionary<Vector2Int, bool>();
+    private readonly Dictionary<Vector2Int, TileType> takeoverOwnerByPos = new Dictionary<Vector2Int, TileType>();
 
     public void SetTileOccupied(Vector2Int pos, bool occupied)
     {
@@ -310,6 +311,28 @@ public class TileGrid : MonoBehaviour
             case TileType.Broken:
                 break;
         }
+    }
+
+    public void MarkTakenOver(IEnumerable<Vector2Int> positions, TileType newOwner)
+    {
+        foreach (var p in positions)
+            if (IsValidGridPosition(p)) takeoverOwnerByPos[p] = newOwner;
+    }
+
+    public void UnmarkTakenOver(IEnumerable<Vector2Int> positions)
+    {
+        foreach (var p in positions)
+            takeoverOwnerByPos.Remove(p);
+    }
+
+    public bool IsTakenOverBy(Vector2Int p, TileType owner)
+    {
+        return takeoverOwnerByPos.TryGetValue(p, out var o) && o == owner;
+    }
+    public TileType GetTileType(Vector2Int p)
+    {
+        if (!IsValidGridPosition(p)) return TileType.Empty;
+        return grid[p.x, p.y];
     }
 
     public bool IsValidGridPosition(Vector2Int p)

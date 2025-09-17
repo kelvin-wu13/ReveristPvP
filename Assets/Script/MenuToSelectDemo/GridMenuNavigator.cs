@@ -15,9 +15,9 @@ public class GridMenuNavigator : MonoBehaviour
     [Range(0.1f, 0.9f)] public float stickDeadzone = 0.5f;
 
     [Header("Input System (opsional)")]
-    public PlayerInput playerInput;                 // kalau kosong akan TryGetComponent
-    public InputActionReference navigateActionRef;  // Vector2 (mis. "UI/Navigate")
-    public InputActionReference submitActionRef;    // Button  (mis. "UI/Submit")
+    public PlayerInput playerInput;                
+    public InputActionReference navigateActionRef;
+    public InputActionReference submitActionRef;
 
     private InputAction _navigate;
     private InputAction _submit;

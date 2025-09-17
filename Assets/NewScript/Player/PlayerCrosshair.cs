@@ -12,6 +12,11 @@ public class PlayerCrosshair : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private int distanceFromPlayer = 3;
+    [SerializeField] private bool debugLog = false;
+    [SerializeField] private bool autoZeroOnTakenTile = true;
+
+    private int baseDistance;
+    private int lastAppliedDistance;
 
     private Vector2Int playerFacingDirection = Vector2Int.right;
     private Vector2Int playerGridPosition;
@@ -45,10 +50,13 @@ public class PlayerCrosshair : MonoBehaviour
             crosshairRenderer = crosshairVisual.AddComponent<SpriteRenderer>();
 
         UpdatePositions();
+        baseDistance = distanceFromPlayer;
+        lastAppliedDistance = distanceFromPlayer;
     }
 
     private void Update()
     {
+        ApplyTakeoverCrosshairRule();
         UpdatePositions();
     }
 
@@ -71,6 +79,25 @@ public class PlayerCrosshair : MonoBehaviour
         Vector3 tileWorldPos = tileGrid.GetWorldPosition(targetGridPosition);
         transform.position = tileWorldPos + new Vector3(-0.05f, -0.01f, 0);
     }
+    private void ApplyTakeoverCrosshairRule()
+    {
+        if (!autoZeroOnTakenTile || tileGrid == null || playerMovement == null) return;
+
+        Vector2Int pos = playerMovement.GetCurrentGridPosition();
+
+        TileType myOwner = (playerMovement.GetSide() == TileGrid.Side.Left) ? TileType.Player1 : TileType.Player2;
+
+        bool onTaken = tileGrid.IsTakenOverBy(pos, myOwner);
+
+        int want = onTaken ? 0 : baseDistance;
+        if (want != lastAppliedDistance)
+        {
+            distanceFromPlayer = want;
+            lastAppliedDistance = want;
+            if (debugLog)
+                Debug.Log($"[PlayerCrosshair] at {pos} onTaken={onTaken} => distance={want}");
+        }
+    }
 
     public void SetPlayerFacingDirection(Vector2Int newDirection)
     {
@@ -79,6 +106,16 @@ public class PlayerCrosshair : MonoBehaviour
             playerFacingDirection = newDirection;
             UpdatePositions();
         }
+    }
+    public int GetDistanceFromPlayer() => distanceFromPlayer;
+    public void SetDistanceFromPlayer(int newDistance, bool snap = false)
+    {
+        int clamped = Mathf.Max(0, newDistance);
+        if (distanceFromPlayer == clamped) return;
+        distanceFromPlayer = clamped;
+        lastAppliedDistance = clamped;
+        if (debugLog) Debug.Log($"[PlayerCrosshair] distance -> {distanceFromPlayer} (snap={snap})");
+        if (snap) UpdatePositions();
     }
 
     public Vector2Int GetTargetGridPosition() => isFrozen ? frozenPosition : targetGridPosition;

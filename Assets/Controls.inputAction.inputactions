@@ -284,7 +284,7 @@
                 {
                     "name": "",
                     "id": "0bf91205-dcf2-462f-88d1-d238eb843fc4",
-                    "path": "<Keyboard>/b",
+                    "path": "<Keyboard>/v",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Player2",
@@ -345,7 +345,7 @@
                 {
                     "name": "",
                     "id": "108e629c-1033-4eb7-9634-36070fc07f67",
-                    "path": "<Keyboard>/n",
+                    "path": "<Keyboard>/b",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Player2",
@@ -406,7 +406,7 @@
                 {
                     "name": "",
                     "id": "c38297ce-cc0a-49a4-afcf-13e1af6ae977",
-                    "path": "<Keyboard>/m",
+                    "path": "<Keyboard>/n",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Player2",
@@ -461,6 +461,78 @@
                     "processors": "",
                     "groups": ";Player1",
                     "action": "Ultimate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "34ccb2b5-99c4-46dd-a93f-b202b392472a",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Player2",
+                    "action": "Ultimate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Parry",
+            "id": "6aa401bf-e802-41cb-9a60-a4ed25792969",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "ea1b3ee5-0672-4f99-a297-5b6feab98ad4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3f149a71-868e-412d-a397-91a642cccbbf",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Player1",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39f1d7b7-613e-46ed-b98c-25dbf3a9f502",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Player2",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "680a99d1-283f-41f0-a949-d636c0d73aa1",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Player1",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f687bd0c-4993-4904-9a47-6cdcafaba354",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Player2",
+                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -55,6 +55,8 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 GetPositionOffset() => positionOffset;
     public Vector2Int GetFacingDirection() => lastDirection;
     public bool IsMoving() => isMoving;
+    public TileGrid.Side GetSide() => side;
+
 
     private void Awake()
     {

@@ -193,10 +193,6 @@ public class PlayerStats : MonoBehaviour
 
         SkillCast skillComponent = GetComponent<SkillCast>();
         if (skillComponent != null) skillComponent.enabled = false;
-
-        //Enemy enemy = GetComponent<Enemy>();
-        //if (enemy != null) enemy.enabled = false;
-
         AudioManager.Instance?.PlayPlayerDeathSFX();
 
         StartCoroutine(DeathSequence());
