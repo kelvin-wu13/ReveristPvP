@@ -273,18 +273,23 @@ public class CharacterSelectManager : MonoBehaviour
 
         if (turn == SelectTurn.P1)
         {
+            if (previewP2) previewP2.gameObject.SetActive(false);
+            if(previewP1) previewP1.gameObject.SetActive(true);
             navigator?.RebindTo(p1UI);
             menuNavigator?.BindToPlayer(p1UI);
             menuNavigator?.SetSelectorOwnerP1();
         }
         else if (turn == SelectTurn.P2)
         {
+            if (previewP2) previewP2.gameObject.SetActive(true);
             navigator?.RebindTo(p2UI);
             menuNavigator?.BindToPlayer(p2UI);
             menuNavigator?.SetSelectorOwnerP2();
         }
         else
         {
+            if (previewP1) previewP1.gameObject.SetActive(true);
+            if (previewP2) previewP2.gameObject.SetActive(true);
             navigator?.RebindTo(p2UI);
             menuNavigator?.BindToPlayer(p2UI);
             menuNavigator?.SetSelectorOwnerNeutral();
