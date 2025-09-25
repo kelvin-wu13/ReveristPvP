@@ -26,6 +26,10 @@ public class CharacterSelectManager : MonoBehaviour
     [Tooltip("Urutannya HARUS sama dengan urutan tombol kiri→kanan, atas→bawah.")]
     public CharacterInfo[] characters;          // data nama + sprite preview per karakter
 
+    [Header("Skill Description")]
+    public SkillDescImagePanel p1DescPanel;
+    public SkillDescImagePanel p2DescPanel;
+
     [Header("Config")]
     public MatchConfig config;
     public bool allowMirrorPick = true;
@@ -44,6 +48,8 @@ public class CharacterSelectManager : MonoBehaviour
     InputAction _submit;
     float blockUntil = 0f;
 
+    private UnityEngine.InputSystem.InputAction _openInfo;
+    private UnityEngine.InputSystem.InputAction _closeInfo;
 
     void Awake()
     {
@@ -116,7 +122,20 @@ public class CharacterSelectManager : MonoBehaviour
     {
         bool didCancel = (_cancel != null) && _cancel.WasPerformedThisFrame();
         bool didSubmit = (turn == SelectTurn.Ready) && (_submit != null) && _submit.WasPerformedThisFrame();
+        bool wantOpen = (_openInfo != null) && _openInfo.WasPerformedThisFrame();
+        bool wantClose = (_closeInfo != null) && _closeInfo.WasPerformedThisFrame();
 
+        // 1) PRIORITAS: Y/B untuk panel skill
+        if (IsAnyDescOpen() && (wantClose || didCancel))
+        {
+            CloseDescPanels();
+            return; // jangan teruskan ke cancel/back
+        }
+
+        if (wantOpen) { OpenDescForCurrent(); Debug.Log($"[CSEL] OpenInfo pressed by {turn} at index={lastHighlight}"); }
+        if (wantClose) { CloseDescPanels(); Debug.Log($"[CSEL] CloseInfo pressed by {turn}"); }
+
+        // 2) Cancel (Back) sesuai turn
         if (didCancel)
         {
             Debug.Log($"[CSEL] Cancel pressed. turn={turn}");
@@ -127,6 +146,7 @@ public class CharacterSelectManager : MonoBehaviour
             }
             if (turn == SelectTurn.P2)
             {
+                // P2 back → balik ke P1
                 selP2 = null; lockedIndexP2 = null;
                 TrySetCfgPrefab(false, null);
                 UpdateUI();
@@ -136,21 +156,20 @@ public class CharacterSelectManager : MonoBehaviour
             }
             if (turn == SelectTurn.Ready)
             {
-                // kembali ke P2, tidak menghapus pilihannya
+                // Ready back → kembali ke P2
                 SetActivePicker(SelectTurn.P2);
                 SelectFirstGridButton();
                 return;
             }
         }
 
+        // 3) Submit (Confirm) saat READY
         if (didSubmit)
         {
             Debug.Log($"[CSEL] Submit pressed on READY. Confirm interactable={confirmButton && confirmButton.interactable}");
             if (confirmButton && confirmButton.interactable) StartMatch();
         }
     }
-
-    // =============== Player join & binding ===============
 
     public void OnPlayerJoined(PlayerInput pi)
     {
@@ -179,8 +198,6 @@ public class CharacterSelectManager : MonoBehaviour
             BindUiActionsFrom(p2UI);
         }
     }
-
-    // =============== Click tombol karakter ===============
 
     public void OnCharacterClicked(GameObject prefab)
     {
@@ -222,41 +239,59 @@ public class CharacterSelectManager : MonoBehaviour
         UpdatePanels();
     }
 
-    // =============== Turn/owner & lock grid ===============
+    void OpenDescForCurrent()
+    {
+        int idx = Mathf.Max(0, lastHighlight);
+        if (turn == SelectTurn.P1)
+        {
+            if (p1DescPanel) p1DescPanel.ShowByIndex(idx);
+        }
+        else
+        {
+            if (p2DescPanel) p2DescPanel.ShowByIndex(idx);
+        }
+    }
+
+    void CloseDescPanels()
+    {
+        if (p1DescPanel) p1DescPanel.Hide();
+        if (p2DescPanel) p2DescPanel.Hide();
+    }
+
+    bool IsAnyDescOpen()
+    {
+        return (p1DescPanel && p1DescPanel.IsVisible()) || (p2DescPanel && p2DescPanel.IsVisible());
+    }
 
     void SetActivePicker(SelectTurn who)
     {
         turn = who;
         Debug.Log($"[CSEL] SetActivePicker -> {turn}");
 
-        // Eksklusifkan input device sesuai giliran
         ToggleExclusive(p1UI, turn == SelectTurn.P1);
         ToggleExclusive(p2UI, (turn == SelectTurn.P2) || (turn == SelectTurn.Ready));
 
-        // Rebind driver navigasi + kunci kontrol MenuNavigator sesuai player + set skin highlight
         if (turn == SelectTurn.P1)
         {
             navigator?.RebindTo(p1UI);
             menuNavigator?.BindToPlayer(p1UI);
-            menuNavigator?.SetSelectorOwnerP1();     // highlight biru
+            menuNavigator?.SetSelectorOwnerP1();
         }
         else if (turn == SelectTurn.P2)
         {
             navigator?.RebindTo(p2UI);
             menuNavigator?.BindToPlayer(p2UI);
-            menuNavigator?.SetSelectorOwnerP2();     // highlight merah
+            menuNavigator?.SetSelectorOwnerP2();
         }
-        else // Ready
+        else
         {
-            navigator?.RebindTo(p2UI);               // atau null kalau mau matikan
+            navigator?.RebindTo(p2UI);
             menuNavigator?.BindToPlayer(p2UI);
             menuNavigator?.SetSelectorOwnerNeutral();
         }
 
-        // Bind Cancel/Submit utk UI (Back/Confirm)
         BindUiActionsFrom(turn == SelectTurn.P1 ? p1UI : p2UI);
 
-        // Handoff mini-delay saat pindah ke P2 supaya klik P1 terakhir tidak ikut
         if (turn == SelectTurn.P2)
         {
             blockUntil = Time.unscaledTime + handoffBlockSeconds;
@@ -275,10 +310,19 @@ public class CharacterSelectManager : MonoBehaviour
             FocusConfirm();
         }
 
-        UpdatePanels(); // refresh preview sesuai turn baru
+        UpdatePanels();
     }
 
-    // =============== Preview panels (BARU) ===============
+    public void OnHighlightChanged(int index)
+    {
+        lastHighlight = index;
+
+        if (p1DescPanel && p1DescPanel.IsVisible())
+            p1DescPanel.ShowByIndex(lastHighlight);
+
+        if (p2DescPanel && p2DescPanel.IsVisible())
+            p2DescPanel.ShowByIndex(lastHighlight);
+    }
 
     void HandleHighlight(int index)
     {
@@ -356,14 +400,12 @@ public class CharacterSelectManager : MonoBehaviour
         Debug.Log($"[CSEL] UpdateUI: selP1={(selP1 ? selP1.name : "null")} selP2={(selP2 ? selP2.name : "null")} confirmInteractable={(confirmButton && confirmButton.interactable)}");
     }
 
-    // =============== Mulai match ===============
-
     void StartMatch()
     {
         Debug.Log("[CSEL] StartMatch() called.");
 
         if (!config) { Debug.LogError("[CSEL] StartMatch: No MatchConfig"); return; }
-        if (string.IsNullOrEmpty(config.battleSceneName)) { Debug.LogError("[CSEL] StartMatch: battleSceneName is empty."); return; }
+        if (string.IsNullOrEmpty(config.battleSceneName)) { Debug.LogError("[CSEL] StartMatch: battleSceneName is empty."); return; } // fix typo if needed
         if (!selP1 || !selP2) { Debug.LogWarning("[CSEL] StartMatch: Both players must pick."); return; }
 
         TrySetCfgPrefab(true, selP1);
@@ -385,22 +427,34 @@ public class CharacterSelectManager : MonoBehaviour
         else config.p2Prefab = prefab;
     }
 
-    // =============== Binding input ===============
-
     void BindUiActionsFrom(PlayerInput pi)
     {
         _cancel?.Disable(); _cancel = null;
         _submit?.Disable(); _submit = null;
+        _openInfo?.Disable(); _openInfo = null;
+        _closeInfo?.Disable(); _closeInfo = null;
 
         if (pi && pi.actions)
         {
+            // UI map
             _cancel = pi.actions.FindAction("UI/Cancel", false) ?? pi.actions.FindAction("Cancel", false);
             _submit = pi.actions.FindAction("UI/Submit", false) ?? pi.actions.FindAction("Submit", false);
-            Debug.Log($"[CSEL] Bind actions from {(pi == p1UI ? "P1" : "P2")} -> cancel={(_cancel != null)} submit={(_submit != null)}");
+            _openInfo = pi.actions.FindAction("UI/OpenInfo", false) ?? pi.actions.FindAction("OpenInfo", false);
+            _closeInfo = pi.actions.FindAction("UI/CloseInfo", false) ?? pi.actions.FindAction("CloseInfo", false);
+
+            Debug.Log($"[CSEL] Bind from {(pi == p1UI ? "P1" : "P2")}:" +
+                      $" cancel={(_cancel != null)} submit={(_submit != null)}" +
+                      $" openInfo={(_openInfo != null)} closeInfo={(_closeInfo != null)}");
+        }
+        else
+        {
+            Debug.LogWarning("[CSEL] BindUiActionsFrom: PlayerInput/actions NULL.");
         }
 
         _cancel?.Enable();
         _submit?.Enable();
+        _openInfo?.Enable();
+        _closeInfo?.Enable();
     }
 
     void ToggleExclusive(PlayerInput pi, bool on)

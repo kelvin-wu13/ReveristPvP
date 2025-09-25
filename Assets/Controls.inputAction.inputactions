@@ -595,6 +595,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "OpenInfo",
+                    "type": "Button",
+                    "id": "bc7abe52-686d-47c7-9712-6bffea0333f6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CloseInfo",
+                    "type": "Button",
+                    "id": "15a3b96b-bbfa-4bbf-8863-744e2be6d85d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -771,6 +789,28 @@
                     "processors": "",
                     "groups": ";Player2",
                     "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b6f0087-c337-4d61-9037-8f1dab2bc2e5",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenInfo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4080f444-d2d0-4618-88a3-102260d0ab12",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CloseInfo",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

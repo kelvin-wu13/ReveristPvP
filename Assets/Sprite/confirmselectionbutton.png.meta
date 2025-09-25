@@ -1,0 +1,328 @@
+fileFormatVersion: 2
+guid: fb4f3d511833ff9449c9c185b24a24cc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1225389139790932914
+    second: confirmselectionbutton_0
+  - first:
+      213: 918583829970077995
+    second: confirmselectionbutton_1
+  - first:
+      213: -3535713676006658514
+    second: confirmselectionbutton_2
+  - first:
+      213: -7391099571184285834
+    second: confirmselectionbutton_3
+  - first:
+      213: 8479575291826223996
+    second: confirmselectionbutton_4
+  - first:
+      213: -8804373343300895342
+    second: confirmselectionbutton_5
+  - first:
+      213: -4062000646868292926
+    second: confirmselectionbutton_6
+  - first:
+      213: 3854010576474358836
+    second: confirmselectionbutton_7
+  - first:
+      213: 1678606878481699947
+    second: confirmselectionbutton_8
+  - first:
+      213: -7237546488793354814
+    second: confirmselectionbutton_9
+  - first:
+      213: -65628167551179235
+    second: confirmselectionbutton_10
+  - first:
+      213: -350869668251455442
+    second: confirmselectionbutton_11
+  - first:
+      213: -6867971929316885991
+    second: confirmselectionbutton_12
+  - first:
+      213: 5445759581774539531
+    second: confirmselectionbutton_13
+  - first:
+      213: -2946371277111190248
+    second: confirmselectionbutton_14
+  - first:
+      213: -8565287320076017544
+    second: confirmselectionbutton_15
+  - first:
+      213: 3672180892480094965
+    second: confirmselectionbutton_16
+  - first:
+      213: 6295435361258333967
+    second: confirmselectionbutton_17
+  - first:
+      213: -3181142811516913477
+    second: confirmselectionbutton_18
+  - first:
+      213: -4681303237422477612
+    second: confirmselectionbutton_19
+  - first:
+      213: -8183248227007154636
+    second: confirmselectionbutton_20
+  - first:
+      213: -1827975487701466443
+    second: confirmselectionbutton_21
+  - first:
+      213: 8573055835910958610
+    second: confirmselectionbutton_22
+  - first:
+      213: -254992742209544139
+    second: confirmselectionbutton_23
+  - first:
+      213: 5639381166363253582
+    second: confirmselectionbutton_24
+  - first:
+      213: 1762630680333467839
+    second: confirmselectionbutton_25
+  - first:
+      213: -2954025752721501296
+    second: confirmselectionbutton_26
+  - first:
+      213: -156486166018967204
+    second: confirmselectionbutton_27
+  - first:
+      213: -1313878801610619627
+    second: confirmselectionbutton_28
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: confirmselectionbutton_2
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 371
+        width: 547
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 540c505de00806242bcb46d3be20b82e
+      internalID: 1759126870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confirmselectionbutton_4
+      rect:
+        serializedVersion: 2
+        x: 788
+        y: 243
+        width: 621
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddc426c47aca3564390b0e32604e9327
+      internalID: 360067223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confirmselectionbutton_7
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 33
+        width: 626
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 654f7eb98dabc7b45a021555e0823802
+      internalID: -465683487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confirmselectionbutton_0
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 173
+        width: 547
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 893552c56a8e398429f6c5fd753aae96
+      internalID: -1658384045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: d25cd69a6b104ee4fa5af02762f622f5
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":7.0,"y":5.0},"gridSpriteSize":{"x":479.0,"y":226.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      confirmselectionbutton_0: -1658384045
+      confirmselectionbutton_1: 432481115
+      confirmselectionbutton_2: 1759126870
+      confirmselectionbutton_3: -517020723
+      confirmselectionbutton_4: 360067223
+      confirmselectionbutton_5: -681253579
+      confirmselectionbutton_6: -355783769
+      confirmselectionbutton_7: -465683487
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
