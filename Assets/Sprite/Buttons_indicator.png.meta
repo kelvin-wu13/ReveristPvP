@@ -210,14 +210,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-<<<<<<< Updated upstream
     nameFileIdTable:
       Buttons_indicator_0: 2114633235576557126
       Buttons_indicator_1: 5994163440080577476
       Buttons_indicator_2: 2358901307609642659
-=======
-    nameFileIdTable: {}
->>>>>>> Stashed changes
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

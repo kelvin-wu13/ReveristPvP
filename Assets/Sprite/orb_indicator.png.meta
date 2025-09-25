@@ -210,14 +210,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-<<<<<<< Updated upstream
     nameFileIdTable:
       orb_indicator_0: 6336236667663385920
       orb_indicator_1: -6850134967170255040
       orb_indicator_2: -4008439243257690276
-=======
-    nameFileIdTable: {}
->>>>>>> Stashed changes
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
