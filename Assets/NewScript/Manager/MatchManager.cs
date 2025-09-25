@@ -26,8 +26,14 @@ public class MatchManager : MonoBehaviour
     public string pvpSceneNameOverride = "";       // opsional; kalau kosong pakai SceneManager.GetActiveScene().name
 
     [Header("Players (opsional di-assign manual)")]
-    public PlayerStats player1; // drag Player 1 (opsional)
-    public PlayerStats player2; // drag Player 2 (opsional)
+    public PlayerStats player1;
+    public PlayerStats player2;
+
+    [Header("Round Result PopUp")]
+    public GameObject p1WinPopup;
+    public GameObject p2WinPopup;
+    public float timeWinPopupDuration = 1.25f;
+    public float koWinPopupDuration = 1.0f;
 
     [Header("UI")]
     public TextMeshProUGUI timerText;
@@ -44,11 +50,9 @@ public class MatchManager : MonoBehaviour
     public string endingSceneName = "Ending";
 
     [Header("FX")]
-    public FadeController fadeController; // opsional. Jika null -> SceneManager.LoadScene
+    public FadeController fadeController;
 
-    // ====================== Series State (persist antar reload scene) ======================
-    // Catatan: Static akan tetap hidup antar LoadScene di Play Mode (selama domain reload dimatikan default).
-    // Jika kamu pulang ke Main Menu (scene lain), kita reset otomatis.
+
     private static class Series
     {
         public static bool active;
@@ -72,16 +76,13 @@ public class MatchManager : MonoBehaviour
         {
             active = false;
             pvpSceneName = "";
-            // p1Wins/p2Wins dibiarkan kalau Ending mau akses; bebas di-reset di scene berikutnya.
         }
     }
 
-    // ====================== runtime per-ronde ======================
     float timeLeft;
     bool roundEnded;
     bool timerRunning;
 
-    // ===== Unity Hooks =====
     void OnEnable()
     {
         PlayerStats.OnAnyHealthChanged += OnAnyHealthChanged; // KO detection
@@ -122,6 +123,7 @@ public class MatchManager : MonoBehaviour
 
         // Jalan timer segera atau menunggu pemain
         if (!startTimerWhenPlayersReady) timerRunning = true;
+        HideWinnerPopups();
 
         yield break;
     }
@@ -143,7 +145,19 @@ public class MatchManager : MonoBehaviour
         }
     }
 
-    // ====================== Player tracking ======================
+    void HideWinnerPopups()
+    {
+        if (p1WinPopup) p1WinPopup.SetActive(false);
+        if (p2WinPopup) p2WinPopup.SetActive(false);
+    }
+
+    void ShowWinnerPopup(PlayerId winner)
+    {
+        HideWinnerPopups();
+        if (winner == PlayerId.P1 && p1WinPopup) p1WinPopup.SetActive(true);
+        if (winner == PlayerId.P2 && p2WinPopup) p2WinPopup.SetActive(true);
+    }
+
     IEnumerator TrackPlayersLoop()
     {
         var wait = new WaitForSeconds(autoFindInterval);
@@ -192,7 +206,6 @@ public class MatchManager : MonoBehaviour
         if (player2 == null && p2 != null) player2 = p2;
     }
 
-    // ====================== Event HP & penentuan pemenang ======================
     void OnAnyHealthChanged(PlayerId who, int current, int max)
     {
         if (roundEnded) return;
@@ -284,16 +297,46 @@ public class MatchManager : MonoBehaviour
         // Update UI orb
         RefreshRoundOrbs();
 
-        // Cek selesai seri?
-        if (Series.p1Wins >= Series.roundsToWin || Series.p2Wins >= Series.roundsToWin)
+        // Tampilkan popup untuk semua kemenangan (TIME maupun KO)
+        ShowWinnerPopup(winner);
+
+        // Apakah seri sudah selesai?
+        bool seriesOver = (Series.p1Wins >= Series.roundsToWin || Series.p2Wins >= Series.roundsToWin);
+
+        // Tunda sesuai jenis kemenangan, lalu lanjut
+        StartCoroutine(Co_EndRoundAfterPopup(seriesOver, reason));
+    }
+
+    IEnumerator Co_EndRoundAfterPopup(bool seriesOver, string reason)
+    {
+        float wait = (reason == "TIME")
+            ? Mathf.Max(0f, timeWinPopupDuration)
+            : Mathf.Max(0f, koWinPopupDuration);
+
+        yield return new WaitForSeconds(wait);
+
+        HideWinnerPopups();
+
+        if (seriesOver)
         {
-            // Seri selesai → Ending
-            StartCoroutine(Co_GotoEnding());
+            if (!string.IsNullOrEmpty(endingSceneName))
+            {
+                if (fadeController != null) fadeController.FadeOutAndLoadScene(endingSceneName);
+                else UnityEngine.SceneManagement.SceneManager.LoadScene(endingSceneName);
+            }
+            else
+            {
+                Debug.LogWarning("[MatchManager] endingSceneName kosong. Tetap di scene ini.");
+            }
         }
         else
         {
-            // Lanjut ronde berikutnya → reload scene PvP (reset penuh & respawn)
-            StartCoroutine(Co_ReloadRound());
+            string sceneName = string.IsNullOrEmpty(Series.pvpSceneName)
+                ? UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+                : Series.pvpSceneName;
+
+            if (fadeController != null) fadeController.FadeOutAndLoadScene(sceneName);
+            else UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
         }
     }
 

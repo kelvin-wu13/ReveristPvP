@@ -18,7 +18,6 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver, IDef
     [SerializeField] private int aoeHalfRange = 1;
 
     [Header("Costs & CD")]
-    [SerializeField] public float manaCost = 1.5f;
     [SerializeField] public float cooldownDuration = 1.5f;
 
     [Header("Lock")]
@@ -71,8 +70,6 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver, IDef
     {
         if (owner == null && casterTransform != null) SetOwner(casterTransform.gameObject);
         if (onCooldown || ownerStats == null) return;
-
-        if (!ownerStats.TryUseMana(Mathf.CeilToInt(manaCost))) return;
 
         if (ownerShoot != null) ownerShoot.TriggerSkillAnimation(skillAnimationDuration);
         StartCoroutine(FireFlow());

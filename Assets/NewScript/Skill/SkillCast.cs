@@ -153,8 +153,6 @@ public class SkillCast : MonoBehaviour
         {
             Debug.LogWarning("[SkillCast] Prefab tidak punya komponen Skill, efek tidak dijalankan");
         }
-
-
     }
 
     private void CastUltimate()

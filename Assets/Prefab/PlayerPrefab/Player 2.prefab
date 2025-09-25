@@ -174,6 +174,7 @@ MonoBehaviour:
   animator: {fileID: 3382185408372572872}
   playerMovement: {fileID: 4647208385626371366}
   shootRight: 1
+  sfxShoot: {fileID: 0}
   extraHoldDelay: 0
   overrideInterval: 0.3
 --- !u!114 &770325314750495359
@@ -223,7 +224,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af3e1f715d9afd4db1c3cb666610f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerStats: {fileID: 0}
   meter: 0
+  ownerId: 1
 --- !u!114 &7499178604883264737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,8 +241,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parryAction: {fileID: 0}
   parryActionName: Parry
-  parryWindow: 1
-  parryCooldown: 0.3
+  parryWindow: 0.3
+  parryCooldown: 0
   costOnMiss: 2
   costOnSuccess: 1
   damageMultOnDeflect: 2
@@ -438,6 +441,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 25722ca4-88b5-4033-b248-2daa101b61d4
     m_ActionName: 'UI/Join[/Keyboard/enter]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bc7abe52-686d-47c7-9712-6bffea0333f6
+    m_ActionName: 'UI/OpenInfo[/XInputControllerWindows/buttonNorth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 15a3b96b-bbfa-4bbf-8863-744e2be6d85d
+    m_ActionName: 'UI/CloseInfo[/XInputControllerWindows/buttonEast]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Player2
   m_DefaultActionMap: Move

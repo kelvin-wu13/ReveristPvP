@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SkillSystem
@@ -6,16 +7,15 @@ namespace SkillSystem
     public class SwiftStrike : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
     {
         [Header("Skill Properties")]
-        [SerializeField] public float cooldownDuration = 3f;
-        [SerializeField] public float manaCost = 15f;
+        [SerializeField] public float cooldownDuration = 3f; // OPTIONAL: biar tetap ada info cooldown, tidak dipakai di sini
 
         [Header("Dash Settings")]
         [SerializeField] private float dashDuration = 0.25f;
         [SerializeField] private AnimationCurve dashCurve;
         [SerializeField] private bool lockRotationDuringDash = true;
-        [SerializeField] private bool allowCrossMidline = true;     
+        [SerializeField] private bool allowCrossMidline = true;
 
-        [Header("Damage)")]
+        [Header("Damage")]
         [SerializeField] private int damageAmount = 10;
 
         [Header("Return Settings")]
@@ -52,6 +52,11 @@ namespace SkillSystem
         private bool wasPMEnabled = true;
         private bool prevRootMotion = false;
         private int forwardX = +1;
+
+        // === Anti-spam per-owner (NEW) ===
+        private static readonly HashSet<int> s_RunningOwners = new HashSet<int>(); // key = owner.GetInstanceID()
+        private bool _lockedOwner = false;
+        private int _ownerKey = 0;
 
         private void Awake()
         {
@@ -117,9 +122,9 @@ namespace SkillSystem
             Debug.Log($"[SwiftStrike] ApplyFlip forwardX={forwardX}, fxRoot.localScale={fxRoot.localScale}");
         }
 
-
         private void Start()
         {
+            // Tentukan arah fallback
             if (!_dirSet)
             {
                 if (!grid) grid = FindObjectOfType<TileGrid>();
@@ -133,15 +138,16 @@ namespace SkillSystem
             }
 
             ApplyFlip();
+
+            // Parent FX ke player (hanya visual milik skill ini, aman sebelum lock)
             if (fxRoot && playerTf)
             {
                 _fxParentBackup = fxRoot.parent;
                 fxRoot.SetParent(playerTf, worldPositionStays: true);
-
                 fxRoot.localPosition = new Vector3(spawnAheadX * (forwardX >= 0 ? 1f : -1f), 0f, 0f);
             }
 
-
+            // Pastikan referensi penting tersedia
             if (!grid) grid = FindObjectOfType<TileGrid>();
             if (!crosshair && owner) crosshair = owner.GetComponentInChildren<PlayerCrosshair>(true);
             if (!playerTf && owner) playerTf = owner.transform;
@@ -154,6 +160,15 @@ namespace SkillSystem
 
             originalGridPos = ownerMove.GetCurrentGridPosition();
 
+            // === Anti-spam lock per-owner (NEW) ===
+            if (!TryLockOwner())
+            {
+                Debug.Log("[SwiftStrike] Owner is already performing SwiftStrike. Cancel new cast.");
+                Destroy(gameObject);
+                return;
+            }
+
+            // Nonaktifkan kontrol & physics sementara
             if (ownerAnim != null) { prevRootMotion = ownerAnim.applyRootMotion; ownerAnim.applyRootMotion = false; }
             wasPMEnabled = ownerMove.enabled; ownerMove.enabled = false;
 
@@ -168,18 +183,13 @@ namespace SkillSystem
                 rb3d.linearVelocity = Vector3.zero; rb3d.useGravity = false; rb3d.isKinematic = true;
             }
 
-            if (ownerStats != null && ownerStats.TryUseMana(manaCost))
-            {
-                crosshair?.FreezeCrosshair();
-                AudioManager.Instance?.PlaySFX(sfxCast);
-                StartCoroutine(Co_SwiftStrike());
-            }
-            else
-            {
-                Debug.LogWarning("[SwiftStrike] Not enough mana.");
-                RestoreControllers();
-                Destroy(gameObject);
-            }
+            // === Tidak lagi cek/kurangi mana di sini (NEW) ===
+            // Biaya mana di-handle oleh pemanggil berdasarkan CharacterStats.SkillSlot.manaCost. :contentReference[oaicite:1]{index=1}
+
+            // Mulai skill
+            crosshair?.FreezeCrosshair();
+            AudioManager.Instance?.PlaySFX(sfxCast);
+            StartCoroutine(Co_SwiftStrike());
         }
 
         public override void ExecuteSkillEffect(Vector2Int tp, Transform casterTransform) { }
@@ -191,8 +201,8 @@ namespace SkillSystem
             Vector2Int desired = new Vector2Int(aim.x - forwardX, aim.y);
 
             Vector2Int dashPos = allowCrossMidline
-                ? ComputeValidDashPathThrough(from, desired, forwardX) 
-                : ComputeValidDashStaySide(from, desired, forwardX); 
+                ? ComputeValidDashPathThrough(from, desired, forwardX)
+                : ComputeValidDashStaySide(from, desired, forwardX);
 
             Debug.Log($"[SwiftStrike] from={from} aim={aim} desired={desired} dashPos={dashPos} fx={forwardX}");
 
@@ -201,12 +211,13 @@ namespace SkillSystem
             Vector3 end = grid.GetCenteredWorldPosition(dashPos);
             end.y = start.y; end.z = start.z;
 
+            // DASH
             while (t < dashDuration)
             {
                 float r = t / dashDuration;
-                float k = (dashCurve != null) ? dashCurve.Evaluate(r) : r; 
+                float k = (dashCurve != null) ? dashCurve.Evaluate(r) : r;
                 Vector3 pos = Vector3.Lerp(start, end, k);
-                pos.y = start.y; pos.z = start.z;  
+                pos.y = start.y; pos.z = start.z;
                 playerTf.position = pos;
                 if (lockRotationDuringDash) playerTf.rotation = initialRotation;
                 t += Time.deltaTime;
@@ -216,8 +227,10 @@ namespace SkillSystem
             ownerMove.TeleportTo(dashPos);
             if (lockRotationDuringDash) playerTf.rotation = initialRotation;
 
+            // Damage kolom vertikal 3 sel di sekitar aim
             DoVertical3Damage(dashPos, aim);
 
+            // RETURN
             yield return new WaitForSeconds(returnDelay);
 
             t = 0f;
@@ -238,14 +251,22 @@ namespace SkillSystem
             }
             ownerMove.TeleportTo(originalGridPos);
 
+            // Balikkan parenting FX
             if (fxRoot) fxRoot.SetParent(_fxParentBackup, worldPositionStays: true);
+
+            // Cleanup & unlock
+            crosshair?.UnfreezeCrosshair();
+            RestoreControllers();
+            ReleaseOwnerLock(); // NEW
 
             float ttl = (LifetimeSeconds > 0f) ? LifetimeSeconds : 0.01f;
             Destroy(gameObject, ttl);
+        }
 
-            crosshair?.UnfreezeCrosshair();
-            RestoreControllers();
-
+        private void OnDestroy()
+        {
+            // Safety unlock kalau hancur di tengah jalan
+            ReleaseOwnerLock(); // NEW
         }
 
         private void RestoreControllers()
@@ -260,6 +281,26 @@ namespace SkillSystem
             if (rb3d)
             {
                 rb3d.isKinematic = rb3dKinematic; rb3d.useGravity = rb3dUseGrav; rb3d.linearVelocity = rb3dVel;
+            }
+        }
+
+        // === Owner lock helpers (NEW) ===
+        private bool TryLockOwner()
+        {
+            if (!owner) return false;
+            _ownerKey = owner.GetInstanceID();
+            if (s_RunningOwners.Contains(_ownerKey)) return false;
+            s_RunningOwners.Add(_ownerKey);
+            _lockedOwner = true;
+            return true;
+        }
+
+        private void ReleaseOwnerLock()
+        {
+            if (_lockedOwner)
+            {
+                s_RunningOwners.Remove(_ownerKey);
+                _lockedOwner = false;
             }
         }
 
@@ -322,14 +363,13 @@ namespace SkillSystem
 
                 if (parry != null && parry.IsParryActive)
                 {
-                    parry.TryParryNonProjectileSuccess();         // refund -> net -1
+                    parry.TryParryNonProjectileSuccess();
                     Debug.Log($"[SwiftStrike] NEGATED by Parry @ {cell} (no damage).");
-                    continue;                                     // <-- penting: jangan lanjut damage
+                    continue;
                 }
 
                 var vStat = victim.GetComponent<PlayerStats>();
                 if (!vStat) continue;
-
 
                 int mid = Mathf.Max(1, grid.gridWidth / 2);
                 var attackerSide = (attackerPosAfterDash.x < mid) ? TileGrid.Side.Left : TileGrid.Side.Right;
