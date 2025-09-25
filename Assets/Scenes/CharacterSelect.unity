@@ -1323,8 +1323,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000011206, y: -138}
-  m_SizeDelta: {x: 100, y: 50}
+  m_AnchoredPosition: {x: -0.000011206, y: -127.9}
+  m_SizeDelta: {x: 180, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1073288947
 MonoBehaviour:
@@ -1390,7 +1390,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 90935774, guid: b2b1871ec9a057c4998be8569acd3f6c, type: 3}
+  m_Sprite: {fileID: 1603702600, guid: ded8469ec9e2c4746b25432a371e3c2c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1441,7 +1441,7 @@ MonoBehaviour:
   selectClip: {fileID: 8300000, guid: f053b003ae5c2fd4790d87239e7e0f20, type: 3}
   clickClip: {fileID: 8300000, guid: 68b7bd1ee0076ff4a8e5d268064350d3, type: 3}
   playOnHover: 1
-  playOnSelect: 0
+  playOnSelect: 1
   playOnClick: 1
 --- !u!1 &1099678183
 GameObject:

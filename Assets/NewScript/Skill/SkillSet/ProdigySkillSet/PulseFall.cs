@@ -15,6 +15,9 @@ public class PulseFall : Skill, ISkillOwnerReceiver
     [Tooltip("Jika PlayerShoot punya trigger anim, durasi lock anim saat cast.")]
     [SerializeField] private float animDuration = 0.5f;
 
+    [Header("SFX")]
+    [SerializeField] private AudioClip sfxCast;
+
     private GameObject owner;
     private PlayerMovement ownerMove;
     private PlayerStats ownerStats;
@@ -53,6 +56,8 @@ public class PulseFall : Skill, ISkillOwnerReceiver
 
         if (ownerShoot != null && animDuration > 0f)
             ownerShoot.TriggerSkillAnimation(animDuration);
+
+        AudioManager.Instance?.PlaySFX(sfxCast);
 
         Vector2Int centerCell =
             (crosshair != null) ? crosshair.GetTargetGridPosition() :

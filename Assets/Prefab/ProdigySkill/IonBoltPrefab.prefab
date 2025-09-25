@@ -58,3 +58,4 @@ MonoBehaviour:
   skillAnimationDuration: 0.2
   lockToOwnerRow: 1
   outOfBoundsDestroyDelay: 1.5
+  sfxCast: {fileID: 8300000, guid: e862d93119cd89e4c9dbcb1ab07383ea, type: 3}

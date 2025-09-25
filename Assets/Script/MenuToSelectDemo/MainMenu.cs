@@ -12,6 +12,11 @@ public class MainMenu : MonoBehaviour
         if (fadeController == null)
             Debug.LogWarning("FadeController not assigned in MainMenu.");
     }
+    public void MainMenuScene()
+    {
+        if (fadeController) fadeController.FadeOutAndLoadScene("MainMenu");
+        else SceneManager.LoadScene("MainMenu");
+    }
 
     public void SettingsMenu()
     {

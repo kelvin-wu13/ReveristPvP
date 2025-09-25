@@ -10,6 +10,8 @@ public class TakeOver : Skill
 
     [SerializeField] private float mutualCancelWindow = 0.08f;
 
+    [SerializeField] private AudioClip sfxCast;
+
     private readonly List<Vector2Int> _takenTiles = new List<Vector2Int>();
     private static System.Collections.Generic.List<Vector2Int> s_activeP1 = new System.Collections.Generic.List<Vector2Int>();
     private static System.Collections.Generic.List<Vector2Int> s_activeP2 = new System.Collections.Generic.List<Vector2Int>();
@@ -54,6 +56,7 @@ public class TakeOver : Skill
         }
         // tandai kumpulan tile yang di-takeover (sekali panggil)
         grid.MarkTakenOver(_takenTiles, casterOwner);
+        AudioManager.Instance?.PlaySFX(sfxCast);
 
         if (casterIsP1)
         {

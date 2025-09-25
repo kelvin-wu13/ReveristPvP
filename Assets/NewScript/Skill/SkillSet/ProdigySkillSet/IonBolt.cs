@@ -26,6 +26,9 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver, IDef
     [SerializeField] private bool lockToOwnerRow = true;
     [SerializeField] private float outOfBoundsDestroyDelay = 1.5f;
 
+    [Header("SFX")]
+    [SerializeField] private AudioClip sfxCast;
+
     private GameObject owner;
     private PlayerMovement ownerMove;
     private PlayerShoot ownerShoot;
@@ -111,6 +114,7 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver, IDef
 
         Vector3 spawnPos = (spawnPoint != null) ? spawnPoint.position : owner.transform.position;
         activeProjectile = Object.Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+        AudioManager.Instance?.PlaySFX(sfxCast);
 
         if (!activeProjectile.CompareTag("Projectile")) activeProjectile.tag = "Projectile";
 

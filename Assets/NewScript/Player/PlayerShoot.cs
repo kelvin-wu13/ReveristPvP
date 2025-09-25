@@ -13,6 +13,9 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private bool shootRight = true;
 
+    [Header("SFX")]
+    [SerializeField] private AudioClip sfxShoot;
+
     [SerializeField] private float extraHoldDelay = 0.0f;
     [SerializeField] private float overrideInterval = 0.0f;
 
@@ -97,6 +100,7 @@ public class PlayerShoot : MonoBehaviour
         Vector3 spawnPosition = bulletSpawnPoint.position;
 
         GameObject bulletObject = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
+        AudioManager.Instance?.PlaySFX(sfxShoot);
         Time_elapsed = 0;
 
         Bullet bullet = bulletObject.GetComponent<Bullet>();

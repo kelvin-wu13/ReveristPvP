@@ -50,6 +50,7 @@ MonoBehaviour:
   damageAmount: 25
   impactDelay: 0.5
   animDuration: 0.5
+  sfxCast: {fileID: 8300000, guid: d6809f81475379f4ebcd5af4ce994072, type: 3}
 --- !u!1 &213098766591170886
 GameObject:
   m_ObjectHideFlags: 0

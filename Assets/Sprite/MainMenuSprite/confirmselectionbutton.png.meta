@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fb4f3d511833ff9449c9c185b24a24cc
+guid: ded8469ec9e2c4746b25432a371e3c2c
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -210,79 +210,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: confirmselectionbutton_2
-      rect:
-        serializedVersion: 2
-        x: 157
-        y: 371
-        width: 547
-        height: 106
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 540c505de00806242bcb46d3be20b82e
-      internalID: 1759126870
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: confirmselectionbutton_4
-      rect:
-        serializedVersion: 2
-        x: 788
-        y: 243
-        width: 621
-        height: 166
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ddc426c47aca3564390b0e32604e9327
-      internalID: 360067223
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: confirmselectionbutton_7
-      rect:
-        serializedVersion: 2
-        x: 738
-        y: 33
-        width: 626
-        height: 156
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 654f7eb98dabc7b45a021555e0823802
-      internalID: -465683487
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: confirmselectionbutton_0
       rect:
         serializedVersion: 2
-        x: 106
-        y: 173
-        width: 547
-        height: 106
+        x: 139
+        y: 390
+        width: 551
+        height: 82
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -291,8 +225,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 893552c56a8e398429f6c5fd753aae96
-      internalID: -1658384045
+      spriteID: 53a0823701684a64294a7cdab72c63af
+      internalID: 1603702600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confirmselectionbutton_1
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 183
+        width: 551
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e945fbb66821a840bd0adc0a8df7390
+      internalID: -531362817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confirmselectionbutton_2
+      rect:
+        serializedVersion: 2
+        x: 774
+        y: 244
+        width: 632
+        height: 148
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ecfbe8361669634aa23ff8a30df579d
+      internalID: -237476476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confirmselectionbutton_3
+      rect:
+        serializedVersion: 2
+        x: 727
+        y: 29
+        width: 632
+        height: 148
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3306aa8924df4dc49a45efccfa162b99
+      internalID: 182533815
       vertices: []
       indices: 
       edges: []
@@ -301,7 +301,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: d25cd69a6b104ee4fa5af02762f622f5
+    spriteID: 5d26b6cfe7a7cd643be6026ec79b6f83
     internalID: 0
     vertices: []
     indices: 
@@ -311,16 +311,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":7.0,"y":5.0},"gridSpriteSize":{"x":479.0,"y":226.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":3356.0,"y":1130.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      confirmselectionbutton_0: -1658384045
-      confirmselectionbutton_1: 432481115
-      confirmselectionbutton_2: 1759126870
-      confirmselectionbutton_3: -517020723
-      confirmselectionbutton_4: 360067223
-      confirmselectionbutton_5: -681253579
-      confirmselectionbutton_6: -355783769
-      confirmselectionbutton_7: -465683487
+      confirmselectionbutton_0: 1603702600
+      confirmselectionbutton_1: -531362817
+      confirmselectionbutton_2: -237476476
+      confirmselectionbutton_3: 182533815
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

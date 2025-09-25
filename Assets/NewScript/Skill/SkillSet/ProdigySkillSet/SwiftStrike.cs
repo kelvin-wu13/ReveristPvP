@@ -29,6 +29,9 @@ namespace SkillSystem
         private Transform _fxParentBackup;
         private bool _dirSet = false;
 
+        [Header("SFX")]
+        [SerializeField] private AudioClip sfxCast;
+
         private Quaternion _fxBaseLocalRot = Quaternion.identity;
         private Vector3 _fxBaseLocalScale = Vector3.one;
 
@@ -168,6 +171,7 @@ namespace SkillSystem
             if (ownerStats != null && ownerStats.TryUseMana(manaCost))
             {
                 crosshair?.FreezeCrosshair();
+                AudioManager.Instance?.PlaySFX(sfxCast);
                 StartCoroutine(Co_SwiftStrike());
             }
             else

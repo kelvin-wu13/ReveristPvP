@@ -5008,3 +5008,4 @@ MonoBehaviour:
     m_RotationOrder: 4
   fxRoot: {fileID: 8678363593880096021}
   spawnAheadX: 2
+  sfxCast: {fileID: 8300000, guid: baae7ecd6114dac43958b2509156c5d1, type: 3}
