@@ -87,7 +87,7 @@ namespace SkillSystem
                 bulletScript.Initialize(Vector2.right, bulletSpeed, bulletDamage, enemyStunDuration, tileGrid, spawnGridPos, GetSkillType());
 
                 playerShoot?.TriggerSkillAnimation(animDuration);
-                AudioManager.Instance?.PlayGridLockSFX();
+                //AudioManager.Instance?.PlayGridLockSFX();
 
                 ConsumeResources();
                 StartCooldown();

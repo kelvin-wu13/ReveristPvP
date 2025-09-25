@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6721021000374315928
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4453418007160684008}
+  - component: {fileID: 7129876634142429800}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4453418007160684008
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6721021000374315928}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.291504, y: -90.52969, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7129876634142429800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6721021000374315928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4885b77aa9637b14cabed075db9d56a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenuBGM: {fileID: 8300000, guid: 2fd4029e96c35d84da09d3c6a8085682, type: 3}
+  pvpBGM: {fileID: 8300000, guid: fe65748ad2f30574e80ee8863db12cba, type: 3}
+  menuAndSelectScenes:
+  - MainMenu
+  - CharacterSelect
+  pvpScenes:
+  - PvP
+  loopBGM: 1
+  masterBgmVolume: 0.6
+  masterSfxVolume: 0.5
+  saveVolumes: 1
+  useFade: 1
+  fadeOutTime: 0.35
+  fadeInTime: 0.35
+  buttonHoverSFX: {fileID: 8300000, guid: 197c4d147b01c734e9fad20b6c3f1b82, type: 3}
+  buttonClickSFX: {fileID: 8300000, guid: 68b7bd1ee0076ff4a8e5d268064350d3, type: 3}
+  buttonSelectSFX: {fileID: 8300000, guid: f053b003ae5c2fd4790d87239e7e0f20, type: 3}

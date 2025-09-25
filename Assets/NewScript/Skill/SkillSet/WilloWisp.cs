@@ -57,7 +57,7 @@ public class WilloWisp : Skill
         }
 
         playerShoot?.TriggerSkillAnimation(animDuration);
-        AudioManager.Instance?.PlayWilloWispSFX();
+        //AudioManager.Instance?.PlayWilloWispSFX();
         StartCoroutine(FindAndEngageEnemies());
     }
 

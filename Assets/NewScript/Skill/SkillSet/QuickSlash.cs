@@ -25,7 +25,7 @@ namespace SkillSystem
             if (tileGrid == null || playerStats == null) return;
             if (!playerStats.TryUseMana(manaCost)) return;
 
-            AudioManager.Instance?.PlayQuickSlashSFX();
+            //AudioManager.Instance?.PlayQuickSlashSFX();
 
             // Adjust Y position based on PlayerMovement's Position Offset
             Vector3 adjustedPos = casterTransform.position;

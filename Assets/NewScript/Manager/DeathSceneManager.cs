@@ -4,7 +4,7 @@ using System.Collections;
 
 public class DeathSceneManager : MonoBehaviour
 {
-    public float delayBeforeDeathScene = 2f;
+    public float delayBeforeEndingScene = 2f;
     public FadeController fadeController;
 
     private bool isDead = false;
@@ -13,12 +13,12 @@ public class DeathSceneManager : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
-        StartCoroutine(LoadDeathSceneAfterDelay());
+        StartCoroutine(LoadEndingSceneAfterDelay());
     }
 
-    private IEnumerator LoadDeathSceneAfterDelay()
+    private IEnumerator LoadEndingSceneAfterDelay()
     {
-        yield return new WaitForSeconds(delayBeforeDeathScene);
-        fadeController.FadeOutAndLoadScene("DeathScene");
+        yield return new WaitForSeconds(delayBeforeEndingScene);
+        fadeController.FadeOutAndLoadScene("Ending");
     }
 }

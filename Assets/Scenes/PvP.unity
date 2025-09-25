@@ -1498,9 +1498,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1644692755}
-  - {fileID: 969249090}
   - {fileID: 699096126}
-  - {fileID: 1467133024}
+  - {fileID: 584365378}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &584365375
@@ -1516,7 +1515,7 @@ GameObject:
   - component: {fileID: 584365379}
   - component: {fileID: 584365380}
   m_Layer: 0
-  m_Name: LocalPvP
+  m_Name: LocalPvPManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1574,12 +1573,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 584365375}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.67348, y: 0.0895, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.53226, y: -3.10998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 567551553}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &584365379
 MonoBehaviour:
@@ -2752,71 +2751,6 @@ RectTransform:
   m_AnchoredPosition: {x: 308, y: 9}
   m_SizeDelta: {x: 99.6118, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &969249089
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 969249090}
-  - component: {fileID: 969249091}
-  m_Layer: 0
-  m_Name: AudioManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &969249090
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969249089}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 567551553}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &969249091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969249089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4885b77aa9637b14cabed075db9d56a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainMenuBGM: {fileID: 8300000, guid: 750f76a83ad29474594b9053f913d819, type: 3}
-  gameplayBGM: {fileID: 8300000, guid: 1f25477b4caed6f4e924ae911ba1fd3d, type: 3}
-  loopBGM: 1
-  buttonHoverSFX: {fileID: 8300000, guid: 197c4d147b01c734e9fad20b6c3f1b82, type: 3}
-  buttonClickSFX: {fileID: 8300000, guid: 68b7bd1ee0076ff4a8e5d268064350d3, type: 3}
-  buttonSelectSFX: {fileID: 8300000, guid: f053b003ae5c2fd4790d87239e7e0f20, type: 3}
-  playerSpawnSFX: {fileID: 8300000, guid: bc33ab732a4ea854a9d3a1d99c495631, type: 3}
-  playerDeathSFX: {fileID: 8300000, guid: aa2621c14628a484584be8c6fb878e60, type: 3}
-  BasicShootSFX: {fileID: 8300000, guid: d9540058fdccdec478a3d257bf2ec8c9, type: 3}
-  IonBoltSFX: {fileID: 8300000, guid: e862d93119cd89e4c9dbcb1ab07383ea, type: 3}
-  PlasmaSurgeSFX: {fileID: 8300000, guid: 3abe1afd1a1ee034da3a4a1196eba2a2, type: 3}
-  PulseFallSFX: {fileID: 8300000, guid: d6809f81475379f4ebcd5af4ce994072, type: 3}
-  QuickSlashSFX: {fileID: 8300000, guid: 7a817286d52f1c5468db34de892a88da, type: 3}
-  SwiftStrikeSFX: {fileID: 8300000, guid: baae7ecd6114dac43958b2509156c5d1, type: 3}
-  KineticShoveSFX: {fileID: 8300000, guid: eba2ee171d51b7248912897deaa272be, type: 3}
-  WilloWispSFX: {fileID: 8300000, guid: 0cd4cb5c0005f714894f875ff6eb313b, type: 3}
-  MagneticPullSFX: {fileID: 8300000, guid: 4f71484d3a8cbfc4fa74f0de58b70622, type: 3}
-  GridLockSFX: {fileID: 8300000, guid: ee9bce758c220ac4da8a1ee8400fcfd5, type: 3}
-  enemySpawnSFX: {fileID: 8300000, guid: 8e55ae8682298fb4c9b46a45fa989b0e, type: 3}
-  enemyShootSFX: {fileID: 8300000, guid: 604f2708f650baf4db69ed3c15c7567a, type: 3}
-  enemyDeathSFX: {fileID: 8300000, guid: 36fe0e51927e27740bf3b3f648257dac, type: 3}
 --- !u!1 &979601597
 GameObject:
   m_ObjectHideFlags: 0
@@ -3589,7 +3523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9357000e6d982ff4fb2fae95fc1cfad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayBeforeDeathScene: 1
+  delayBeforeEndingScene: 2
   fadeController: {fileID: 473338841}
 --- !u!1 &1467133023
 GameObject:
@@ -3615,15 +3549,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1467133023}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.85878, y: 3.19948, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 902722196}
   - {fileID: 1433917518}
   - {fileID: 473338840}
-  m_Father: {fileID: 567551553}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1473902750
 GameObject:
@@ -4901,6 +4835,6 @@ SceneRoots:
   - {fileID: 286594910}
   - {fileID: 368758682}
   - {fileID: 567551553}
+  - {fileID: 1467133024}
   - {fileID: 4614732028567079101}
-  - {fileID: 584365378}
   - {fileID: 1956967864}

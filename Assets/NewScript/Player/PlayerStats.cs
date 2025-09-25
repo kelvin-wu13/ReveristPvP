@@ -164,7 +164,7 @@ public class PlayerStats : MonoBehaviour
         NotifyHealthIfChanged();
         NotifyManaIfChanged();
 
-        AudioManager.Instance?.PlayPlayerSpawnSFX();
+        //AudioManager.Instance?.PlayPlayerSpawnSFX();
     }
 
     private void Update()
@@ -244,7 +244,7 @@ public class PlayerStats : MonoBehaviour
 
         SkillCast skillComponent = GetComponent<SkillCast>();
         if (skillComponent != null) skillComponent.enabled = false;
-        AudioManager.Instance?.PlayPlayerDeathSFX();
+        //AudioManager.Instance?.PlayPlayerDeathSFX();
 
         StartCoroutine(DeathSequence());
     }
