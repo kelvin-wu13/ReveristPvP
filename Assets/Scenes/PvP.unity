@@ -2168,7 +2168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20edf550a7c07644abf56123059532c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matchDurationSeconds: 60
+  matchDurationSeconds: 1000
   autoFindPlayers: 1
   autoFindInterval: 0.25
   startTimerWhenPlayersReady: 1
