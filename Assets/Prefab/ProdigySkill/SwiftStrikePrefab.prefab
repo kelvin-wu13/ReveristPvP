@@ -48,7 +48,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -4950,9 +4950,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifetime: 0.5
   skillEffect: {fileID: 8847787113060996220, guid: ad2c234e95bf4724f9db89e412eb7043, type: 3}
-  cooldownDuration: 3
+  cooldownDuration: 0
   manaCost: 2
-  dashDuration: 0.25
+  dashDuration: 0.35
   dashCurve:
     serializedVersion: 2
     m_Curve:
@@ -4979,7 +4979,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   lockRotationDuringDash: 1
   allowCrossMidline: 1
-  damageAmount: 10
+  damageAmount: 20
   returnDelay: 0
   returnDuration: 0
   returnCurve:
@@ -5007,3 +5007,4 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   fxRoot: {fileID: 8678363593880096021}
+  spawnAheadX: 2

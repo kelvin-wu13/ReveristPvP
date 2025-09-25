@@ -20,21 +20,20 @@ MonoBehaviour:
   bulletSpeed: 10
   shootCooldown: 0.5
   skill1:
-    displayName: Skill
-    prefab: {fileID: 0}
+    displayName: Fireball
+    prefab: {fileID: 4333208855238758684, guid: 59b5f15c0cdc6c24fba2b5dd9c6f7527, type: 3}
     manaCost: 1
-    useCrosshairTarget: 1
+    useCrosshairTarget: 0
   skill2:
-    displayName: Skill
+    displayName: Ice Shard
     prefab: {fileID: 0}
     manaCost: 1
-    useCrosshairTarget: 1
+    useCrosshairTarget: 0
   skill3:
     displayName: Skill
     prefab: {fileID: 0}
     manaCost: 1
     useCrosshairTarget: 1
-  passivePrefab: {fileID: 0}
+  passivePrefab: {fileID: 9115101396162240467, guid: cdee46c949b996949bfcef02f1f63c90, type: 3}
   ultimatePrefab: {fileID: 0}
-  ultimateManaCost: 3
-  ultimateUsesCrosshairTarget: 1
+  ultimateUsesCrosshairTarget: 0

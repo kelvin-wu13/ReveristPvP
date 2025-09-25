@@ -2,17 +2,20 @@
 using System.Collections;
 using SkillSystem;
 
-public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
+public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver, IDeflectableProjectile
 {
     [Header("Projectile")]
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float projectileSpeed = 10f;
     [SerializeField] private float speedMultiplier = 1f;
 
-    [Header("Hit/Explode (opsional)")]
+    [Header("Hit/Explode")]
     [SerializeField] private int damage = 20;
     [SerializeField] private GameObject explosionEffectPrefab;
     [SerializeField] private float explosionEffectDuration = 1f;
+
+    [Header("AOE")]
+    [SerializeField] private int aoeHalfRange = 1;
 
     [Header("Costs & CD")]
     [SerializeField] public float manaCost = 1.5f;
@@ -106,11 +109,14 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
             dirX = (ownerSide == TileGrid.Side.Left) ? +1 : -1; // P2 => kiri
         }
 
-        // Spawn proyektil
         Vector3 spawnPos = (spawnPoint != null) ? spawnPoint.position : owner.transform.position;
         activeProjectile = Object.Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
 
-        // Orientasi visual (Particle System)
+        if (!activeProjectile.CompareTag("Projectile")) activeProjectile.tag = "Projectile";
+
+        var proxy = activeProjectile.GetComponent<IonBoltProjectile>();
+        if (proxy == null) proxy = activeProjectile.AddComponent<IonBoltProjectile>();
+        proxy.Bind(this);
         AlignParticleVisual(activeProjectile.transform, dirX);
 
         fixedRowY = currentGridPos.y;
@@ -118,14 +124,13 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
         {
             float rowY = grid.GetWorldPosition(new Vector2Int(0, fixedRowY)).y;
             var p = activeProjectile.transform.position;
-            p.y = rowY;                       // kunci Y ke pusat baris caster
+            p.y = rowY;
             activeProjectile.transform.position = p;
         }
 
         currentGridPos = (grid != null) ? grid.GetGridPosition(activeProjectile.transform.position) : currentGridPos;
         if (lockToOwnerRow) currentGridPos = new Vector2Int(currentGridPos.x, fixedRowY);
 
-        // Sedikit offset Z agar tidak ketimpa sprites lain (opsional)
         activeProjectile.transform.position += new Vector3(0, 0, -0.2f);
 
         isFired = true;
@@ -136,34 +141,56 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
     {
         if (!isFired || activeProjectile == null) return;
 
+        // gerak
         float spd = projectileSpeed * speedMultiplier;
         activeProjectile.transform.Translate(Vector3.right * dirX * spd * Time.deltaTime, Space.World);
 
+        // kunci ke row pemilik (opsional)
         if (lockToOwnerRow && grid != null)
         {
             var pos = activeProjectile.transform.position;
-            pos.y = grid.GetWorldPosition(new Vector2Int(0, fixedRowY)).y; // Y tetap untuk semua X
+            pos.y = grid.GetWorldPosition(new Vector2Int(0, fixedRowY)).y;
             activeProjectile.transform.position = pos;
         }
 
+        // --- HIT CHECK saat ganti tile (tetap) ---
         if (grid != null)
         {
             Vector2Int gridPosNow = grid.GetGridPosition(activeProjectile.transform.position);
-
             if (gridPosNow.x != currentGridPos.x)
             {
                 currentGridPos = gridPosNow;
-
                 TryHitOpponentOnThisTile(currentGridPos);
-
-                CheckOutOfBounds();
             }
         }
-        else
-        { 
-            CheckOutOfBounds();
+
+        // --- OOB CHECK setiap frame (baru) ---
+        CheckOutOfBoundsWorld();
+    }
+
+    private void CheckOutOfBoundsWorld()
+    {
+        if (grid == null || activeProjectile == null || destroyScheduled) return;
+
+        // Tepi kiri/kanan area grid (x saja cukup, y tidak mempengaruhi tepi X)
+        float leftEdgeX = grid.GetWorldPosition(new Vector2Int(0, 0)).x;
+        float rightEdgeX = grid.GetWorldPosition(new Vector2Int(grid.gridWidth - 1, 0)).x + 1f; // +lebar 1 tile
+
+        float x = activeProjectile.transform.position.x;
+
+        // Hancurkan hanya kalau SUDAH melewati tepi (strict)
+        if (dirX > 0 && x > rightEdgeX)
+        {
+            DestroyProjectileImmediate();
+            return;
+        }
+        if (dirX < 0 && x < leftEdgeX)
+        {
+            DestroyProjectileImmediate();
+            return;
         }
     }
+
 
     private void TryHitOpponentOnThisTile(Vector2Int gridPos)
     {
@@ -177,47 +204,70 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
         {
             var p = players[i];
             if (p == null || p.gameObject == owner) continue;
-            if (p.GetCurrentGridPosition() == gridPos)
-            {
-                opponent = p;
-                break;
-            }
+            if (p.GetCurrentGridPosition() == gridPos) { opponent = p; break; }
         }
-
         if (opponent == null) return;
-         
-        var stat = opponent.GetComponent<PlayerStats>();
-        var oppPos = opponent.GetCurrentGridPosition();
-        var parry = opponent.GetComponent<ParryController>();
 
-        int finalDamage = GridDamageCalculator.Calculate(new GridDamageCalculator.Ctx
-        {
-            grid = grid,
-            attackerSide = ownerSide,
-            attackerPos = currentGridPos,
-            defenderPos = oppPos,
-            baseDamage = damage
-        });
-
-        if (parry != null)
-            Debug.Log($"[IonBolt] parry detected on {opponent.name}: IsParryActive={parry.IsParryActive}");
+        // Cek parry pada TARGET; jika aktif, proyektil dideflect dan TIDAK memicu AOE
+        var parry = opponent.GetComponent<ParryController>()
+                ?? opponent.GetComponentInChildren<ParryController>(true)
+                ?? opponent.GetComponentInParent<ParryController>();
 
         if (parry != null && parry.IsParryActive)
         {
-            if (parry.TryDeflect(this))
+            if (parry.TryDeflect(activeProjectile))
             {
-                Debug.Log("[IonBolt] DEFLECT triggered, cancel damage");
+                Debug.Log("[IonBolt] DEFLECT triggered, cancel AOE");
                 return;
             }
         }
 
-        Debug.Log($"[IonBolt] HIT {opponent.name} @ {oppPos} for {finalDamage} (base {damage})");
+        // >>> Proyektil hanya cek "kena" → picu AOE 3x3 di sel benturan
+        DealAOEAt(gridPos);
 
-        if (stat != null) stat.TakeDamage(finalDamage, owner);
-        HitEvents.NotifyOwnerHit(owner, opponent.gameObject, true, "IonBolt");
-
+        // FX & hapus peluru
         SpawnHitEffect(activeProjectile.transform.position);
         DestroyProjectileImmediate();
+    }
+    private void DealAOEAt(Vector2Int centerCell)
+    {
+        if (grid == null) return;
+
+        var players = Object.FindObjectsOfType<PlayerMovement>();
+        if (players == null || players.Length == 0) return;
+
+        for (int dy = -aoeHalfRange; dy <= aoeHalfRange; dy++)
+        {
+            for (int dx = -aoeHalfRange; dx <= aoeHalfRange; dx++)
+            {
+                var cell = new Vector2Int(centerCell.x + dx, centerCell.y + dy);
+                if (!grid.IsValidGridPosition(cell)) continue;
+
+                for (int i = 0; i < players.Length; i++)
+                {
+                    var p = players[i];
+                    if (p == null || p.gameObject == owner) continue;
+                    if (p.GetCurrentGridPosition() != cell) continue;
+
+                    var stat = p.GetComponent<PlayerStats>();
+                    if (stat == null) continue;
+
+                    // Hitung damage (boleh pakai base damage langsung; tetap pakai kalkulator biar konsisten)
+                    int finalDamage = GridDamageCalculator.Calculate(new GridDamageCalculator.Ctx
+                    {
+                        grid = grid,
+                        attackerSide = ownerSide,
+                        attackerPos = centerCell,   // pusat ledakan
+                        defenderPos = cell,
+                        baseDamage = damage
+                    });
+
+                    stat.TakeDamage(finalDamage, owner);
+                    HitEvents.NotifyOwnerHit(owner, p.gameObject, true, "IonBolt-AOE");
+                    Debug.Log($"[IonBolt] AOE hit {p.name} @ {cell} for {finalDamage} (base {damage})");
+                }
+            }
+        }
     }
 
     private void SpawnHitEffect(Vector3 pos)
@@ -301,5 +351,17 @@ public class IonBolt : Skill, ISkillOwnerReceiver, ISkillDirectionReceiver
 
         Debug.Log($"[IonBolt] DEFLECT by {owner.name}: dmg x{dmgMult}, speed x{newSpeedMult}, count={reflectCount}, dirX={dirX}");
     }
-
 }
+
+public class IonBoltProjectile : MonoBehaviour, IDeflectableProjectile
+{
+    private IonBolt skill;
+    public void Bind(IonBolt owner) => skill = owner;
+
+    // Dipanggil ParryController
+    public void DeflectTo(GameObject newOwner, float damageMult, float speedMult, int reflectCount)
+    {
+        if (skill != null) skill.DeflectTo(newOwner, damageMult, speedMult, reflectCount);
+    }
+}
+

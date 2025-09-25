@@ -102,6 +102,18 @@ public class PulseFall : Skill, ISkillOwnerReceiver
 
             if (victim != null)
             {
+                var parry = victim.GetComponent<ParryController>();
+
+                if (parry != null && parry.IsParryActive)
+                {
+                    parry.TryParryNonProjectileSuccess();
+                    Debug.Log($"[PulseFall] NEGATED by Parry @ {cell} (no damage, no crack).");
+                    continue;
+                }
+            }
+
+            if (victim != null)
+            {
                 var vStat = victim.GetComponent<PlayerStats>();
                 if (vStat != null)
                 {

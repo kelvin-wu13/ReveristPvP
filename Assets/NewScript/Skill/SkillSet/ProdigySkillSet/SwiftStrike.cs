@@ -49,6 +49,7 @@ namespace SkillSystem
         private bool wasPMEnabled = true;
         private bool prevRootMotion = false;
         private int forwardX = +1;
+
         private void Awake()
         {
             if (fxRoot)
@@ -311,8 +312,20 @@ namespace SkillSystem
                 var victim = FindVictimAt(cell);
                 if (!victim) continue;
 
+                var parry = victim.GetComponent<ParryController>()
+                  ?? victim.GetComponentInChildren<ParryController>(true)
+                  ?? victim.GetComponentInParent<ParryController>();
+
+                if (parry != null && parry.IsParryActive)
+                {
+                    parry.TryParryNonProjectileSuccess();         // refund -> net -1
+                    Debug.Log($"[SwiftStrike] NEGATED by Parry @ {cell} (no damage).");
+                    continue;                                     // <-- penting: jangan lanjut damage
+                }
+
                 var vStat = victim.GetComponent<PlayerStats>();
                 if (!vStat) continue;
+
 
                 int mid = Mathf.Max(1, grid.gridWidth / 2);
                 var attackerSide = (attackerPosAfterDash.x < mid) ? TileGrid.Side.Left : TileGrid.Side.Right;

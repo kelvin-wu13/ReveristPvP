@@ -170,9 +170,6 @@ public class SkillCast : MonoBehaviour
 
         if (characterData == null || characterData.ultimatePrefab == null) return;
 
-        float cost = Mathf.Max(0f, characterData.ultimateManaCost);
-        if (stats != null && cost > 0f && !stats.TryUseMana(cost)) return;
-
         PlayCast(ultimateTrigger, ultimateLock);
 
         var go = Instantiate(characterData.ultimatePrefab, skillSpawnPoint.position, skillSpawnPoint.rotation);

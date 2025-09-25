@@ -16,8 +16,15 @@ public class CharacterSelectManager : MonoBehaviour
     public Button confirmButton;
     public Text p1Label, p2Label;
 
-    [Header("Optional")]
-    public GridMenuNavigator navigator;
+    [Header("Navigators")]
+    public GridMenuNavigator navigator;   // driver gerak cursor (controller/mouse) + event highlight
+    public MenuNavigator menuNavigator;   // pengganti sprite highlight (P1 biru / P2 merah)
+
+    [Header("Preview (Image + Text)")]
+    public CharacterPreviewPanel previewP1;     // drag: panel kiri (punya CharacterPreviewPanel)
+    public CharacterPreviewPanel previewP2;     // drag: panel kanan
+    [Tooltip("Urutannya HARUS sama dengan urutan tombol kiri→kanan, atas→bawah.")]
+    public CharacterInfo[] characters;          // data nama + sprite preview per karakter
 
     [Header("Config")]
     public MatchConfig config;
@@ -25,13 +32,18 @@ public class CharacterSelectManager : MonoBehaviour
 
     [Header("Turn State")]
     public SelectTurn turn = SelectTurn.P1;
-    [SerializeField] float handoffBlockSeconds = 0.12f;
+    [SerializeField] float handoffBlockSeconds = 0.12f; // cegah double click saat ganti turn
 
     GameObject selP1, selP2;
+    int lastHighlight = 0;          // index tombol yg sedang disorot
+    int? lockedIndexP1 = null;      // index yg terkunci saat P1 sudah pick
+    int? lockedIndexP2 = null;      // index yg terkunci saat P2 sudah pick
+
     PlayerInput p1UI, p2UI;
     InputAction _cancel;
     InputAction _submit;
     float blockUntil = 0f;
+
 
     void Awake()
     {
@@ -68,18 +80,23 @@ public class CharacterSelectManager : MonoBehaviour
         SelectFirstGridButton();
 
         var ui = FindObjectOfType<InputSystemUIInputModule>();
-        Debug.Log($"[CSEL] UI Module present={(ui != null)}; Move/Submit/Cancel not used by module (script will handle).");
+        Debug.Log($"[CSEL] UI Module present={(ui != null)}; Move/Submit/Cancel muted (script handles input).");
+
+        UpdatePanels();
     }
 
     void OnEnable()
     {
         MuteGlobalUIModuleInputs();
+
+        if (navigator) navigator.OnIndexHighlighted += HandleHighlight;
+
         var pim = FindObjectOfType<PlayerInputManager>();
         if (pim)
         {
             pim.onPlayerJoined -= OnPlayerJoined;
             pim.onPlayerJoined += OnPlayerJoined;
-            Debug.Log("[CSEL] OnEnable: PlayerInputManager found and subscribed.");
+            Debug.Log("[CSEL] OnEnable: PlayerInputManager subscribed.");
         }
         else Debug.LogWarning("[CSEL] OnEnable: NO PlayerInputManager in scene (OK kalau assign p1UI/p2UI manual).");
     }
@@ -88,6 +105,9 @@ public class CharacterSelectManager : MonoBehaviour
     {
         _cancel?.Disable();
         _submit?.Disable();
+
+        if (navigator) navigator.OnIndexHighlighted -= HandleHighlight;
+
         var pim = FindObjectOfType<PlayerInputManager>();
         if (pim) pim.onPlayerJoined -= OnPlayerJoined;
     }
@@ -107,7 +127,8 @@ public class CharacterSelectManager : MonoBehaviour
             }
             if (turn == SelectTurn.P2)
             {
-                selP2 = null; TrySetCfgPrefab(false, null);
+                selP2 = null; lockedIndexP2 = null;
+                TrySetCfgPrefab(false, null);
                 UpdateUI();
                 SetActivePicker(SelectTurn.P1);
                 SelectFirstGridButton();
@@ -115,6 +136,7 @@ public class CharacterSelectManager : MonoBehaviour
             }
             if (turn == SelectTurn.Ready)
             {
+                // kembali ke P2, tidak menghapus pilihannya
                 SetActivePicker(SelectTurn.P2);
                 SelectFirstGridButton();
                 return;
@@ -127,6 +149,8 @@ public class CharacterSelectManager : MonoBehaviour
             if (confirmButton && confirmButton.interactable) StartMatch();
         }
     }
+
+    // =============== Player join & binding ===============
 
     public void OnPlayerJoined(PlayerInput pi)
     {
@@ -142,9 +166,21 @@ public class CharacterSelectManager : MonoBehaviour
         ToggleExclusive(p1UI, turn == SelectTurn.P1);
         ToggleExclusive(p2UI, turn != SelectTurn.P1);
 
-        if (turn == SelectTurn.P1 && p1UI == pi) { navigator?.RebindTo(p1UI); BindUiActionsFrom(p1UI); }
-        if (turn == SelectTurn.P2 && p2UI == pi) { navigator?.RebindTo(p2UI); BindUiActionsFrom(p2UI); }
+        if (turn == SelectTurn.P1 && p1UI == pi)
+        {
+            navigator?.RebindTo(p1UI);
+            menuNavigator?.BindToPlayer(p1UI);
+            BindUiActionsFrom(p1UI);
+        }
+        if (turn == SelectTurn.P2 && p2UI == pi)
+        {
+            navigator?.RebindTo(p2UI);
+            menuNavigator?.BindToPlayer(p2UI);
+            BindUiActionsFrom(p2UI);
+        }
     }
+
+    // =============== Click tombol karakter ===============
 
     public void OnCharacterClicked(GameObject prefab)
     {
@@ -159,7 +195,8 @@ public class CharacterSelectManager : MonoBehaviour
             if (!selP1)
             {
                 selP1 = prefab; TrySetCfgPrefab(true, selP1);
-                Debug.Log($"[CSEL] P1 picked '{selP1.name}'.");
+                lockedIndexP1 = Mathf.Clamp(lastHighlight, 0, (characters?.Length ?? 1) - 1);
+                Debug.Log($"[CSEL] P1 picked '{selP1.name}' (idx={lockedIndexP1}).");
             }
             SetActivePicker(SelectTurn.P2);
         }
@@ -169,7 +206,8 @@ public class CharacterSelectManager : MonoBehaviour
             {
                 if (!allowMirrorPick && prefab == selP1) { Debug.Log("[CSEL] P2 pick blocked (mirror not allowed)."); return; }
                 selP2 = prefab; TrySetCfgPrefab(false, selP2);
-                Debug.Log($"[CSEL] P2 picked '{selP2.name}'.");
+                lockedIndexP2 = Mathf.Clamp(lastHighlight, 0, (characters?.Length ?? 1) - 1);
+                Debug.Log($"[CSEL] P2 picked '{selP2.name}' (idx={lockedIndexP2}).");
             }
             SetActivePicker(SelectTurn.Ready);
             FocusConfirm();
@@ -181,25 +219,44 @@ public class CharacterSelectManager : MonoBehaviour
         }
 
         UpdateUI();
+        UpdatePanels();
     }
+
+    // =============== Turn/owner & lock grid ===============
 
     void SetActivePicker(SelectTurn who)
     {
         turn = who;
         Debug.Log($"[CSEL] SetActivePicker -> {turn}");
 
+        // Eksklusifkan input device sesuai giliran
         ToggleExclusive(p1UI, turn == SelectTurn.P1);
         ToggleExclusive(p2UI, (turn == SelectTurn.P2) || (turn == SelectTurn.Ready));
 
-        if (navigator)
+        // Rebind driver navigasi + kunci kontrol MenuNavigator sesuai player + set skin highlight
+        if (turn == SelectTurn.P1)
         {
-            if (turn == SelectTurn.P1) navigator.RebindTo(p1UI);
-            else if (turn == SelectTurn.P2) navigator.RebindTo(p2UI);
-            else navigator.RebindTo(p2UI);
-            Debug.Log($"[CSEL] Navigator rebound to {(turn == SelectTurn.P1 ? "P1" : "P2")} UI.");
+            navigator?.RebindTo(p1UI);
+            menuNavigator?.BindToPlayer(p1UI);
+            menuNavigator?.SetSelectorOwnerP1();     // highlight biru
         }
+        else if (turn == SelectTurn.P2)
+        {
+            navigator?.RebindTo(p2UI);
+            menuNavigator?.BindToPlayer(p2UI);
+            menuNavigator?.SetSelectorOwnerP2();     // highlight merah
+        }
+        else // Ready
+        {
+            navigator?.RebindTo(p2UI);               // atau null kalau mau matikan
+            menuNavigator?.BindToPlayer(p2UI);
+            menuNavigator?.SetSelectorOwnerNeutral();
+        }
+
+        // Bind Cancel/Submit utk UI (Back/Confirm)
         BindUiActionsFrom(turn == SelectTurn.P1 ? p1UI : p2UI);
 
+        // Handoff mini-delay saat pindah ke P2 supaya klik P1 terakhir tidak ikut
         if (turn == SelectTurn.P2)
         {
             blockUntil = Time.unscaledTime + handoffBlockSeconds;
@@ -217,7 +274,54 @@ public class CharacterSelectManager : MonoBehaviour
             Debug.Log($"[CSEL] READY. Confirm interactable={(confirmButton && confirmButton.interactable)}  selP1={(selP1 ? selP1.name : "null")}  selP2={(selP2 ? selP2.name : "null")}");
             FocusConfirm();
         }
+
+        UpdatePanels(); // refresh preview sesuai turn baru
     }
+
+    // =============== Preview panels (BARU) ===============
+
+    void HandleHighlight(int index)
+    {
+        lastHighlight = index;
+        UpdatePanels();
+    }
+
+    void UpdatePanels()
+    {
+        if (characters == null || characters.Length == 0) return;
+
+        CharacterInfo InfoAt(int idx)
+        {
+            idx = Mathf.Clamp(idx, 0, characters.Length - 1);
+            return characters[idx];
+        }
+
+        if (turn == SelectTurn.P1)
+        {
+            if (previewP1) previewP1.Show(InfoAt(lastHighlight), true);
+            if (previewP2)
+            {
+                if (lockedIndexP2.HasValue) previewP2.Show(InfoAt(lockedIndexP2.Value), false);
+                else previewP2.Hide();
+            }
+        }
+        else if (turn == SelectTurn.P2)
+        {
+            if (previewP2) previewP2.Show(InfoAt(lastHighlight), false);
+            if (previewP1)
+            {
+                if (lockedIndexP1.HasValue) previewP1.Show(InfoAt(lockedIndexP1.Value), true);
+                else previewP1.Hide();
+            }
+        }
+        else // Ready
+        {
+            if (previewP1 && lockedIndexP1.HasValue) previewP1.Show(InfoAt(lockedIndexP1.Value), true);
+            if (previewP2 && lockedIndexP2.HasValue) previewP2.Show(InfoAt(lockedIndexP2.Value), false);
+        }
+    }
+
+    // =============== Utility UI ===============
 
     void FocusConfirm()
     {
@@ -252,6 +356,8 @@ public class CharacterSelectManager : MonoBehaviour
         Debug.Log($"[CSEL] UpdateUI: selP1={(selP1 ? selP1.name : "null")} selP2={(selP2 ? selP2.name : "null")} confirmInteractable={(confirmButton && confirmButton.interactable)}");
     }
 
+    // =============== Mulai match ===============
+
     void StartMatch()
     {
         Debug.Log("[CSEL] StartMatch() called.");
@@ -278,6 +384,8 @@ public class CharacterSelectManager : MonoBehaviour
         if (isP1) config.p1Prefab = prefab;
         else config.p2Prefab = prefab;
     }
+
+    // =============== Binding input ===============
 
     void BindUiActionsFrom(PlayerInput pi)
     {

@@ -434,7 +434,7 @@
                 {
                     "name": "",
                     "id": "526dbf02-6435-4f59-a3ab-b7f4155eaf3a",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Player1",
@@ -445,7 +445,7 @@
                 {
                     "name": "",
                     "id": "6ac67bc3-8547-4210-a138-8cbc7842e91d",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Player2",
@@ -482,7 +482,7 @@
             "id": "6aa401bf-e802-41cb-9a60-a4ed25792969",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Parry",
                     "type": "Button",
                     "id": "ea1b3ee5-0672-4f99-a297-5b6feab98ad4",
                     "expectedControlType": "",
@@ -499,7 +499,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Player1",
-                    "action": "New action",
+                    "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -510,7 +510,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Player2",
-                    "action": "New action",
+                    "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -521,7 +521,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Player1",
-                    "action": "New action",
+                    "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -532,7 +532,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Player2",
-                    "action": "New action",
+                    "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -582,6 +582,15 @@
                     "name": "Click",
                     "type": "Button",
                     "id": "d158d79a-100b-4b02-b8f8-b79b352c7f10",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Join",
+                    "type": "Button",
+                    "id": "25722ca4-88b5-4033-b248-2daa101b61d4",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -740,6 +749,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4eb2ebac-148a-4e51-b28e-e13fc024ff28",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Player2",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d463c95b-72ca-483f-ad9e-be136ad7e8a8",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Player2",
+                    "action": "Join",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

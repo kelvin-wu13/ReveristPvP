@@ -16,13 +16,13 @@ GameObject:
   - component: {fileID: 770325314750495359}
   - component: {fileID: 6256465476152502708}
   - component: {fileID: 4672792900083228740}
+  - component: {fileID: 1631518025258213394}
   - component: {fileID: 6594086020949813633}
   - component: {fileID: 1803456120704193837}
   - component: {fileID: 3382185408372572872}
   - component: {fileID: 3920305074397592045}
   - component: {fileID: 2009438090419547197}
   - component: {fileID: 8228394893078954101}
-  - component: {fileID: 1631518025258213394}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -116,6 +116,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterData: {fileID: 11400000, guid: 8d7a932f78e3aad47971e0cbc6a78ad0, type: 2}
+  playerId: 1
+  autoDetectPlayerId: 1
   manaRegenRatePerSecond: 2
   playerAnimator: {fileID: 3382185408372572872}
   deathAnimationTrigger: Death
@@ -140,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4929b8e2031bd142885bf47bbf6a5a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDuration: 0.13
+  moveDuration: 0.15
   tileGrid: {fileID: 0}
   side: 0
   animator: {fileID: 3382185408372572872}
@@ -222,6 +224,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meter: 0
+--- !u!114 &1631518025258213394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525473997883753001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83c677196c194ea489ce2db7bc2d3912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parryAction: {fileID: 0}
+  parryActionName: Parry
+  parryWindow: 1
+  parryCooldown: 0.3
+  costOnMiss: 2
+  costOnSuccess: 1
+  damageMultOnDeflect: 2
+  speedMultFirst: 1.5
+  speedMultStep: 0.2
+  animator: {fileID: 3382185408372572872}
+  animTrigStart: Parry
+  debugLog: 1
 --- !u!114 &6594086020949813633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,30 +434,15 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: ea1b3ee5-0672-4f99-a297-5b6feab98ad4
     m_ActionName: 'Parry/New action[/Keyboard/e,/Keyboard/r]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 25722ca4-88b5-4033-b248-2daa101b61d4
+    m_ActionName: 'UI/Join[/Keyboard/enter]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Player1
   m_DefaultActionMap: Move
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1631518025258213394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1525473997883753001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83c677196c194ea489ce2db7bc2d3912, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parryAction: {fileID: 9067625966598639808, guid: f83ddcf915a2228479f716cf1e725df3, type: 3}
-  parryWindow: 10
-  parryCooldown: 0.3
-  speedMultFirst: 1.5
-  speedMultStep: 0.2
-  damageMult: 2
-  debugLog: 1
 --- !u!1 &4456562107636078946
 GameObject:
   m_ObjectHideFlags: 0

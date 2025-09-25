@@ -2,229 +2,158 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System;
 
 public class GridMenuNavigator : MonoBehaviour
 {
-    [Header("Buttons (urut kiri→kanan, atas→bawah)")]
+    [Header("Buttons (urut L→R, atas→bawah)")]
     public Button[] buttons;
-    [Min(1)] public int columns = 4;
+    [Header("Grid")]
+    public int columns = 4;
 
-    [Header("Repeat")]
-    public float initialDelay = 0.30f;
-    public float repeatRate = 0.10f;
-    [Range(0.1f, 0.9f)] public float stickDeadzone = 0.5f;
+    [Header("Fallback (kalau tidak bind ke PlayerInput)")]
+    public InputActionReference navigate;
+    public InputActionReference submit;
 
-    [Header("Input System (opsional)")]
-    public PlayerInput playerInput;                
-    public InputActionReference navigateActionRef;
-    public InputActionReference submitActionRef;
+    [Header("UI Map names (untuk PlayerInput)")]
+    [SerializeField] private string uiMapName = "UI";
+    [SerializeField] private string navigateActionName = "Navigate";
+    [SerializeField] private string submitActionName = "Submit";
 
-    private InputAction _navigate;
-    private InputAction _submit;
+    // event index highlight (dipakai manager untuk preview/panel)
+    public event Action<int> OnIndexHighlighted;
 
-    private int currentIndex = 0;
-    private float nextMoveTime = 0f;
-    private Vector2 heldInput = Vector2.zero;
-    private bool hasMoved = false;
+    // == binding state ==
+    private PlayerInput boundPlayer;
+    private InputAction curNavigate;
+    private InputAction curSubmit;
 
-    private void Awake()
+    int currentIndex = -1;
+    float nextRepeat;
+    int heldDir; bool held;
+
+    // --- PUBLIC: dipanggil CharacterSelectManager ---
+    public void RebindTo(PlayerInput pi)
     {
-        if (!playerInput) TryGetComponent(out playerInput);
+        // lepas binding lama
+        if (curSubmit != null) curSubmit.performed -= OnSubmit;
+        curNavigate?.Disable();
+        curSubmit?.Disable();
 
-        if (navigateActionRef && navigateActionRef.action != null)
-            _navigate = navigateActionRef.action;
-        else if (playerInput && playerInput.actions)
-            _navigate = playerInput.actions.FindAction("UI/Navigate", false)
-                     ?? playerInput.actions.FindAction("Navigate", false)
-                     ?? playerInput.actions.FindAction("Move", false);
+        boundPlayer = pi;
+        curNavigate = null;
+        curSubmit = null;
 
-        if (submitActionRef && submitActionRef.action != null)
-            _submit = submitActionRef.action;
-        else if (playerInput && playerInput.actions)
-            _submit = playerInput.actions.FindAction("UI/Submit", false)
-                    ?? playerInput.actions.FindAction("Submit", false);
+        if (boundPlayer && boundPlayer.actions)
+        {
+            curNavigate = boundPlayer.actions.FindAction($"{uiMapName}/{navigateActionName}", false);
+            curSubmit = boundPlayer.actions.FindAction($"{uiMapName}/{submitActionName}", false);
+        }
+
+        // fallback: pakai reference global bila tidak ada
+        if (curNavigate == null) curNavigate = navigate ? navigate.action : null;
+        if (curSubmit == null) curSubmit = submit ? submit.action : null;
+
+        if (isActiveAndEnabled)
+        {
+            curNavigate?.Enable();
+            if (curSubmit != null)
+            {
+                curSubmit.Enable();
+                curSubmit.performed += OnSubmit;
+            }
+        }
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
-        _navigate?.Enable();
-        _submit?.Enable();
-    }
+        // kalau belum pernah bind, lakukan sekali (pakai fallback)
+        if (curNavigate == null && curSubmit == null) RebindTo(boundPlayer);
+        else
+        {
+            curNavigate?.Enable();
+            if (curSubmit != null) { curSubmit.Enable(); curSubmit.performed += OnSubmit; }
+        }
 
-    private void OnDisable()
-    {
-        _navigate?.Disable();
-        _submit?.Disable();
-    }
-
-    private void Start()
-    {
-        if (buttons != null && buttons.Length > 0 && buttons[0] != null)
+        // pilih tombol pertama
+        if (buttons != null && buttons.Length > 0 && buttons[0])
         {
             currentIndex = 0;
             buttons[0].Select();
+            RaiseHighlight();
         }
     }
 
-    private void Update()
+    void OnDisable()
     {
-        // 1) Baca input arah (Vector2) dari Input System
-        Vector2 raw = Vector2.zero;
+        if (curSubmit != null) curSubmit.performed -= OnSubmit;
+        curNavigate?.Disable();
+        curSubmit?.Disable();
+    }
 
-        if (_navigate != null)
-        {
-            raw = _navigate.ReadValue<Vector2>();
-        }
-        else
-        {
-            // Fallback langsung dari device (tanpa PlayerInput)
-            if (Keyboard.current != null)
-            {
-                if (Keyboard.current.rightArrowKey.isPressed) raw.x = 1;
-                else if (Keyboard.current.leftArrowKey.isPressed) raw.x = -1;
-                if (Keyboard.current.downArrowKey.isPressed) raw.y = 1;
-                else if (Keyboard.current.upArrowKey.isPressed) raw.y = -1;
-            }
-            if (Gamepad.current != null)
-            {
-                // pakai input terbesar antara Dpad & stick kiri
-                Vector2 d = Gamepad.current.dpad.ReadValue();
-                Vector2 s = Gamepad.current.leftStick.ReadValue();
-                raw = (d.sqrMagnitude > s.sqrMagnitude) ? d : s;
-            }
-        }
+    void Update()
+    {
+        Vector2 v = curNavigate != null ? curNavigate.ReadValue<Vector2>() : Vector2.zero;
+        int dir = 0;
+        if (v.y > 0.5f) dir = -columns;     // up  (pindah baris)
+        if (v.y < -0.5f) dir = +columns;     // down
+        if (v.x > 0.5f) dir = +1;           // right
+        if (v.x < -0.5f) dir = -1;           // left
 
-        // 2) Diskretkan (deadzone + prioritas axis dominan)
-        Vector2 input = Vector2.zero;
-        if (Mathf.Abs(raw.x) > Mathf.Abs(raw.y))
-            input.x = Mathf.Abs(raw.x) > stickDeadzone ? Mathf.Sign(raw.x) : 0f;
-        else
-            input.y = Mathf.Abs(raw.y) > stickDeadzone ? Mathf.Sign(raw.y) : 0f;
-
-        // 3) Repeat logic (initial delay → repeat)
-        if (input != Vector2.zero)
+        if (dir != 0)
         {
-            if (!hasMoved || input != heldInput)
+            if (!held || dir != heldDir || Time.unscaledTime >= nextRepeat)
             {
-                ProcessInput(input);
-                nextMoveTime = Time.unscaledTime + initialDelay;
-                hasMoved = true;
-                heldInput = input;
-            }
-            else if (Time.unscaledTime >= nextMoveTime)
-            {
-                ProcessInput(input);
-                nextMoveTime = Time.unscaledTime + repeatRate;
+                Move(dir);
+                nextRepeat = Time.unscaledTime + (held && dir == heldDir ? 0.12f : 0.35f);
+                held = true; heldDir = dir;
             }
         }
-        else
+        else { held = false; heldDir = 0; }
+
+        // sinkron dengan EventSystem (hover mouse)
+        if (EventSystem.current)
         {
-            hasMoved = false;
-            heldInput = Vector2.zero;
-        }
-
-        // 4) Submit (Enter / A / South button)
-        if (_submit != null)
-        {
-            if (_submit.WasPerformedThisFrame())
-                ClickCurrent();
-        }
-        else
-        {
-            if (Keyboard.current != null && Keyboard.current.enterKey.wasPressedThisFrame)
-                ClickCurrent();
-            else if (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)
-                ClickCurrent();
-        }
-    }
-
-    private void ProcessInput(Vector2 input)
-    {
-        if (input.x != 0) MoveHorizontal((int)input.x);
-        else if (input.y != 0) MoveVertical((int)input.y);
-    }
-
-    private void MoveHorizontal(int dir)
-    {
-        int rows = Mathf.CeilToInt(buttons.Length / (float)columns);
-        int curRow = currentIndex / columns;
-        int curCol = currentIndex % columns;
-
-        int targetCol = curCol + dir;
-        // wrap di baris yang sama
-        if (targetCol >= columns) targetCol = 0;
-        if (targetCol < 0) targetCol = columns - 1;
-
-        int newIndex = curRow * columns + targetCol;
-        // pastikan index valid (ada tombolnya)
-        newIndex = ClampToExisting(newIndex, curRow);
-        TryMoveTo(newIndex);
-    }
-
-    private void MoveVertical(int dir)
-    {
-        int rows = Mathf.CeilToInt(buttons.Length / (float)columns);
-        int curRow = currentIndex / columns;
-        int curCol = currentIndex % columns;
-
-        int targetRow = curRow + dir; // down = +1, up = -1
-        if (targetRow >= rows) targetRow = 0;           // wrap
-        if (targetRow < 0) targetRow = rows - 1;
-
-        int newIndex = targetRow * columns + curCol;
-        newIndex = ClampToExisting(newIndex, targetRow);
-        TryMoveTo(newIndex);
-    }
-
-    private int ClampToExisting(int index, int row)
-    {
-        int start = row * columns;
-        int end = Mathf.Min(start + columns - 1, buttons.Length - 1);
-        return Mathf.Clamp(index, start, end);
-    }
-
-    private void TryMoveTo(int newIndex)
-    {
-        if (newIndex >= 0 && newIndex < buttons.Length && buttons[newIndex] != null)
-        {
-            currentIndex = newIndex;
-            buttons[newIndex].Select();
+            var go = EventSystem.current.currentSelectedGameObject;
+            if (go)
+            {
+                for (int i = 0; i < buttons.Length; i++)
+                {
+                    if (buttons[i] && buttons[i].gameObject == go && i != currentIndex)
+                    {
+                        currentIndex = i;
+                        RaiseHighlight();
+                        break;
+                    }
+                }
+            }
         }
     }
 
-    private void ClickCurrent()
+    void Move(int delta)
     {
-        if (currentIndex >= 0 && currentIndex < buttons.Length && buttons[currentIndex] != null)
-        {
-            var btn = buttons[currentIndex];
-            btn.onClick?.Invoke();
-            ExecuteEvents.Execute(btn.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
-        }
-    }
-    public void RebindTo(PlayerInput pi)
-    {
-        _navigate?.Disable();
-        _submit?.Disable();
+        if (buttons == null || buttons.Length == 0) return;
+        int next = Mathf.Clamp(currentIndex < 0 ? 0 : currentIndex + delta, 0, buttons.Length - 1);
+        if (next == currentIndex || buttons[next] == null) return;
 
-        playerInput = pi;
-
-        if (playerInput && playerInput.actions)
-        {
-            _navigate = playerInput.actions.FindAction("UI/Navigate", false)
-                       ?? playerInput.actions.FindAction("Navigate", false)
-                       ?? playerInput.actions.FindAction("Move", false);
-
-            _submit = playerInput.actions.FindAction("UI/Submit", false)
-                       ?? playerInput.actions.FindAction("Submit", false);
-        }
-        else
-        {
-            _navigate = navigateActionRef ? navigateActionRef.action : null;
-            _submit = submitActionRef ? submitActionRef.action : null;
-        }
-
-        _navigate?.Enable();
-        _submit?.Enable();
+        currentIndex = next;
+        buttons[currentIndex].Select();
+        RaiseHighlight();
     }
 
+    void OnSubmit(InputAction.CallbackContext _)
+    {
+        if (currentIndex < 0 || currentIndex >= buttons.Length) return;
+        var b = buttons[currentIndex];
+        if (b && b.interactable) b.onClick.Invoke();
+    }
+
+    void RaiseHighlight() => OnIndexHighlighted?.Invoke(currentIndex);
+
+    public int GetCurrentIndex() => currentIndex;
+    public void SetCurrentIndex(int i)
+    {
+        if (i < 0 || i >= buttons.Length || buttons[i] == null) return;
+        currentIndex = i; buttons[i].Select(); RaiseHighlight();
+    }
 }

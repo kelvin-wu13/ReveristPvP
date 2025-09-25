@@ -13,16 +13,16 @@ public class MainMenu : MonoBehaviour
             Debug.LogWarning("FadeController not assigned in MainMenu.");
     }
 
-    public void ReturnToMainMenu()
+    public void SettingsMenu()
     {
-        Debug.Log("Returning to Main Menu...");
-        Time.timeScale = 1f;
-        fadeController.FadeOutAndLoadScene("MainMenu");
+        if (fadeController) fadeController.FadeOutAndLoadScene("Settings");
+        else SceneManager.LoadScene("Settings");
     }
 
     public void CharacterSelectMenu()
     {
-        fadeController.FadeOutAndLoadScene("CharacterSelect");
+        if (fadeController) fadeController.FadeOutAndLoadScene("CharacterSelect");
+        else SceneManager.LoadScene("CharacterSelect");
     }
 
     public void ExitGame()

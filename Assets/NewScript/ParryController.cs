@@ -6,6 +6,10 @@ public class ParryController : MonoBehaviour
 {
     [Header("Input")]
     [SerializeField] private InputActionReference parryAction;
+    [SerializeField] private string parryActionName = "Parry";
+
+    private PlayerInput _playerInput;
+    private InputAction _parryActionInst;
 
     [Header("Timing")]
     [SerializeField] private float parryWindow = 0.25f;
@@ -18,9 +22,13 @@ public class ParryController : MonoBehaviour
     [SerializeField] private float costOnSuccess = 1f;
 
     [Header("Deflect Power")]
-    [SerializeField] private float damageMultOnDeflect = 2f;  // 2x damage
+    [SerializeField] private float damageMultOnDeflect = 2f;
     [SerializeField] private float speedMultFirst = 1.5f;
     [SerializeField] private float speedMultStep = 0.2f;
+
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private string animTrigStart = "Parry";
 
     [Header("Debug")]
     [SerializeField] private bool debugLog = true;
@@ -32,36 +40,46 @@ public class ParryController : MonoBehaviour
     private bool windowHadSuccess;
     private int deflectCountInWindow;
 
-    // mana handling
     private PlayerStats stats;
-    private float prepaid = 0f;           // jumlah yang sudah dipotong di awal (biasanya 2)
+    private float prepaid = 0f;
     private bool refundedThisWindow = false;
 
     private void Awake()
     {
-        stats = GetComponent<PlayerStats>();
-        if (parryAction == null || parryAction.action == null)
-            Debug.LogError("[Parry] Parry ActionReference belum di-assign!");
+        stats = GetComponent<PlayerStats>() ?? GetComponentInParent<PlayerStats>() ?? GetComponentInChildren<PlayerStats>(true);
+        if (animator == null) animator = GetComponent<Animator>() ?? GetComponentInChildren<Animator>(true);
+
+        // >>> ambil dari PlayerInput milik prefab (per-player)
+        _playerInput = GetComponent<PlayerInput>();
+        if (_playerInput && _playerInput.actions)
+        {
+            _parryActionInst = _playerInput.actions.FindAction(parryActionName, false);
+            _parryActionInst?.actionMap?.Enable();
+        }
+
+        // fallback ke ActionReference jika belum ketemu
+        if (_parryActionInst == null && parryAction != null) _parryActionInst = parryAction.action;
+
+        if (_parryActionInst == null) Debug.LogError("[Parry] Tidak menemukan action Parry.");
     }
 
     private void OnEnable()
     {
-        if (parryAction != null && parryAction.action != null)
+        if (_parryActionInst != null)
         {
-            parryAction.action.performed += OnParryPressed;     // tap-to-parry
-            parryAction.action.Enable();
+            _parryActionInst.performed += OnParryPressed;
+            _parryActionInst.Enable();
         }
     }
 
     private void OnDisable()
     {
-        if (parryAction != null && parryAction.action != null)
+        if (_parryActionInst != null)
         {
-            parryAction.action.performed -= OnParryPressed;
-            parryAction.action.Disable();
+            _parryActionInst.performed -= OnParryPressed;
+            _parryActionInst.Disable();
         }
     }
-
     private void OnParryPressed(InputAction.CallbackContext ctx) => TryStartParry();
 
     private void TryStartParry()
@@ -69,8 +87,7 @@ public class ParryController : MonoBehaviour
         if (onCooldown || isActive) { if (debugLog) Debug.Log("[Parry] gagal start (cooldown/aktif)."); return; }
         if (stats == null) { Debug.LogError("[Parry] PlayerStats tidak ada!"); return; }
 
-        // Prepay biaya maksimum (2). Jika nantinya sukses, kita REFUND 1 ⇒ net -1.
-        float prepayAmount = Mathf.Max(costOnMiss, costOnSuccess); // 2
+        float prepayAmount = Mathf.Max(costOnMiss, costOnSuccess);
         if (!stats.TryUseMana(prepayAmount)) { if (debugLog) Debug.Log("[Parry] gagal start: mana < 2."); return; }
 
         prepaid = prepayAmount;
@@ -81,8 +98,15 @@ public class ParryController : MonoBehaviour
         deflectCountInWindow = 0;
 
         if (debugLog) Debug.Log($"[Parry] START window {parryWindow:0.###}s | prepaid={prepaid}");
-
+        PlayParryAnim();
         StartCoroutine(ParryWindowRoutine());
+    }
+
+    private void PlayParryAnim()
+    {
+        if (animator == null || string.IsNullOrEmpty(animTrigStart)) return;
+        animator.ResetTrigger(animTrigStart);
+        animator.SetTrigger(animTrigStart);
     }
 
     private IEnumerator ParryWindowRoutine()
@@ -96,7 +120,6 @@ public class ParryController : MonoBehaviour
         if (!isActive) return;
         isActive = false;
 
-        // Jika sukses & belum direfund (mis. deflect terjadi di akhir), amankan refund di sini.
         if (windowHadSuccess && !refundedThisWindow && prepaid > 0f && costOnSuccess < prepaid)
         {
             float refund = prepaid - costOnSuccess; // 1
@@ -107,7 +130,6 @@ public class ParryController : MonoBehaviour
 
         if (debugLog) Debug.Log(windowHadSuccess ? "[Parry] END: SUCCESS" : "[Parry] END: WHIFF (net cost 2).");
 
-        // reset prepaid tracker
         prepaid = 0f;
         StartCoroutine(CooldownRoutine());
     }
@@ -119,31 +141,52 @@ public class ParryController : MonoBehaviour
         onCooldown = false;
         if (debugLog) Debug.Log("[Parry] READY.");
     }
-
-    /// Dipanggil proyektil saat akan mengenai pemain ini.
-    public bool TryDeflect(IonBolt bolt)
+    public bool TryDeflect(GameObject projectileGO)
     {
-        if (!isActive || bolt == null) { if (debugLog) Debug.Log("[Parry] TryDeflect: window tidak aktif / bolt null."); return false; }
+        if (!IsParryActive || !projectileGO) { if (debugLog) Debug.Log("[Parry] inactive/null"); return false; }
+
+        IDeflectableProjectile proj = null;
+        if (!projectileGO.TryGetComponent<IDeflectableProjectile>(out proj))
+            proj = projectileGO.GetComponentInChildren<IDeflectableProjectile>(true)
+                ?? projectileGO.GetComponentInParent<IDeflectableProjectile>();
+
+        if (proj == null)
+        {
+            if (debugLog) Debug.Log("[Parry] tidak menemukan IDeflectableProjectile pada projectile");
+            return false;
+        }
 
         windowHadSuccess = true;
         deflectCountInWindow++;
-        float speedMult = speedMultFirst + Mathf.Max(0, deflectCountInWindow - 1) * speedMultStep;
+        var speedMult = speedMultFirst + Mathf.Max(0, deflectCountInWindow - 1) * speedMultStep;
 
-        // Refund 1x (sekali per window) → net -1
+        // refund (net -1)
         if (!refundedThisWindow && prepaid > 0f && costOnSuccess < prepaid)
         {
-            float refund = prepaid - costOnSuccess; // 1
+            var refund = prepaid - costOnSuccess;
             stats.RestoreMana(refund);
             refundedThisWindow = true;
-            if (debugLog) Debug.Log($"[Parry] DEFLECT! refund +{refund} | count={deflectCountInWindow}");
-        }
-        else if (debugLog)
-        {
-            Debug.Log($"[Parry] DEFLECT! (no additional refund) | count={deflectCountInWindow}");
+            if (debugLog) Debug.Log($"[Parry] refund +{refund}");
         }
 
-        // Balikkan proyektil ke caster dengan 2x damage dan speed buff
-        bolt.DeflectTo(gameObject, damageMultOnDeflect, speedMult, deflectCountInWindow);
+        proj.DeflectTo(gameObject, damageMultOnDeflect, speedMult, deflectCountInWindow);
+        if (debugLog) Debug.Log("[Parry] DEFLECT via interface");
+        return true;
+    }
+
+    public bool TryParryNonProjectileSuccess()
+    {
+        if (!isActive) return false;
+        windowHadSuccess = true;
+        deflectCountInWindow++;
+
+        if (!refundedThisWindow && prepaid > 0f && costOnSuccess < prepaid)
+        {
+            float refund = prepaid - costOnSuccess;
+            stats.RestoreMana(refund);
+            refundedThisWindow = true;
+            if (debugLog) Debug.Log($"[Parry] SUCCESS (non-projectile): refund +{refund}");
+        }
         return true;
     }
 }

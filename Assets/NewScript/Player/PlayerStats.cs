@@ -1,14 +1,20 @@
+using SkillSystem;
 using System.Collections;
 using System.Collections.Generic;
-using SkillSystem;
 using UnityEngine;
+
 
 public class PlayerStats : MonoBehaviour
 {
+    public enum PlayerId { P1 = 1, P2 = 2 };
     public static bool IsPlayerDead = false;
 
     [Header("Stats Configuration")]
     [SerializeField] private CharacterStats characterData;
+
+    [Header("Player Identification")]
+    [SerializeField] private PlayerId playerId = PlayerId.P1;
+    [SerializeField] private bool autoDetectPlayerId = true;
 
     [Header("Mana Regeneration")]
     [SerializeField] private float manaRegenRatePerSecond = 2f;
@@ -32,9 +38,46 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float hitFlashDuration = 0.1f;
     [SerializeField] private Color hitColor = Color.red;
 
+    public static System.Action<PlayerId, int, int> OnAnyHealthChanged;
+    public static System.Action<PlayerId, float, int> OnAnyManaChanged;
+
+    private int _lastHealthNotified = int.MinValue;
+    private float _lastManaNotified = float.MinValue;
+
     private Color originalColor;
 
     private bool isDead = false;
+
+    private void AutoAssignPlayerIdIfNeeded()
+    {
+        if (!autoDetectPlayerId) return;
+        var grid = FindObjectOfType<TileGrid>();
+        var pm = GetComponent<PlayerMovement>();
+
+        Vector2Int pos = pm ? pm.GetCurrentGridPosition()
+                            : (grid ? grid.GetGridPosition(transform.position) : Vector2Int.zero);
+
+        int mid = (grid != null) ? Mathf.Max(1, grid.gridWidth / 2) : 0;
+        playerId = (grid != null && pos.x < mid) ? PlayerId.P1 : PlayerId.P2;
+    }
+
+    private void NotifyHealthIfChanged()
+    {
+        if (currentHealth != _lastHealthNotified)
+        {
+            _lastHealthNotified = currentHealth;
+            OnAnyHealthChanged?.Invoke(playerId, currentHealth, MaxHealth);
+        }
+    }
+
+    private void NotifyManaIfChanged()
+    {
+        if (Mathf.Abs(currentMana - _lastManaNotified) > 0.001f)
+        {
+            _lastManaNotified = currentMana;
+            OnAnyManaChanged?.Invoke(playerId, currentMana, MaxMana);
+        }
+    }
 
     public int CurrentHealth
     {
@@ -72,6 +115,10 @@ public class PlayerStats : MonoBehaviour
         {
             ResetToMaxStats();
         }
+
+        AutoAssignPlayerIdIfNeeded();
+        NotifyHealthIfChanged();
+        NotifyManaIfChanged();
     }
 
     public void ResetToMaxStats()
@@ -114,6 +161,8 @@ public class PlayerStats : MonoBehaviour
         }
 
         StartCoroutine(EnablePlayerAfterSpawn(spawnAnimationDuration));
+        NotifyHealthIfChanged();
+        NotifyManaIfChanged();
 
         AudioManager.Instance?.PlayPlayerSpawnSFX();
     }
@@ -126,6 +175,7 @@ public class PlayerStats : MonoBehaviour
         {
             currentMana += manaRegenRatePerSecond * Time.deltaTime;
             currentMana = Mathf.Min(currentMana, characterData.maxMana);
+            NotifyManaIfChanged();
         }
     }
 
@@ -152,6 +202,7 @@ public class PlayerStats : MonoBehaviour
         if (characterData == null || isDead) return;
 
         currentHealth = Mathf.Max(0, currentHealth - damage);
+        NotifyHealthIfChanged();
         StartCoroutine(FlashColor());
         
         if (ultimate == null) ultimate = GetComponent<UltimateCharge>();
@@ -256,6 +307,7 @@ public class PlayerStats : MonoBehaviour
         if (currentMana >= amount)
         {
             currentMana -= amount;
+            NotifyManaIfChanged();
             return true;
         }
 
@@ -267,6 +319,7 @@ public class PlayerStats : MonoBehaviour
         if (characterData == null || isDead) return;
 
         currentMana = Mathf.Min(characterData.maxMana, currentMana + amount);
+        NotifyManaIfChanged();
     }
 
     public float GetHealthPercentage()

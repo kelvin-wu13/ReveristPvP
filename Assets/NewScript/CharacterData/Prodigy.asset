@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Prodigy
   maxHealth: 200
-  maxMana: 100
+  maxMana: 5
   manaRegenRate: 1
-  bulletDamage: 10
+  bulletDamage: 2
   bulletSpeed: 25
   shootCooldown: 0
   skill1:
@@ -32,9 +32,8 @@ MonoBehaviour:
   skill3:
     displayName: Tile Breaker
     prefab: {fileID: 186632132335026699, guid: d8fc575de34caa44a962c43647a7210e, type: 3}
-    manaCost: 3
+    manaCost: 4
     useCrosshairTarget: 1
   passivePrefab: {fileID: 7511018731004013465, guid: 396826cd5b6ee7748927dc53c441b0e4, type: 3}
   ultimatePrefab: {fileID: 6824801811714815329, guid: 237227687c076bd45845df5e9729e322, type: 3}
-  ultimateManaCost: 3
-  ultimateUsesCrosshairTarget: 1
+  ultimateUsesCrosshairTarget: 0

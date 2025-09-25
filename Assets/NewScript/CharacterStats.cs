@@ -33,6 +33,5 @@ public class CharacterStats : ScriptableObject
     public GameObject passivePrefab;
 
     public GameObject ultimatePrefab;
-    public float ultimateManaCost = 3f;
     public bool ultimateUsesCrosshairTarget = true;
 }

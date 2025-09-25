@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ba0bc8f9da9ef24dad68f2e40fd6dce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 2
+  lifetime: 3
   skillEffect: {fileID: 8558445127854203552, guid: 849709c9b5aa7784d8a9c19913d8b5b5, type: 3}
-  damageAmount: 20
+  damageAmount: 25
   impactDelay: 0.5
   animDuration: 0.5
 --- !u!1 &213098766591170886

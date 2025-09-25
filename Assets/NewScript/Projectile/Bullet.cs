@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IDeflectableProjectile
 {
     private Vector2 direction;
     private float speed;
@@ -29,6 +29,7 @@ public class Bullet : MonoBehaviour
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
+        AlignVisualByDirX(direction.x >= 0 ? +1 : -1);
 
         currentGridPosition = spawnGridPos;
 
@@ -42,16 +43,21 @@ public class Bullet : MonoBehaviour
 
         transform.Translate(direction * speed * Time.deltaTime, Space.World);
 
+        // Cek pindah tile -> hit check
         int gridXNow = tileGrid.GetGridPosition(transform.position).x;
         if (gridXNow != currentGridPosition.x)
         {
             currentGridPosition.x = gridXNow;
-
             TryHitOpponentOnThisTile(currentGridPosition);
-
-            if (direction.x > 0 && currentGridPosition.x >= tileGrid.gridWidth - 1) DestroyBullet();
-            if (direction.x < 0 && currentGridPosition.x <= 0) DestroyBullet();
         }
+
+        // Hitung sisi kiri-kanan area (ukuran tile = 1; GetWorldPosition memberi sudut kiri–bawah tile)
+        float leftEdgeX = tileGrid.GetWorldPosition(new Vector2Int(0, currentGridPosition.y)).x;                          // tepi kiri area
+        float rightEdgeX = tileGrid.GetWorldPosition(new Vector2Int(tileGrid.gridWidth - 1, currentGridPosition.y)).x + 1f; // tepi kanan area
+
+        // Pakai perbandingan strict supaya benar2 "sudah lewat"
+        if (direction.x > 0 && transform.position.x > rightEdgeX) DestroyBullet();
+        if (direction.x < 0 && transform.position.x < leftEdgeX) DestroyBullet();
     }
 
     private void TryHitOpponentOnThisTile(Vector2Int gridPos)
@@ -73,6 +79,19 @@ public class Bullet : MonoBehaviour
         }
 
         if (opponent == null) return;
+
+        var parry = opponent.GetComponent<ParryController>()
+        ?? opponent.GetComponentInChildren<ParryController>(true)
+        ?? opponent.GetComponentInParent<ParryController>();
+
+        if (parry != null && parry.IsParryActive)
+        {
+            if (parry.TryDeflect(gameObject))
+            {
+                Debug.Log("[Bullet] DEFLECT triggered — cancel damage");
+                return;
+            }
+        }
 
         var stat = opponent.GetComponent<PlayerStats>();
         var oppPos = opponent.GetCurrentGridPosition();
@@ -135,5 +154,41 @@ public class Bullet : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+    private void AlignVisualByDirX(int dirSign)
+    {
+        var sr = GetComponent<SpriteRenderer>() ?? GetComponentInChildren<SpriteRenderer>(true);
+        if (sr) { sr.flipX = dirSign < 0; return; }
+
+        var s = transform.localScale;
+        s.x = Mathf.Abs(s.x) * (dirSign >= 0 ? 1f : -1f);
+        transform.localScale = s;
+    }
+
+    public void DeflectTo(GameObject newOwner, float damageMult, float speedMult, int reflectCount)
+    {
+        // BLOCK: jangan bisa dideflect kalau sudah mulai destroy
+        if (isDestroying) return;
+
+        if (!newOwner || tileGrid == null) return;
+
+        owner = newOwner;
+
+        // hitung side pemilik baru
+        var ownerPos = tileGrid.GetGridPosition(newOwner.transform.position);
+        int mid = tileGrid.gridWidth / 2;
+        ownerSide = (ownerPos.x < mid) ? TileGrid.Side.Left : TileGrid.Side.Right;
+
+        // balik arah & scale damage/kecepatan
+        direction = new Vector2(-direction.x, direction.y).normalized;
+        damage = Mathf.CeilToInt(damage * damageMult);
+        speed *= speedMult;
+
+        // sesuaikan rotasi visual
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+        AlignVisualByDirX(direction.x >= 0 ? +1 : -1);
+
+        Debug.Log($"[Bullet] DEFLECT by {owner.name}: dmg x{damageMult}, spd x{speedMult}, count={reflectCount}");
     }
 }

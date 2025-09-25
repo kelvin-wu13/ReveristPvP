@@ -1,0 +1,674 @@
+fileFormatVersion: 2
+guid: b32a0406dc3f0b0489c1c647c9d88f52
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8795124102165478774
+    second: Butttons_Icon_0
+  - first:
+      213: -1365811272545496640
+    second: Butttons_Icon_1
+  - first:
+      213: -4707398027442815439
+    second: Butttons_Icon_2
+  - first:
+      213: 4998598925166242955
+    second: Butttons_Icon_3
+  - first:
+      213: -1776313983324635211
+    second: Butttons_Icon_4
+  - first:
+      213: 4736491939972580844
+    second: Butttons_Icon_5
+  - first:
+      213: -8204048952646258529
+    second: Butttons_Icon_6
+  - first:
+      213: 4706635324443754550
+    second: Butttons_Icon_7
+  - first:
+      213: 6452692013390291148
+    second: Butttons_Icon_8
+  - first:
+      213: -3671578709330234993
+    second: Butttons_Icon_9
+  - first:
+      213: 2363018646593715312
+    second: Butttons_Icon_10
+  - first:
+      213: -2778158596390700998
+    second: Butttons_Icon_11
+  - first:
+      213: 5096607660355722892
+    second: Butttons_Icon_12
+  - first:
+      213: 2023506138718162748
+    second: Butttons_Icon_13
+  - first:
+      213: -7602654729710666546
+    second: Butttons_Icon_14
+  - first:
+      213: -7279764346953526975
+    second: Butttons_Icon_15
+  - first:
+      213: -353081172698242199
+    second: Butttons_Icon_16
+  - first:
+      213: 3117822377517322133
+    second: Butttons_Icon_17
+  - first:
+      213: 6270618657837205967
+    second: Butttons_Icon_18
+  - first:
+      213: 404684536919478156
+    second: Butttons_Icon_19
+  - first:
+      213: -2197241661091654305
+    second: Butttons_Icon_20
+  - first:
+      213: -8218140648994420812
+    second: Butttons_Icon_21
+  - first:
+      213: 1144703035827424889
+    second: Butttons_Icon_22
+  - first:
+      213: 2479050987389538125
+    second: Butttons_Icon_23
+  - first:
+      213: -7559855552790389876
+    second: Butttons_Icon_24
+  - first:
+      213: -432461632610988810
+    second: Butttons_Icon_25
+  - first:
+      213: -5215319948917968156
+    second: Butttons_Icon_26
+  - first:
+      213: -1056074400222477532
+    second: Butttons_Icon_27
+  - first:
+      213: 7585276325675496906
+    second: Butttons_Icon_28
+  - first:
+      213: 1765368051622983725
+    second: Butttons_Icon_29
+  - first:
+      213: 8857057232516928234
+    second: Butttons_Icon_30
+  - first:
+      213: 7258406156084255882
+    second: Butttons_Icon_31
+  - first:
+      213: 4709385486100999135
+    second: Butttons_Icon_32
+  - first:
+      213: 9174505565990459217
+    second: Butttons_Icon_33
+  - first:
+      213: -1924045125656179209
+    second: Butttons_Icon_34
+  - first:
+      213: -673456832702500669
+    second: Butttons_Icon_35
+  - first:
+      213: -7674437088879351891
+    second: Butttons_Icon_36
+  - first:
+      213: 6771997825232826642
+    second: Butttons_Icon_37
+  - first:
+      213: 992707773744697142
+    second: Butttons_Icon_38
+  - first:
+      213: 2969865692176531367
+    second: Butttons_Icon_39
+  - first:
+      213: 6039604461563742949
+    second: Butttons_Icon_40
+  - first:
+      213: 3314211084818656549
+    second: Butttons_Icon_41
+  - first:
+      213: -5916326264963231253
+    second: Butttons_Icon_42
+  - first:
+      213: -3266137230086965157
+    second: Butttons_Icon_43
+  - first:
+      213: 4997630930909614361
+    second: Butttons_Icon_44
+  - first:
+      213: -7048735128054422829
+    second: Butttons_Icon_45
+  - first:
+      213: -456311763745629989
+    second: Butttons_Icon_46
+  - first:
+      213: 374916460294100674
+    second: Butttons_Icon_47
+  - first:
+      213: 1820034715058279756
+    second: Butttons_Icon_48
+  - first:
+      213: 1354410074801287208
+    second: Butttons_Icon_49
+  - first:
+      213: 2942705536484971148
+    second: Butttons_Icon_50
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Butttons_Icon_0
+      rect:
+        serializedVersion: 2
+        x: 822
+        y: 688
+        width: 439
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8243f64a3171f580800000000000000
+      internalID: -8795124102165478774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_1
+      rect:
+        serializedVersion: 2
+        x: 1551
+        y: 698
+        width: 239
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c193bd42e9ab0de0800000000000000
+      internalID: -1365811272545496640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_2
+      rect:
+        serializedVersion: 2
+        x: 1840
+        y: 698
+        width: 239
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13e75e55f66fbaeb0800000000000000
+      internalID: -4707398027442815439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_3
+      rect:
+        serializedVersion: 2
+        x: 2126
+        y: 698
+        width: 239
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8cee2d1d379e5540800000000000000
+      internalID: 4998598925166242955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_4
+      rect:
+        serializedVersion: 2
+        x: 2390
+        y: 676
+        width: 239
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bf306ee7d34957e0800000000000000
+      internalID: -1776313983324635211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_5
+      rect:
+        serializedVersion: 2
+        x: 2654
+        y: 678
+        width: 239
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce5019b03566bb140800000000000000
+      internalID: 4736491939972580844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_25
+      rect:
+        serializedVersion: 2
+        x: 917
+        y: 573
+        width: 297
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fc8c39bf669ff9f0800000000000000
+      internalID: -432461632610988810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_26
+      rect:
+        serializedVersion: 2
+        x: 2347
+        y: 471
+        width: 239
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e27cbe63267f97b0800000000000000
+      internalID: -5215319948917968156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_27
+      rect:
+        serializedVersion: 2
+        x: 2611
+        y: 473
+        width: 239
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4230b56ade11851f0800000000000000
+      internalID: -1056074400222477532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_32
+      rect:
+        serializedVersion: 2
+        x: 962
+        y: 430
+        width: 174
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdb2e61f5291b5140800000000000000
+      internalID: 4709385486100999135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_48
+      rect:
+        serializedVersion: 2
+        x: 2330
+        y: 266
+        width: 239
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c459ded2eef024910800000000000000
+      internalID: 1820034715058279756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_49
+      rect:
+        serializedVersion: 2
+        x: 2594
+        y: 268
+        width: 239
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 820bdbc79c4dbc210800000000000000
+      internalID: 1354410074801287208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_50
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 267
+        width: 581
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8213c4281796d820800000000000000
+      internalID: 2942705536484971148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_6
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 403
+        width: 487
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be709928b59b717469367e3f16723946
+      internalID: 543439339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_7
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 492
+        width: 174
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f455aa4fa7d42ef4da3315f7ff3bb784
+      internalID: 1303931415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_8
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 560
+        width: 233
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41643c81d20674441b032e2216667f32
+      internalID: -399373899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Butttons_Icon_9
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 644
+        width: 362
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62d03724fee149b43a96a94b1550f522
+      internalID: -1481319673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 0d4630a0aa0492d48835ebab26823692
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Butttons_Icon_6: 543439339
+      Butttons_Icon_7: 1303931415
+      Butttons_Icon_8: -399373899
+      Butttons_Icon_9: -1481319673
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 763519008564562693}
   m_Layer: 8
   m_Name: IonBoltPrefab
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49,10 +49,12 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1204518691854023705, guid: 586d9b43f800f92439286b6b1f21c523, type: 3}
   projectileSpeed: 35
   speedMultiplier: 1
-  damage: 20
+  damage: 8
   explosionEffectPrefab: {fileID: 3831150701529647939, guid: 1043fd10685dac147a6633d3b7d81893, type: 3}
   explosionEffectDuration: 1
+  aoeHalfRange: 1
   manaCost: 1
-  cooldownDuration: 2
+  cooldownDuration: 0
   skillAnimationDuration: 0.2
+  lockToOwnerRow: 1
   outOfBoundsDestroyDelay: 1.5

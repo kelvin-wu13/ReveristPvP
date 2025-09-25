@@ -131,7 +131,7 @@ public class TakeOver : Skill
         StartCoroutine(RevertAfterLifetime(opponentOwner, xhair, oldDist, caster, casterIsP1));
     }
 
-    private IEnumerator RevertAfterLifetime( TileType returnOwner, PlayerCrosshair crosshair, int oldDistance, Transform caster, bool casterIsP1)
+    private IEnumerator RevertAfterLifetime(TileType returnOwner, PlayerCrosshair crosshair, int oldDistance, Transform caster, bool casterIsP1)
     {
         yield return new WaitForSeconds(LifetimeSeconds);
 
@@ -145,7 +145,7 @@ public class TakeOver : Skill
             // bersihkan flag takeover (sekali panggil)
             grid.UnmarkTakenOver(_takenTiles);
             Debug.Log($"[TakeOver] Revert {_takenTiles.Count} tile → {returnOwner}");
-            
+
             if (casterIsP1) s_activeP1.Clear();
             else s_activeP2.Clear();
 
