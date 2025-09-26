@@ -1700,7 +1700,7 @@ MonoBehaviour:
   m_text: PLAYER 2 WINS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a1b12fc8e843cf4c9f8d96a28c7fd43, type: 2}
-  m_sharedMaterial: {fileID: -236773803328049651, guid: e1441517f3d8e03408429fc99c28d103, type: 2}
+  m_sharedMaterial: {fileID: 1343947436445754675, guid: 5a1b12fc8e843cf4c9f8d96a28c7fd43, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
